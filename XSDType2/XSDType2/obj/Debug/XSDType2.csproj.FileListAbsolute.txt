@@ -1,0 +1,6 @@
+C:\TEMP\XSDType2\XSDType2\bin\Debug\XSDType2.exe.config
+C:\TEMP\XSDType2\XSDType2\bin\Debug\XSDType2.exe
+C:\TEMP\XSDType2\XSDType2\bin\Debug\XSDType2.pdb
+C:\TEMP\XSDType2\XSDType2\obj\Debug\XSDType2.exe
+C:\TEMP\XSDType2\XSDType2\obj\Debug\XSDType2.pdb
+C:\TEMP\XSDType2\XSDType2\obj\Debug\XSDType2.csprojResolveAssemblyReference.cache
