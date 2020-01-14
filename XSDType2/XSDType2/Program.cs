@@ -16,7 +16,7 @@ namespace XSDType2
         {
             try
             {
-                XmlTextReader reader = new XmlTextReader("XSDType1.xsd");
+                XmlTextReader reader = new XmlTextReader("XSD2.xsd");
                 XmlSchema myschema = XmlSchema.Read(reader, ValidationCallback);
                 myschema.Write(Console.Out);
                 FileStream file = new FileStream("new.xsd", FileMode.Create, FileAccess.ReadWrite);
