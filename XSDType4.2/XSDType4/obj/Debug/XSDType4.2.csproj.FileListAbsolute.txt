@@ -1,0 +1,8 @@
+C:\TEMP\XSDType4.2\XSDType4\bin\Debug\XSDType4.exe.config
+C:\TEMP\XSDType4.2\XSDType4\bin\Debug\XSDType4.exe
+C:\TEMP\XSDType4.2\XSDType4\bin\Debug\XSDType4.pdb
+C:\TEMP\XSDType4.2\XSDType4\obj\Debug\XSDType4.Properties.Resources.resources
+C:\TEMP\XSDType4.2\XSDType4\obj\Debug\XSDType4.2.csproj.GenerateResource.Cache
+C:\TEMP\XSDType4.2\XSDType4\obj\Debug\XSDType4.exe
+C:\TEMP\XSDType4.2\XSDType4\obj\Debug\XSDType4.pdb
+C:\TEMP\XSDType4.2\XSDType4\obj\Debug\XSDType4.Form1.resources
