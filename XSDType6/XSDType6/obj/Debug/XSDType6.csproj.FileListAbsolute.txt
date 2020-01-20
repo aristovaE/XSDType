@@ -1,0 +1,9 @@
+C:\TEMP\XSDType6\XSDType6\bin\Debug\XSDType6.exe.config
+C:\TEMP\XSDType6\XSDType6\bin\Debug\XSDType6.exe
+C:\TEMP\XSDType6\XSDType6\bin\Debug\XSDType6.pdb
+C:\TEMP\XSDType6\XSDType6\obj\Debug\XSDType6.csprojResolveAssemblyReference.cache
+C:\TEMP\XSDType6\XSDType6\obj\Debug\XSDType6.Form1.resources
+C:\TEMP\XSDType6\XSDType6\obj\Debug\XSDType6.Properties.Resources.resources
+C:\TEMP\XSDType6\XSDType6\obj\Debug\XSDType6.csproj.GenerateResource.Cache
+C:\TEMP\XSDType6\XSDType6\obj\Debug\XSDType6.exe
+C:\TEMP\XSDType6\XSDType6\obj\Debug\XSDType6.pdb
