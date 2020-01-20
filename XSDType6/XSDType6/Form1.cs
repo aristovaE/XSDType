@@ -54,35 +54,58 @@ namespace XSDType6
             }
 
             ConvertXmlNodeToTreeNode(doc, treeView1.Nodes);
-            treeView1.ExpandAll();
+            treeView1.Nodes[0].ExpandAll();
         }
 
         private void ConvertXmlNodeToTreeNode(XmlNode xmlNode,TreeNodeCollection treeNodes)
         {
 
             TreeNode newTreeNode = treeNodes.Add(xmlNode.LocalName);
+          
 
             switch (xmlNode.NodeType)
             {
-                //  case XmlNodeType.ProcessingInstruction:
-                case XmlNodeType.XmlDeclaration:
-                    newTreeNode.Text = "<?" + xmlNode.Name + " " +
-                       xmlNode.Value + "?>";
-                    break;
+                //case XmlNodeType.XmlDeclaration:
+                //    newTreeNode.Text = "<?" + xmlNode.Name + " " +
+                //       xmlNode.Value + "?>";
+                //    break;
                 case XmlNodeType.Element:
-                    newTreeNode.Text = xmlNode.Name ;
-                    break;
-                //     case XmlNodeType.Attribute:
-                //         newTreeNode.Text = "A: " + xmlNode.Name;
-                //         break;
-
+                    if (xmlNode.LocalName.ToString() == "simpleType") { newTreeNode.Collapse(); break; }
+                    else
+                    {
+                       // newTreeNode.BackColor = Color.Pink;
+                        newTreeNode.Text = xmlNode.LocalName;
+                        break;
+                    }
+                case XmlNodeType.Attribute:
+                    if ((xmlNode.LocalName.ToString()!= "name") &&(xmlNode.LocalName.ToString() != "type"))
+                    {
+                        newTreeNode.Text = xmlNode.LocalName;
+                        newTreeNode.Collapse();
+                        break;
+                    }
+                    else
+                    {
+                        newTreeNode.Text = xmlNode.LocalName;
+                        break;
+                    }
                 case XmlNodeType.Document:
                     newTreeNode.Text = xmlNode.NodeType.ToString();
                     break;
                 case XmlNodeType.Text:
-                case XmlNodeType.CDATA:
-                    newTreeNode.Text = xmlNode.Value;
-                    break;
+                    if (xmlNode.ParentNode.LocalName.ToString() == "documentation")
+                    {
+                        newTreeNode.Text = xmlNode.Value;
+                        newTreeNode.Parent.Parent.Collapse();
+                        break;
+                    }
+                    else
+                    {
+                        newTreeNode.BackColor = Color.LightGray;
+                        newTreeNode.Text = xmlNode.Value;
+                        break;
+                    }
+
                 case XmlNodeType.Comment:
                     newTreeNode.Text = "<!--" + xmlNode.Value + "-->";
                     break;
