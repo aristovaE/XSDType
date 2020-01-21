@@ -21,25 +21,27 @@ namespace XSDType6
         XmlSchemaSet xss = null;
         XmlSchema xs = null;
         XmlSchemas schemas = null;
+        ValidationEventHandler ValidationErrorHandler = null;
 
         XmlDocument doc = new XmlDocument();
-
-        ValidationEventHandler ValidationErrorHandler = null;
         string filePath = @"...\..\..\..\xsd\Passport.xsd";
+       
         DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\"));
         public Form1()
         {
             InitializeComponent();
-            
+            doc.Load(filePath);
+
             XmlTreeDisplay(doc, filePath);
             label1.Text = filePath;
+            treeView1.ExpandAll();
         }
-      
 
-        public void XmlTreeDisplay(XmlDocument doc,string filePath)
+
+        public void XmlTreeDisplay(XmlDocument doc, string filePath)
         {
             treeView1.Nodes.Clear();
-            
+
             // Load the XML Document
 
             try
@@ -54,63 +56,71 @@ namespace XSDType6
             }
 
             ConvertXmlNodeToTreeNode(doc, treeView1.Nodes);
-            treeView1.Nodes[0].ExpandAll();
+            
         }
 
-        private void ConvertXmlNodeToTreeNode(XmlNode xmlNode,TreeNodeCollection treeNodes)
+        private void ConvertXmlNodeToTreeNode(XmlNode xmlNode, TreeNodeCollection treeNodes)
         {
 
-            TreeNode newTreeNode = treeNodes.Add(xmlNode.LocalName);
-          
+            TreeNode newTreeNode;
+
 
             switch (xmlNode.NodeType)
             {
-                //case XmlNodeType.XmlDeclaration:
-                //    newTreeNode.Text = "<?" + xmlNode.Name + " " +
-                //       xmlNode.Value + "?>";
-                //    break;
+               
                 case XmlNodeType.Element:
-                    if (xmlNode.LocalName.ToString() == "simpleType") { newTreeNode.Collapse(); break; }
+                    if (xmlNode.LocalName.ToString() == "simpleType") {  break; }
                     else
                     {
-                       // newTreeNode.BackColor = Color.Pink;
+                        newTreeNode = treeNodes.Add(xmlNode.LocalName);
+                        // newTreeNode.BackColor = Color.Pink;
                         newTreeNode.Text = xmlNode.LocalName;
+
+                        NewFunc(xmlNode, newTreeNode);
                         break;
                     }
                 case XmlNodeType.Attribute:
-                    if ((xmlNode.LocalName.ToString()!= "name") &&(xmlNode.LocalName.ToString() != "type"))
+                    if ((xmlNode.LocalName.ToString() != "name") && (xmlNode.LocalName.ToString() != "type"))
                     {
-                        newTreeNode.Text = xmlNode.LocalName;
-                        newTreeNode.Collapse();
                         break;
                     }
                     else
                     {
+                        newTreeNode = treeNodes.Add(xmlNode.LocalName);
                         newTreeNode.Text = xmlNode.LocalName;
+
+                        NewFunc(xmlNode, newTreeNode);
                         break;
                     }
                 case XmlNodeType.Document:
+                    newTreeNode = treeNodes.Add(xmlNode.LocalName);
                     newTreeNode.Text = xmlNode.NodeType.ToString();
+                    NewFunc(xmlNode, newTreeNode);
                     break;
                 case XmlNodeType.Text:
-                    if (xmlNode.ParentNode.LocalName.ToString() == "documentation")
+                    if (xmlNode.ParentNode.LocalName.ToString() == "annotation")
                     {
-                        newTreeNode.Text = xmlNode.Value;
-                        newTreeNode.Parent.Parent.Collapse();
                         break;
                     }
                     else
                     {
+                        newTreeNode = treeNodes.Add(xmlNode.LocalName);
                         newTreeNode.BackColor = Color.LightGray;
                         newTreeNode.Text = xmlNode.Value;
+
+                        NewFunc(xmlNode, newTreeNode);
                         break;
                     }
-
-                case XmlNodeType.Comment:
-                    newTreeNode.Text = "<!--" + xmlNode.Value + "-->";
-                    break;
+               
             }
+            
 
+            
+
+        }
+
+        public void NewFunc(XmlNode xmlNode, TreeNode newTreeNode)
+        {
             if (xmlNode.Attributes != null)
             {
                 foreach (XmlAttribute attribute in xmlNode.Attributes)
@@ -123,8 +133,6 @@ namespace XSDType6
                 ConvertXmlNodeToTreeNode(childNode, newTreeNode.Nodes);
             }
         }
-
-
 
         private void treeView1_NodeMouseClick_1(object sender, TreeNodeMouseClickEventArgs e)
         {
@@ -154,7 +162,7 @@ namespace XSDType6
             int index = e.Node.Index;
             try
             {
-                if (e.Node.Text == "xsd:element")
+                if (e.Node.Text == "element")
                 {
                     textBox1.Text = e.Node.NextVisibleNode.Text;
                     textBox2.Text = e.Node.NextVisibleNode.FirstNode.Text;
@@ -173,19 +181,18 @@ namespace XSDType6
 
                 }
             }
-            catch(NullReferenceException er)
+            catch (NullReferenceException er)
             {
                 MessageBox.Show(er.Message);
                 return;
             }
+
             
-
-
         }
 
-       
-            
-      
+
+
+        //read to dataGridView
         private void button2_Click(object sender, EventArgs e)
         {
             xss = new XmlSchemaSet();
@@ -220,11 +227,11 @@ namespace XSDType6
                     {
 
 
-                       // MessageBox.Show("ELEMENT: " + schemaElement.Name);
+                        // MessageBox.Show("ELEMENT: " + schemaElement.Name);
 
                         // Get the complex type of the element.
                         XmlSchemaComplexType complexType = schemaElement.ElementSchemaType as XmlSchemaComplexType;
-                      //  MessageBox.Show("NAME OF COMPLEX TYPE OF " + schemaElement.Name + " = " + complexType.Name);
+                        //  MessageBox.Show("NAME OF COMPLEX TYPE OF " + schemaElement.Name + " = " + complexType.Name);
 
 
                         // Get the sequence particle of the complex type.
@@ -242,7 +249,7 @@ namespace XSDType6
                             XmlSchemaComplexType complexType2 = childElement.ElementSchemaType as XmlSchemaComplexType;
                             if (childElement.ElementSchemaType.Name != null)
                             {
-                           //     MessageBox.Show("COMPLEX TYPE OF " + childElement.Name + " = " + childElement.ElementSchemaType.Name);
+                                //     MessageBox.Show("COMPLEX TYPE OF " + childElement.Name + " = " + childElement.ElementSchemaType.Name);
                             }
 
 
@@ -264,7 +271,7 @@ namespace XSDType6
                                 {
                                     if (complexType2.Name != null)
                                     {
-                               //         MessageBox.Show("ELEMENT OF " + complexType2.Name + " = " + childElement2.Name);
+                                        //         MessageBox.Show("ELEMENT OF " + complexType2.Name + " = " + childElement2.Name);
                                         dataGridView1.Rows[i].Cells[0].Value = childElement2.Name;
                                         dataGridView1.Rows[i].Cells[1].Value = complexType2.Name;
                                     }
@@ -315,43 +322,53 @@ namespace XSDType6
 
         }
 
+        //edit to treeView
         private void button1_Click_2(object sender, EventArgs e)
         {
             //if (treeView1.SelectedNode != null)
             //{
             //    XmlNodeList nodes;
-            //    nodes = doc.GetElementsByTagName(dataGridView1.CurrentCell.Value.ToString());
+            //    nodes = xmlDoc.GetElementsByTagName(treeView1.SelectedNode.Text);
             //    //получаем индекс
             //    int index = treeView1.SelectedNode.Index;
             //    if (nodes.Count > 0)
             //    {
             //        foreach (XmlAttribute attribute in nodes[index].Attributes)
             //        {
-            //            attribute.InnerText = textBox2.Text;
+            //            attribute.InnerText = txtboxAtrValue.Text;
             //        }
             //        //вносим изменения в XML файл
-            //        doc.Save(filePath);
-            //        MessageBox.Show("!");
+            //        xmlDoc.Save(xmlpath);
             //    }
             //}
             if (treeView1.SelectedNode != null)
             {
+                //XmlElement node;
+                //node = doc.GetElementById(treeView1.SelectedNode.FirstNode.Text.ToString());
+
                 XmlNodeList nodes;
-                nodes = doc.GetElementsByTagName(treeView1.SelectedNode.Text);
+                nodes = doc.GetElementsByTagName("xsd:"+treeView1.SelectedNode.Text);
+
                 //получаем индекс
                 int index = treeView1.SelectedNode.Index;
                 if (nodes.Count > 0)
                 {
                     //  ((System.Xml.XmlAttribute)new System.Linq.SystemCore_EnumerableDebugView(((System.Xml.XmlElement)new System.Linq.SystemCore_EnumerableDebugView(nodes).Items[0]).Attributes).Items[0]).Value
-
+                    //treeView1.SelectedNode.FirstNode.FirstNode
                     nodes[index].Attributes[0].Value = textBox2.Text;
 
                     //вносим изменения в XSD файл
-                   
+
                     doc.Save(filePath);
                     XmlTreeDisplay(doc, filePath);
+                    treeView1.Nodes[0].ExpandAll();
                 }
+                else { MessageBox.Show("error"); }
             }
+            textBox1.Text = "";
+            textBox2.Text = "";
         }
+
+       
     }
 }
