@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2018 rel. 2 sp1 (x64) (http://www.altova.com) by Vladimir (CTM) -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:complexType name="AIRPASSLISTPassInfo_TABLE">
+		<xsd:annotation>
+			<xsd:documentation>Информация о пассажирах</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="AIRPASSLISTPassInfo_ITEM" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Информация о пассажирах</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:all minOccurs="0">
+						<xsd:element name="DOC_ID" type="xsd:integer" nillable="false"/>
+						<xsd:element name="Sex" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Пол</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="4"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="SeatNumber" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Номер места</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="3"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="PersonName">
+							<xsd:annotation>
+								<xsd:documentation>Фамилия. Имя. Отчество.</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="GrossWeightQuantity" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Вес багажа брутто</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:integer">
+									<xsd:totalDigits value="6"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="DestinationAirport" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Название аэропорта назначения</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="50"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="DestinationAirport_IATACode" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Код ИАТА аэропорта назначения</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="3"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="DepartureAirport" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Название аэропорта отправления (v. 5.0.6)</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="50"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="DepartureAirport_IATACode" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Код ИАТА аэропорта отправления (v 5.0.6)</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="3"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="DeparturePort" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Порт посадки пассажира (v 5.0.6)</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="DestinationPort" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Порт высадки пассажира (v 5.0.6)</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="BirthDate" type="xsd:dateTime" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Дата рождения (v. 5.0.5)</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="BirthPlace" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Место рождения (v. 5.0.5)</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="50"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="Nationality" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Национальность (v. 5.0.5)</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="2"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="IdentityCardSeries" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Серия документа, удостоверяющего личность  лица. (v. 5.0.5)</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="11"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="IdentityCardNumber" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Номер документа, удостоверяющего личность  лица (v. 5.0.5)</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="25"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AIRPASSLIST_TABLE">
+		<xsd:annotation>
+			<xsd:documentation>Пассажирская ведомость</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="AIRPASSLIST_ITEM" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Пассажирская ведомость</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:all>
+						<xsd:element name="DOC_ID" type="xsd:integer" nillable="false"/>
+						<xsd:element name="RegNum" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Номер документа</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="50"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="RegDate" type="xsd:dateTime" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Дата составления документа</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="LanguageCode" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Код языка документа (двузначный буквенный)</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="2"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="Carrier_Name" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Наименование перевозчика</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="Carrier_Code" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Двухсимвольный код перевозчика</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="2"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="TotalPassNumber" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Общая пассажировместимость</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:integer">
+									<xsd:totalDigits value="5"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="TransportKind" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Тип транспорта 1 - воздушный 2 - водный (v. 5.0.5))</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:integer"/>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="ShipName" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Название судна (v.5.0.5)</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="Agent" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Агент (v.5.0.5)</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="Port" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Порт (v. 5.0.5)</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="CountryCode" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Код страны принадлежности транспорта</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="2"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="TotalCrewNumber" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Количество членов экипажа</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:integer">
+									<xsd:totalDigits value="5"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="FactPassNumber" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Фактическое количество пассажиров</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:integer">
+									<xsd:totalDigits value="5"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="BaggageNumber" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Общее количество мест багажа</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:integer">
+									<xsd:totalDigits value="5"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="BaggageWeight" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Общий вес багажа</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:decimal">
+									<xsd:totalDigits value="24"/>
+									<xsd:fractionDigits value="6"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="FlNumber" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Номер рейса</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="6"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="FlDate" type="xsd:dateTime" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Дата рейса</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="AirplaneMark" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Тип воздушного судна</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="50"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="AirplaneRegNumber" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Бортовой номер воздушного судна</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="10"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="FlTime" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Время вылета рейса (чч:мм:сс)</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="8"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="DepartureAirport" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Название аэропорта отправления</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="50"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="DepartureAirport_IATACode" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Код ИАТА аэропорта отправления</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="3"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="DestinationAirport" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Название аэропорта назначения</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="50"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="DestinationAirport_IATACode" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Код ИАТА аэропорта назначения</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="3"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="FClassNumber" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Число мест для пассажиров первого класса</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:integer">
+									<xsd:totalDigits value="5"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="JClassNumber" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Число мест для пассажиров бизнес-класса</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:integer">
+									<xsd:totalDigits value="5"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="YClassNumber" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Число мест для пассажиров эконом-класса</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:integer">
+									<xsd:totalDigits value="5"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="AIRPASSLISTPassInfo" type="AIRPASSLISTPassInfo_TABLE" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Информация о пассажирах</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="CaptainInfo_PersonName" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Сведения о капитане: Фамилия (v. 5.0.5)</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="CaptainInfo_PersonName2" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Сведения о капитане: Имя (v. 5.0.5)</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="CaptainInfo_PersonMiddleName" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Сведения о капитане: Отчество (v. 5.0.5)</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="CaptainInfo_PersonPost" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Сведения о капитане: должность (v. 5.0.5)</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="250"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="CaptainInfo_IssueDate" type="xsd:dateTime" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Сведения о капитане: дата подписание (v. 5.0.5)</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="AIRPASSLISTRouteInfo" type="AIRPASSLISTRouteInfo_TABLE" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Информация о маршруте</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AIRPASSLISTRouteInfo_TABLE">
+		<xsd:annotation>
+			<xsd:documentation>Информация о маршруте</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="AIRPASSLISTRouteInfo_TABLE_ITEM" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Информация о маршруте</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:all minOccurs="0">
+						<xsd:element name="DOC_ID" type="xsd:integer" nillable="false"/>
+						<xsd:element name="NumPP" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Порядковый номер записи. 1 - первый, 2 - второй и т.д.</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:integer">
+									<xsd:totalDigits value="1"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="Carrier_Name" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Наименование перевозчика</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="120"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="Carrier_Code" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Двухсимвольный код  перевозчика</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="2"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="FlNumber" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Номер рейса</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="6"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="FlDate" type="xsd:dateTime" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Дата рейса</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="Airport" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Следующий  аэропорт: Название</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="50"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="Airport_IATACode" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Следующий  аэропорт:
+Код ИАТА</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="3"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="AIRPASSLIST" type="AIRPASSLIST_TABLE">
+		<xsd:annotation>
+			<xsd:documentation>Пассажирская ведомость</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+</xsd:schema>

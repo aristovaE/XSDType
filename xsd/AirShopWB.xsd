@@ -1,0 +1,739 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:complexType name="AIRSHOPWB_TABLE">
+		<xsd:annotation>
+			<xsd:documentation>Товарно-транспортная накладная магазина на борту ВС</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="AIRSHOPWB_ITEM" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Товарно-транспортная накладная магазина на борту ВС</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:all>
+						<xsd:element name="DOC_ID" type="xsd:integer" nillable="false"/>
+						<xsd:element name="RegNum" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Регистрационный номер накладной</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="10"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="RegDate" type="xsd:dateTime" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Дата составления накладной</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="AIRSHOPWBCurrencyRates" type="AIRSHOPWBCurrencyRates_TABLE" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Список курсов валют</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="AIRSHOPWBContainers" type="AIRSHOPWBContainers_TABLE" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Сведения о контейнерах</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="Carrier_Name" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Перевозчик: наименование </xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="Carrier_OGRN" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Перевозчик: ОГРН</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="15"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="Carrier_INN" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Перевозчик: ИНН</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="12"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="Carrier_KPP" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Перевозчик: КПП</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="9"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="FlightNumber" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Номер рейса</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="7"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="FlightDate" type="xsd:dateTime" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Дата рейса</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="FlightTime" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Время вылета рейса</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="8"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="Mark" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Марка воздушного судна</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="15"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="AirPlaneRegNum" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Регистрационный номер воздушного судна</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="10"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="DepartureAirport" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Аэропорт отправления: название</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="50"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="DepartureAirport_IATACode" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Аэропорт отправления: код ИАТА</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="3"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="ReturnFlightNumber" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Обратный номер рейса</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="6"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="DestinationAirport" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Аэропорт назначения: название</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="50"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="DestinationAirport_IATACode" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Аэропорт назначения: код ИАТА</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="3"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="DocSig_PersonName" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Подпись лица, составившего накладную: ФИО</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="DocSig_PersonName2" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Подпись лица, составившего накладную: Имя</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="DocSig_PersonMiddleName" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Подпись лица, составившего накладную: Отчество</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="DocSig_PersonPost" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Подпись лица, составившего накладную: должность</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="250"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="DocSig_IssueDate" type="xsd:dateTime" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Подпись лица, составившего накладную: дата</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="DocSig_ScheduledNumber" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Подпись лица, составившего накладную: табельный номер</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="6"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="GoodsGeneralComments" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Общие комментарии</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="32767"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="AIRSHOPWBFreeGoods" type="AIRSHOPWBFreeGoods_TABLE" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Бесплатные товары</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="SoldGoods_UnitsCount" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Продаваемые товары: всего единиц товара</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:decimal">
+									<xsd:totalDigits value="24"/>
+									<xsd:fractionDigits value="6"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="SoldGoods_TotalCost" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Продаваемые товары: общая стоимость</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:decimal">
+									<xsd:totalDigits value="20"/>
+									<xsd:fractionDigits value="2"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="SoldGoods_TotalSoldCost" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Продаваемые товары: сумма проданного товара</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:decimal">
+									<xsd:totalDigits value="20"/>
+									<xsd:fractionDigits value="2"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="SoldGoods_CurrencyCode" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Продаваемые товары: цифровой код валюты стоимости</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="3"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="AIRSHOPWBSoldGoods" type="AIRSHOPWBSoldGoods_TABLE" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Продаваемые товары: список товаров</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="Comments" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Примечание</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="32767"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="BrdCondDep_PersonName" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Борт-проводник при вылете: ФИО</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="BrdCondDep_PersonName2" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Борт-проводник при вылете: ФИО</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="BrdCondDep_PersonMiddleName" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Борт-проводник при вылете: ФИО</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="BrdCondDep_PersonPost" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Борт-проводник при вылете: должность</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="250"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="TrOrgDep_PersonName" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Транспортная организация при вылете: ФИО</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="TrOrgDep_PersonName2" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Транспортная организация при вылете: ФИО</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="TrOrgDep_PersonMiddleName" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Транспортная организация при вылете: ФИО</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="TrOrgDep_PersonPost" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Транспортная организация при вылете: должность</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="250"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="BrdCondArr_PersonName" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Борт-проводник при прилете: ФИО</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="BrdCondArr_PersonName2" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Борт-проводник при прилете: ФИО</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="BrdCondArr_PersonMiddleName" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Борт-проводник при прилете: ФИО</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="BrdCondArr_PersonPost" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Борт-проводник при прилете: должность</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="250"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="TrOrgArr_PersonName" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Транспортная организация при прилете: ФИО</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="TrOrgArr_PersonName2" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Транспортная организация при прилете: ФИО</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="TrOrgArr_PersonMiddleName" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Транспортная организация при прилете: ФИО</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="150"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="TrOrgArr_PersonPost" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Транспортная организация при прилете: должность</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="250"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AIRSHOPWBContainers_TABLE">
+		<xsd:annotation>
+			<xsd:documentation>Информация о контейнерах</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="AIRSHOPWBContainers_ITEM" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Информация о контейнерах</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:all minOccurs="0">
+						<xsd:element name="DOC_ID" type="xsd:integer" nillable="false"/>
+						<xsd:element name="ContNumber" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Номер контейнера</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="5"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="LockNumber" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Номер замка на контейнере</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="5"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="SealNumber" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Номер пломбы на контейнере</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="5"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AIRSHOPWBSoldGoods_TABLE">
+		<xsd:annotation>
+			<xsd:documentation>Продаваемые товары</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="AIRSHOPWBSoldGoods_ITEM" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Продаваемые товары</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:all minOccurs="0">
+						<xsd:element name="DOC_ID" type="xsd:integer" nillable="false"/>
+						<xsd:element name="GoodsDescription" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Наименование товара</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="65535"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="PLUCode" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Код PLU товара</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="5"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="SentGoodsQuantity" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Количество отправленного товара</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:decimal">
+									<xsd:totalDigits value="24"/>
+									<xsd:fractionDigits value="6"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="ReturnedGoodsQuantity" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Количество возвращенного товара</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:decimal">
+									<xsd:totalDigits value="24"/>
+									<xsd:fractionDigits value="6"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="SoldGoodsQuantity" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Количество проданного товара</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:decimal">
+									<xsd:totalDigits value="24"/>
+									<xsd:fractionDigits value="6"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="PriceUnit" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Стоимость единицы товара</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:decimal">
+									<xsd:totalDigits value="20"/>
+									<xsd:fractionDigits value="2"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="Price" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Стоимость проданного товара</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:decimal">
+									<xsd:totalDigits value="20"/>
+									<xsd:fractionDigits value="2"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="CurrencyCode" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Цифровой код валюты</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="3"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="Comments" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Комментарии</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="32767"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AIRSHOPWBFreeGoods_TABLE">
+		<xsd:annotation>
+			<xsd:documentation>Бесплатные товары</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="AIRSHOPWBFreeGoods_ITEM" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Бесплатные товары</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:all minOccurs="0">
+						<xsd:element name="DOC_ID" type="xsd:integer" nillable="false"/>
+						<xsd:element name="GoodsDescription" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Наименование товара</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="65535"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="PLUCode" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Код PLU товара</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="5"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="GoodsQuantity" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Количество товара</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:decimal">
+									<xsd:totalDigits value="24"/>
+									<xsd:fractionDigits value="6"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="ReturnedGoodsQuantity" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Количество возвращенного товара</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:decimal">
+									<xsd:totalDigits value="24"/>
+									<xsd:fractionDigits value="6"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AIRSHOPWBCurrencyRates_TABLE">
+		<xsd:annotation>
+			<xsd:documentation>Список курсов валют</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="AIRSHOPWBCurrencyRates_ITEM" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Список курсов валют</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:all minOccurs="0">
+						<xsd:element name="DOC_ID" type="xsd:integer" nillable="false"/>
+						<xsd:element name="CurrencyCode" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Цифровой код валюты</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="3"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="CurrencyName" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Наименование валюты</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="250"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="CurrencyRate" nillable="true" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Курс валюты</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:decimal">
+									<xsd:totalDigits value="11"/>
+									<xsd:fractionDigits value="4"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="AIRSHOPWB" type="AIRSHOPWB_TABLE">
+		<xsd:annotation>
+			<xsd:documentation>Товарно-транспортная накладная магазина на борту ВС</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+</xsd:schema>
