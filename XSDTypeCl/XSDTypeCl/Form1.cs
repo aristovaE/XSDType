@@ -66,6 +66,17 @@ namespace XSDTypeCl
 
         private void xsdToTreeViewBtn_Click(object sender, EventArgs e)
         {
+            Schema Passport;
+            SchemaItem PassportTable;
+            List<SchemaItem> PassportItem;
+
+            List<SchemaItem> PassportItem2;
+            //Passport = new Schema("Passport", "Паспорт сделки", PassportTable = new SchemaItem("PassportTable", PassportItem = new List<SchemaItem>()));
+            //PassportItem.Add(new SchemaItem("PassportItem", PassportItem2 = new List<SchemaItem>()));
+            //PassportItem2.Add(new SchemaItem("DOC_ID", "int"));
+            //PassportItem2.Add(new SchemaItem("RegNum", "string", "Номер паспорта"));
+            //PassportItem2.Add(new SchemaItem("RegDate", "dateTime", "Дата паспорта"));
+
             treeView2.Nodes.Clear();
             XmlSchemaSet xss = null;
             XmlSchema xs = null;
@@ -73,16 +84,18 @@ namespace XSDTypeCl
             ValidationEventHandler ValidationErrorHandler = null;
 
             XmlDocument doc = new XmlDocument();
-            string filePath = @"...\..\..\..\xsd\Passport.xsd";
+            string xsdName = "Passport.xsd";
+            string filePath = @"...\..\..\..\xsd\"+xsdName;
 
             DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\"));
 
             xss = new XmlSchemaSet();
             xss.ValidationEventHandler += ValidationErrorHandler;
             xss.XmlResolver = new XmlUrlResolver();
-
+            int i = 0;
+            int y = 0;
             schemas = new XmlSchemas();
-            foreach (var fi in diXsd.GetFiles("Passport.xsd")) //Passport.xsd читается полностью
+            foreach (var fi in diXsd.GetFiles(xsdName)) //Passport.xsd читается полностью
                                                                //разбиение на функции + цикличность?
                                                                //datagridview
             {
@@ -95,7 +108,6 @@ namespace XSDTypeCl
                 MessageBox.Show("Schema " + fi.Name + " read successully ");
 
             }
-
             xss.Compile();
 
             XmlSchemaElement schemaElement = null;
@@ -107,81 +119,55 @@ namespace XSDTypeCl
                 if (schemaElement != null)
                 {
 
-                    treeView2.Nodes.Add(schemaElement.Name +" (Root)");
-                    //MessageBox.Show("ELEMENT: " + schemaElement.Name);
-
-                    // Get the complex type of the element.
+                   // treeView2.Nodes.Add(schemaElement.Name + " (Root)");
+                   // ((System.Xml.Schema.XmlSchemaType)new System.Linq.SystemCore_EnumerableDebugView(((System.Xml.Schema.XmlSchema)schemaElement.Parent).Items).Items[2]).Name
                     XmlSchemaComplexType complexType = schemaElement.ElementSchemaType as XmlSchemaComplexType;
-                    treeView2.Nodes[0].Nodes.Add(complexType.Name + " (ComplexType)");
-                    //MessageBox.Show("NAME OF COMPLEX TYPE OF " + schemaElement.Name + " = " + complexType.Name);
 
-
-                    // Get the sequence particle of the complex type.
+                    Passport = new Schema(schemaElement.Name, PassportTable = new SchemaItem(complexType.Name, PassportItem = new List<SchemaItem>()));
+                    treeView2.Nodes.Add(new TreeNode(Passport.name + " (Root)"));
+                    //treeView2.Nodes[0].Nodes.Add(complexType.Name + " (ComplexType)");
+                    treeView2.Nodes[0].Nodes.Add(new TreeNode(Passport.schemaItem.name + " (ComplexType)"));
                     XmlSchemaSequence sequence = complexType.ContentTypeParticle as XmlSchemaSequence;
-                    int i = 0;
-                    // Iterate over each XmlSchemaElement in the Items collection.
+                    
                     foreach (XmlSchemaElement childElement in sequence.Items)
                     {
+                        PassportItem.Add(new SchemaItem(childElement.Name, PassportItem2 = new List<SchemaItem>()));
+                      //  treeView2.Nodes[0].Nodes[i].Nodes.Add(childElement.Name + " (element)");
 
-                        treeView2.Nodes[0].Nodes[i].Nodes.Add(childElement.Name + " (element)");
-
-                        //MessageBox.Show("ELEMENT OF " + complexType.Name + " = " + childElement.Name);
-
-
-
+                        treeView2.Nodes[0].Nodes[i].Nodes.Add(new TreeNode(Passport.schemaItem.schemaItems[0].name + " (element)"));
                         XmlSchemaComplexType complexType2 = childElement.ElementSchemaType as XmlSchemaComplexType;
                         if (childElement.ElementSchemaType.Name != null)
                         {
-                             //   MessageBox.Show("COMPLEX TYPE OF " + childElement.Name + " = " + childElement.ElementSchemaType.Name);
-                            treeView2.Nodes[0].Nodes[i].Nodes[0].Nodes.Add(childElement.ElementSchemaType.Name);
+
+                           // treeView2.Nodes[0].Nodes[i].Nodes[0].Nodes.Add(childElement.ElementSchemaType.Name);
+                          //  treeView2.Nodes[0].Nodes[i].Nodes[0].Nodes.Add(new TreeNode(Passport.schemaItem.schemaItems[0].schemaItems[0].name));
+                           
+
                         }
-
-
-                        //  MessageBox.Show("NAME OF COMPLEX TYPE OF " + childElement.Name + " = " + complexType2.Name);
-
-
-                        // DataGridView dataGridView1 = new DataGridView();//Create new grid
-                        //dataGridView1.Columns[0].Name = "element";
-                        //dataGridView1.ColumnCount = 2;
-                        // Get the sequence particle of the complex type.
 
                         XmlSchemaAll all = complexType2.Particle as XmlSchemaAll; // <xsd:all>
                         if (all != null)
                         {
-                            //dataGridView1.RowCount = all.Items.Count;
-                            int y = 0;
-                            // Iterate over each XmlSchemaElement in the Items collection.
+                            
+
                             foreach (XmlSchemaElement childElement2 in all.Items)
                             {
+                                
                                 if (complexType2.Name != null)
                                 {
-                                    //if (childElement2.ElementSchemaType.TypeCode.ToString() != "None")
-                                    //    MessageBox.Show("ELEMENT OF " + complexType2.Name + " = " + childElement2.Name);
-                                    //treeView2.Nodes[0].Nodes[i].Nodes[0].Nodes.Add(childElement2.Name);
 
-                                    //dataGridView1.Rows[i].Cells[0].Value = childElement2.Name;
-                                    //dataGridView1.Rows[i].Cells[1].Value = complexType2.Name;
                                 }
                                 else
                                 {
                                     if (childElement2.ElementSchemaType.TypeCode.ToString() != "None")
-
-                                        treeView2.Nodes[0].Nodes[i].Nodes[0].Nodes.Add(childElement2.Name+" ("+ childElement2.ElementSchemaType.TypeCode + ")");
-
-                                    
-                                    //MessageBox.Show("ELEMENT OF COMPLEX TYPE = " + childElement2.Name);
-
+                                    {
+                                        PassportItem2.Add(new SchemaItem(childElement2.Name, childElement2.ElementSchemaType.TypeCode.ToString()));
+                                        //treeView2.Nodes[0].Nodes[i].Nodes[0].Nodes.Add(childElement2.Name + " (" + childElement2.ElementSchemaType.TypeCode + ")");
+                                        treeView2.Nodes[0].Nodes[i].Nodes[0].Nodes.Add(Passport.schemaItem.schemaItems[0].schemaItems[y].name+" ("+Passport.schemaItem.schemaItems[0].schemaItems[y].type+")");
+                                    }
                                 }
 
-                                //dataGridView1.Rows[i].Cells[0].Value = childElement2.Name;
-                                
-                                    // MessageBox.Show("TYPE OF " + childElement2.Name + " = " + childElement2.ElementSchemaType.TypeCode);
-                                    //    dataGridView1.Rows[i].Cells[1].Value = childElement2.ElementSchemaType.TypeCode;
-                                    //else dataGridView1.Rows[i].Cells[1].Value = childElement2.ElementSchemaType.Name;
-
-                                    //i++;
-                                //y++;
-
+                                y++;
                             }
                             if (complexType2.AttributeUses.Count > 0)
                             {
@@ -208,7 +194,26 @@ namespace XSDTypeCl
             }
 
 
+           
+            //treeView2.Nodes[0].Nodes.Add(new TreeNode(Passport.discription));
+            //treeView2.Nodes[0].Nodes.Add(new TreeNode(Passport.schemaItem.name));
+            //treeView2.Nodes[0].Nodes[1].Nodes.Add(new TreeNode(Passport.schemaItem.schemaItems[0].name));
+            //treeView2.Nodes[0].Nodes[1].Nodes[0].Nodes.Add(new TreeNode(Passport.schemaItem.schemaItems[0].schemaItems[0].name));
 
+            //treeView2.Nodes[0].Nodes[1].Nodes[0].Nodes[0].Nodes.Add(new TreeNode(Passport.schemaItem.schemaItems[0].schemaItems[0].type));
+
+
+            //treeView2.Nodes[0].Nodes[1].Nodes[0].Nodes.Add(new TreeNode(Passport.schemaItem.schemaItems[0].schemaItems[1].name));
+
+            //treeView2.Nodes[0].Nodes[1].Nodes[0].Nodes[1].Nodes.Add(new TreeNode(Passport.schemaItem.schemaItems[0].schemaItems[1].type));
+            //treeView2.Nodes[0].Nodes[1].Nodes[0].Nodes[1].Nodes.Add(new TreeNode(Passport.schemaItem.schemaItems[0].schemaItems[1].discription));
+
+            //treeView2.Nodes[0].Nodes[1].Nodes[0].Nodes.Add(new TreeNode(Passport.schemaItem.schemaItems[0].schemaItems[2].name));
+
+
+            //treeView2.Nodes[0].Nodes[1].Nodes[0].Nodes[2].Nodes.Add(new TreeNode(Passport.schemaItem.schemaItems[0].schemaItems[2].type));
+            //treeView2.Nodes[0].Nodes[1].Nodes[0].Nodes[2].Nodes.Add(new TreeNode(Passport.schemaItem.schemaItems[0].schemaItems[2].discription));
+            
             treeView2.ExpandAll();
 
         }
