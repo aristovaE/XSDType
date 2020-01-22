@@ -8,24 +8,24 @@ namespace XSDTypeCl
 {
     class Schema
     {
-       public string name;
+        public string name;
         public string discription;
-        public SchemaItem schemaItem;
+        public List<SchemaItem> schemaItems;
 
         public Schema()
         {
             
         }
-        public Schema(string name,string discription,SchemaItem schemaItem)
+        public Schema(string name,string discription, List<SchemaItem> schemaItems)
         {
             this.name = name;
             this.discription = discription;
-            this.schemaItem = schemaItem;
+            this.schemaItems = schemaItems;
         }
-        public Schema(string name,  SchemaItem schemaItem)
+        public Schema(string name, List<SchemaItem> schemaItems)
         {
             this.name = name;
-            this.schemaItem = schemaItem;
+            this.schemaItems = schemaItems;
         }
         public void ReadXSD()
         {
