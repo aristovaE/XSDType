@@ -8,9 +8,9 @@ namespace XSDTypeCl
 {
     public class SchemaItem
     {
-        string name;
-        string type;
-        SchemaItem schemaItem;
+        public string name;
+        public string type;
+        public SchemaItem schemaItem;
 
         public SchemaItem()
         {
@@ -26,6 +26,10 @@ namespace XSDTypeCl
         {
             this.name = name;
             this.type = type;
+        }
+        public SchemaItem(string name)
+        {
+            this.name = name;
         }
     }
 }

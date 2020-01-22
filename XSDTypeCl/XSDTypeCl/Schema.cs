@@ -8,9 +8,9 @@ namespace XSDTypeCl
 {
     class Schema
     {
-        string name;
-        string discription;
-        SchemaItem schemaItem;
+       public string name;
+        public string discription;
+        public SchemaItem schemaItem;
 
         public Schema()
         {
