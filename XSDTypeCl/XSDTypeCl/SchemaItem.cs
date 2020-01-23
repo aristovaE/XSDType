@@ -4,32 +4,54 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Xml.Schema;
+
 namespace XSDTypeCl
 {
-    public class SchemaItem
+    public class SeSchemaItem:SeISchema
     {
         public string name;
+        public string discription;
         public string type;
-        public SchemaItem schemaItem;
+        public List<SeSchemaItem> schemaItems;
 
-        public SchemaItem()
+        public SeSchemaItem()
         {
-
+            name = "";
+            discription = "";
+            type = "";
+            schemaItems = new List<SeSchemaItem>();
         }
-        public SchemaItem(string name, string type, SchemaItem schemaItem)
+        public SeSchemaItem(string name, string type, List<SeSchemaItem> schemaItems)
         {
             this.name = name;
             this.type = type;
-            this.schemaItem = schemaItem;
+            this.schemaItems = schemaItems;
         }
-        public SchemaItem(string name, string type)
+        public SeSchemaItem(string name, string type)
         {
             this.name = name;
             this.type = type;
         }
-        public SchemaItem(string name)
+        public SeSchemaItem(string name, string discription, string type)
         {
             this.name = name;
+            this.discription = discription;
+            this.type = type;
+        }
+        public SeSchemaItem(string name)
+        {
+            this.name = name;
+        }
+        public SeSchemaItem(string name,List<SeSchemaItem> schemaItems)
+        {
+            this.name = name;
+            this.schemaItems = schemaItems;
+        }
+        public void ReadXSD(XmlSchemaElement SchemaElement)
+        {
+
         }
     }
+
 }

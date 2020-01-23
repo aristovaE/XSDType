@@ -1,35 +1,54 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
+
 namespace XSDTypeCl
 {
-    class Schema
+    public class SeSchema : SeISchema,IEnumerable<SeSchema>
     {
+        List<SeSchema> schemas;
         public string name;
         public string discription;
-        public List<SchemaItem> schemaItems;
+        public List<SeSchemaItem> schemaItems;
 
-        public Schema()
+        public SeSchema()
         {
-            
+            name = "";
+            discription = "";
+            schemaItems = new List<SeSchemaItem>();
         }
-        public Schema(string name,string discription, List<SchemaItem> schemaItems)
+        public SeSchema(string name,string discription, List<SeSchemaItem> schemaItems)
         {
             this.name = name;
             this.discription = discription;
             this.schemaItems = schemaItems;
         }
-        public Schema(string name, List<SchemaItem> schemaItems)
+        public SeSchema(string name, List<SeSchemaItem> schemaItems)
         {
             this.name = name;
             this.schemaItems = schemaItems;
         }
-        public void ReadXSD()
+        
+        public void ReadXSD(XmlSchemaElement schemaElement)
         {
+          //  PassportItem(complexType.Name, PassportItem = new List<SchemaItem>()));
+        }
+        //fillTree
+        public IEnumerator<SeSchema> GetEnumerator()
+        {
+            return schemas.GetEnumerator();
+        }
 
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
   
