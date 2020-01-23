@@ -33,7 +33,7 @@ namespace XSDTypeCl
         {
             InitializeComponent();
         }
-        
+
         public void ReadXSD()
         {
             treeView2.Nodes.Clear();
@@ -54,30 +54,41 @@ namespace XSDTypeCl
             }
             xss.Compile();
         }
-        public void ClassToTreeView(Schema Passport, List<SchemaItem> PassportItem, List<SchemaItem> PassportItemInCT)
+        public void ClassToTreeView(Schema Passport, List<List<SchemaItem>> complexTypeList)
         {
 
             treeView2.Nodes.Add(Passport.name);
-            foreach (SchemaItem pI in PassportItem)
+            int i = 0;
+
+            foreach (SchemaItem pI in Passport.schemaItems)
             {
-                treeView2.Nodes[0].Nodes.Add(pI.name+" ("+ pI.type + ")");
-            }
-            for (int i = 0; i < PassportItem.Count; i++)
-            {
+                treeView2.Nodes[0].Nodes.Add(pI.name + " (" + pI.type + ")");
+                
                 try
                 {
-                    treeView2.Nodes[0].Nodes[i].Nodes.Add(PassportItemInCT[i].name + " (" + PassportItemInCT[i].type + ")");
+                    foreach (SchemaItem pI2 in pI.schemaItems)
+                    {
+                        try
+                        {
+
+                            treeView2.Nodes[0].Nodes[i].Nodes.Add(pI2.name + " (" + pI2.type + ")");
+                            
+                        }
+                        catch { }
+                    }
+                    i++;
                 }
                 catch { }
             }
+
             //treeView2.Nodes[0].Nodes.Add(new TreeNode(Passport.schemaItem.name));
             //treeView2.Nodes[0].Nodes[1].Nodes.Add(new TreeNode(Passport.schemaItem.schemaItems[0].name));
             //treeView2.Nodes[0].Nodes[1].Nodes[0].Nodes.Add(new TreeNode(Passport.schemaItem.schemaItems[0].schemaItems[0].name));
         }
-        public void RecursionForSchemaElement(Schema Passport,XmlSchemaElement schemaElement)
+        public void RecursionForSchemaElement(Schema Passport, XmlSchemaElement schemaElement)
         {
             //XmlSchemaComplexType complexType = schemaElement.ElementSchemaType as XmlSchemaComplexType;
-            
+
             ////treeView2.Nodes.Add(new TreeNode(Passport.name + " (Root)"));
             ////treeView2.Nodes[0].Nodes.Add(new TreeNode(Passport.schemaItem.name + " (ComplexType)"));
             //XmlSchemaSequence sequence = complexType.ContentTypeParticle as XmlSchemaSequence;
@@ -94,17 +105,20 @@ namespace XSDTypeCl
         {
             ReadXSD();
             Schema Passport;
-            SchemaItem PassportTable=new SchemaItem("","","");
+            SchemaItem PassportTable = new SchemaItem("", "", "");
             List<SchemaItem> PassportItem = new List<SchemaItem>();
-            List<SchemaItem> PassportItemInCT = new List<SchemaItem>();
-            Passport = new Schema(xsdName, PassportItem) ;
+            List<SchemaItem> PassportItemInCT
+            //= new List<SchemaItem>()
+            ;
+            Passport = new Schema(xsdName, PassportItem);
 
             XmlSchemaElement schemaElement = null;
             XmlSchemaComplexType schemaType = null;
 
             int i = 0;
             int y = 0;
-
+            List<List<SchemaItem>> complexTypeList = new List<List<SchemaItem>>();
+            complexTypeList.Add(PassportItem);
             foreach (var sChemaItem in xs.Items)
             {
 
@@ -119,7 +133,9 @@ namespace XSDTypeCl
                 else if (sChemaItem is XmlSchemaComplexType)
                 {
                     schemaType = sChemaItem as XmlSchemaComplexType;
-                    PassportItem.Add(new SchemaItem(schemaType.Name, PassportItemInCT ));
+                    PassportItem.Add(new SchemaItem(schemaType.Name,PassportItemInCT 
+                        = new List<SchemaItem>()
+                        ));
 
                     XmlSchemaSequence sequence = schemaType.ContentTypeParticle as XmlSchemaSequence;
                     foreach (XmlSchemaElement childElement in sequence.Items)
@@ -127,20 +143,35 @@ namespace XSDTypeCl
                         //  MessageBox.Show("ELEMENT OF "+ complexType.Name+" = " + childElement.Name);
                         PassportItemInCT.Add(new SchemaItem(childElement.Name, childElement.SchemaTypeName.ToString()));
                         XmlSchemaComplexType complexType2 = childElement.ElementSchemaType as XmlSchemaComplexType;
-                        
+                        complexTypeList.Add(PassportItemInCT);
                     }
 
-                    //ПРОВЕРКА ЗАПИСИ В SCHEMAITEM - SCHEMAITEM
-                    //for(i=0;i< PassportItem.Count; i++)
-                    //{
-                    //    MessageBox.Show(PassportItem[i].name+" > "+PassportItemInCT[i].name 
-                    //   //     + " \n d-" + PassportItemInCT[0].discription + "\n  t- " + PassportItemInCT[0].type
-                    //        );
-                    //}
-                    
+                   
+
 
                 }
+                
             }
+
+
+            // ПРОВЕРКА ПРАВИЛЬНОЙ ЗАПИСИ В КЛАСС
+            //MessageBox.Show(Passport.name + " have:\n" + Passport.schemaItems[0].name + " \n " + Passport.schemaItems[1].name + " \n " + Passport.schemaItems[2].name + " \n " + Passport.schemaItems[3].name + " \n " + " \n "
+            //    + Passport.schemaItems[0].name + " have:\n" + Passport.schemaItems[0].schemaItems[0].name + " \n "
+            //    + Passport.schemaItems[1].name + " have:\n" + Passport.schemaItems[1].schemaItems[0].name + " \n "
+            //     + Passport.schemaItems[2].name + " have:\n" + Passport.schemaItems[2].schemaItems[0].name + " \n "
+            //    );
+
+
+
+            //for (i = 0; i < PassportItem.Count; i++)
+            //{
+            //    try
+            //    {
+            //        MessageBox.Show(PassportItem[i].name + " > " + PassportItemInCT[i].name
+            //            //     + " \n d-" + PassportItemInCT[0].discription + "\n  t- " + PassportItemInCT[0].type
+            //            );
+            //    }catch { }
+            //}
             //foreach (SchemaItem pI in PassportItem)
             //{ MessageBox.Show(pI.name + " " + pI.discription + " " + pI.type); }
 
@@ -194,7 +225,7 @@ namespace XSDTypeCl
 
             //        }
 
-            ClassToTreeView(Passport, PassportItem, PassportItemInCT);
+            ClassToTreeView(Passport, complexTypeList);
             treeView2.ExpandAll();
 
         }
