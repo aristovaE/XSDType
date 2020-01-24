@@ -48,8 +48,11 @@ namespace XSDTypeCl
             this.name = name;
             this.schemaItems = schemaItems;
         }
-        public void ReadXSD(XmlSchemaElement SchemaElement)
+        public void ReadXSD(XmlSchemaObject childElement)
         {
+            XmlSchemaElement schemaElement = null;
+            schemaElement = childElement as XmlSchemaElement;
+            schemaItems.Add(new SeSchemaItem(schemaElement.Name, schemaElement.SchemaTypeName.ToString()));
 
         }
     }
