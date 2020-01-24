@@ -4,55 +4,42 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace XSDTypeCl
 {
-    public class SeSchema : SeISchema,IEnumerable<SeSchema>
+    public class SeSchema : SeISchema
     {
-        List<SeSchema> schemas;
-        public string name { get; set; }
-        public string discription { get; set; }
-        public List<SeSchemaItem> schemaItems;
 
-        public SeSchema()
+        public string Name { get; set; }
+        public string Discription { get; set; }
+        public List<SeSchemaItem> schemaItems;
+        
+        public SeSchema(XmlSchema schema)
         {
-            name = "";
-            discription = "";
-            schemaItems = new List<SeSchemaItem>();
+            schemaItems = new List<SeSchemaItem>(); //без определения schemaItems не работает
+            foreach (var sChemaItem in schema.Items)
+            {
+                ReadXSD(sChemaItem);
+            }
         }
-        public SeSchema(string name,string discription, List<SeSchemaItem> schemaItems)
-        {
-            this.name = name;
-            this.discription = discription;
-            this.schemaItems = schemaItems;
-        }
-        public SeSchema(string name, List<SeSchemaItem> schemaItems)
-        {
-            this.name = name;
-            this.schemaItems = schemaItems;
-        }
-        public SeSchema(List<SeSchemaItem> schemaItems)
-        {
-            this.schemaItems = schemaItems;
-        }
+
         public void ReadXSD(XmlSchemaObject sChemaItem)
         {
-            int i;
             XmlSchemaElement schemaElement = null;
             XmlSchemaComplexType schemaType = null;
             SeSchemaItem seSchemaItemTable = null;
+            SeSchemaItem seSchemaItemTable2 = null;
 
             if (sChemaItem is XmlSchemaElement)
             {//annotation
 
                 schemaElement = sChemaItem as XmlSchemaElement;
-                name = schemaElement.Name;
+                Name = schemaElement.Name;
                 seSchemaItemTable = new SeSchemaItem(schemaElement.Name, schemaElement.SchemaTypeName.ToString());
-               
                 
             }
             else if (sChemaItem is XmlSchemaComplexType)
@@ -61,34 +48,25 @@ namespace XSDTypeCl
 
                 schemaType = sChemaItem as XmlSchemaComplexType;
                 seSchemaItemTable = new SeSchemaItem(schemaType.Name, schemaTypeInCT = new List<SeSchemaItem>());
-              
+                seSchemaItemTable2 = new SeSchemaItem(schemaType.Name, schemaTypeInCT = new List<SeSchemaItem>());
                 XmlSchemaSequence sequence = schemaType.ContentTypeParticle as XmlSchemaSequence;
                 foreach (XmlSchemaElement childElement in sequence.Items)
                 {
                     seSchemaItemTable.ReadXSD(childElement);
-                    
-                    // schemaTypeInCT.ReadXSD();
-                    // -> complexType -> all -> element
-
                 }
-                //nodeIndex = 0;
-                // ClassToTreeView(seSchema, i);
-
 
             }
-            schemaItems.Add(seSchemaItemTable);
+            
+            if(seSchemaItemTable!=null)
+                schemaItems.Add(seSchemaItemTable);
+           
         }
 
-        //fillTree
-        public IEnumerator<SeSchema> GetEnumerator()
+        public void FillTree(TreeNodeCollection treeNodes)
         {
-            return schemas.GetEnumerator();
+            // TreeNode newTreeNode = treeNodes.Add(xmlNode.LocalName); 
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
     }
-  
+
 }

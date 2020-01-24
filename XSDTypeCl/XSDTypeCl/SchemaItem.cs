@@ -8,53 +8,66 @@ using System.Xml.Schema;
 
 namespace XSDTypeCl
 {
-    public class SeSchemaItem:SeISchema
+    public class SeSchemaItem : SeISchema
     {
-        public string name;
-        public string discription;
-        public string type;
-        public List<SeSchemaItem> schemaItems;
+        public string Name;
+        public string Discription;
+        public string Type;
+        public List<SeSchemaItem> SchemaItemsChildren;
 
-        public SeSchemaItem()
+
+        public SeSchemaItem(string Name, string Type)
         {
-            name = "";
-            discription = "";
-            type = "";
-            schemaItems = new List<SeSchemaItem>();
+            this.Name = Name;
+            this.Type = Type;
         }
-        public SeSchemaItem(string name, string type, List<SeSchemaItem> schemaItems)
+        public SeSchemaItem(string Name)
         {
-            this.name = name;
-            this.type = type;
-            this.schemaItems = schemaItems;
+            this.Name = Name;
         }
-        public SeSchemaItem(string name, string type)
+
+        public SeSchemaItem(string Name, List<SeSchemaItem> SchemaItemsChildren)
         {
-            this.name = name;
-            this.type = type;
+            this.Name = Name;
+            this.SchemaItemsChildren = SchemaItemsChildren;
         }
-        public SeSchemaItem(string name, string discription, string type)
+        public SeSchemaItem(string Name, string Type, List<SeSchemaItem> SchemaItemsChildren)
         {
-            this.name = name;
-            this.discription = discription;
-            this.type = type;
-        }
-        public SeSchemaItem(string name)
-        {
-            this.name = name;
-        }
-        public SeSchemaItem(string name,List<SeSchemaItem> schemaItems)
-        {
-            this.name = name;
-            this.schemaItems = schemaItems;
+            this.Name = Name;
+            this.Type = Type;
+            this.SchemaItemsChildren = SchemaItemsChildren;
         }
         public void ReadXSD(XmlSchemaObject childElement)
         {
+            List<SeSchemaItem> schemaTypeInCT;
             XmlSchemaElement schemaElement = null;
             schemaElement = childElement as XmlSchemaElement;
-            schemaItems.Add(new SeSchemaItem(schemaElement.Name, schemaElement.SchemaTypeName.ToString()));
+            SchemaItemsChildren.Add(new SeSchemaItem(schemaElement.Name, schemaElement.SchemaTypeName.ToString(),schemaTypeInCT = new List<SeSchemaItem>()));
+
+            XmlSchemaComplexType complexType = schemaElement.ElementSchemaType as XmlSchemaComplexType;
+            if (complexType != null)
+            {
+                XmlSchemaAll all = complexType.Particle as XmlSchemaAll; // <xsd:all>
+                if (all != null)
+                {
+                    foreach (XmlSchemaElement childElement2 in all.Items)
+                    {
+                        
+                        schemaTypeInCT.Add(new SeSchemaItem(childElement2.Name, childElement2.SchemaTypeName.ToString()));
+                    }
+
+                }
+
+            }
 
         }
-    }
+        public void ReadXSD2(XmlSchemaAll childElement)
+        {
+            
+              //      schemaItemsChildren.Add(new SeSchemaItem(childElement2.Name, childElement2.SchemaTypeName.ToString()));
+         
+          
+        }
 
+    }
 }

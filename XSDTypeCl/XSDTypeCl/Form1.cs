@@ -17,8 +17,6 @@ namespace XSDTypeCl
 {
     public partial class Form1 : Form
     {
-        int nodeIndex = 0;
-
         public Form1()
         {
             InitializeComponent();
@@ -47,7 +45,7 @@ namespace XSDTypeCl
                     xss.Add(xs);
                     schemas.Add(xs);
                 }
-                MessageBox.Show("Schema " + fi.Name + " read successfully ");
+               // MessageBox.Show("Schema " + fi.Name + " read successfully ");
 
             }
             xss.Compile();
@@ -56,32 +54,32 @@ namespace XSDTypeCl
 
         public void ClassToTreeView(SeSchema Passport, int i)
         {
-            try
-            {
+            //try
+            //{
 
 
-                treeView2.Nodes[nodeIndex].Nodes.Add(Passport.schemaItems[i].name + " (" + Passport.schemaItems[i].type + ")");
+            //    treeView2.Nodes[nodeIndex].Nodes.Add(Passport.schemaItems[i].name + " (" + Passport.schemaItems[i].Type + ")");
 
-                ComplexTypeToTreeView(nodeIndex, i, Passport.schemaItems[i]);
-                nodeIndex++;
-            }
-            catch { }
+            //    ComplexTypeToTreeView(nodeIndex, i, Passport.schemaItems[i]);
+            //    nodeIndex++;
+            //}
+            //catch { }
 
         }
 
         public void ComplexTypeToTreeView(int nodeIndex, int i, SeSchemaItem pI)
         {
 
-            foreach (SeSchemaItem pI2 in pI.schemaItems)
-            {
-                try
-                {
+            //foreach (SeSchemaItem pI2 in pI.schemaItems)
+            //{
+            //    try
+            //    {
 
-                    treeView2.Nodes[nodeIndex].Nodes[i].Nodes.Add(pI2.name + " (" + pI2.type + ")");
+            //        treeView2.Nodes[nodeIndex].Nodes[i].Nodes.Add(pI2.name + " (" + pI2.Type + ")");
 
-                }
-                catch { }
-            }
+            //    }
+            //    catch { }
+            //}
         }
 
         private void BtnToTV_Click(object sender, EventArgs e)
@@ -93,34 +91,32 @@ namespace XSDTypeCl
         {
 
             XmlSchemaSet xss = ReadXSD();
+            SeSchema seSchema;
+            List<SeSchema> seSchemaList = null;
             foreach (XmlSchema schema in xss.Schemas())
             {
-                SeSchema seSchema;
-                
-                List<SeSchemaItem> seSchemaItem = new List<SeSchemaItem>();
-                List<SeSchemaItem> seSchemaItemInComplexType = new List<SeSchemaItem>();
-                seSchema = new SeSchema(seSchemaItem);
-                List<List<SeSchemaItem>> complexTypeList = new List<List<SeSchemaItem>>();
+                seSchema = new SeSchema(schema);
+                seSchemaList = seSchemaList ?? new List<SeSchema>();
+                seSchemaList.Add(seSchema);
 
-                complexTypeList.Add(seSchemaItem);
-                foreach (var sChemaItem in schema.Items)
-                {
-                    seSchema.ReadXSD(sChemaItem);
-                }
 
                 // ПРОВЕРКА ПРАВИЛЬНОЙ ЗАПИСИ В КЛАСС
                 //try
                 //{
-                //    MessageBox.Show(seSchema.name + " have:\n" + seSchema.schemaItems[0].name
-                //        + " \n " + seSchema.schemaItems[1].name + " \n " + seSchema.schemaItems[2].name + " \n " + seSchema.schemaItems[3].name + " \n " + " \n "
-                //        + seSchema.schemaItems[0].name + " have:\n" + seSchema.schemaItems[0].schemaItems[0].name + " \n "
-                //        + seSchema.schemaItems[1].name + " have:\n" + seSchema.schemaItems[1].schemaItems[0].name + " \n "
-                //         + seSchema.schemaItems[2].name + " have:\n" + seSchema.schemaItems[2].schemaItems[0].name + " \n "
+                //    MessageBox.Show(seSchema.Name + " have:\n" + seSchema.schemaItems[0].Name
+                //        + " \n " + seSchema.schemaItems[1].Name + " \n " + seSchema.schemaItems[2].Name + " \n " + seSchema.schemaItems[3].Name + " \n " + " \n "
+                //        + seSchema.schemaItems[0].Name + " have:\n" + seSchema.schemaItems[0].schemaItemsChildren[0].Name + " \n "
+                //        + seSchema.schemaItems[1].Name + " have:\n" + seSchema.schemaItems[1].schemaItemsChildren[0].Name + " \n "
+                //         + seSchema.schemaItems[2].Name + " have:\n" + seSchema.schemaItems[2].schemaItemsChildren[0].Name + " \n "
+
+                //          + seSchema.schemaItems[0].schemaItemsChildren[0].Name + " have:\n" + seSchema.schemaItems[0].schemaItemsChildren[0].schemaItemsChildren[0].Name + " \n "
+                //       + seSchema.schemaItems[1].schemaItemsChildren[0].Name + " have:\n" + seSchema.schemaItems[1].schemaItemsChildren[0].schemaItemsChildren[0].Name + " \n "
+                //       + seSchema.schemaItems[2].schemaItemsChildren[0].Name + " have:\n" + seSchema.schemaItems[2].schemaItemsChildren[0].schemaItemsChildren[0].Name + " \n "
                 //        );
                 //}
                 //catch { }
 
-                comboBox1.Items.Add(seSchema.name);
+                comboBox1.Items.Add(seSchema.Name);
             }
 
         }
