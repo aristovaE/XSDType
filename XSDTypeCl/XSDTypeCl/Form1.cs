@@ -31,10 +31,6 @@ namespace XSDTypeCl
             XmlSchemas schemas = null;
             ValidationEventHandler ValidationErrorHandler = null;
 
-            XmlDocument doc = new XmlDocument();
-           // string xsdName = "Passport.xsd";
-            string filePath = @"...\..\..\..\xsd\";
-
             DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\"));
 
 
@@ -43,7 +39,7 @@ namespace XSDTypeCl
             xss.ValidationEventHandler += ValidationErrorHandler;
             xss.XmlResolver = new XmlUrlResolver();
             schemas = new XmlSchemas();
-            foreach (var fi in diXsd.GetFiles(filePath))
+            foreach (var fi in diXsd.GetFiles())
             {
                 using (var sr = new StreamReader(fi.FullName))
                 {
@@ -51,12 +47,13 @@ namespace XSDTypeCl
                     xss.Add(xs);
                     schemas.Add(xs);
                 }
-                MessageBox.Show("Schema " + fi.Name + " read successully ");
+                MessageBox.Show("Schema " + fi.Name + " read successfully ");
 
             }
             xss.Compile();
             return xss;
         }
+       
         public void ClassToTreeView(SeSchema Passport,int i)
         {
             try
@@ -86,93 +83,86 @@ namespace XSDTypeCl
                 catch { }
             }
         }
-
-           
         
-        public void RecursionForSchemaElement(SeSchema Passport, XmlSchemaElement schemaElement)
+        private void BtnToTV_Click(object sender, EventArgs e)
         {
-            
-        }
 
-        public void RecursionForSchemaComplexType()
-        {
         }
+       
         private void xsdToTreeViewBtn_Click(object sender, EventArgs e)
         {
             //чтение последнего файла xsd в xss
             XmlSchemaSet xss = ReadXSD();
-            XmlSchema xs = xss.Schemas(). //как обратиться к xs в SchemaSet?
-                ; 
-            SeSchema seSchema;
-            SeSchemaItem seSchemaItemTable = new SeSchemaItem("", "", "");
-            List<SeSchemaItem> seSchemaItem = new List<SeSchemaItem>();
-            List<SeSchemaItem> seSchemaItemInComplexType
-            //= new List<SchemaItem>()
-            ;
-            seSchema = new SeSchema(
-                //?
-                , seSchemaItem);
-            treeView2.Nodes.Add(seSchema.name);
-
+           
             XmlSchemaElement schemaElement = null;
             XmlSchemaComplexType schemaType = null;
 
             int i = 0;
-            int y = 0;
-            List<List<SeSchemaItem>> complexTypeList = new List<List<SeSchemaItem>>();
-            complexTypeList.Add(seSchemaItem);
-
-            foreach (var sChemaItem in xs.Items)
+         //   int y = 0;
+           
+            foreach (XmlSchema schema in xss.Schemas())
             {
+                SeSchema seSchema;
+                SeSchemaItem seSchemaItemTable = new SeSchemaItem("", "", "");
+                List<SeSchemaItem> seSchemaItem = new List<SeSchemaItem>();
+                List<SeSchemaItem> seSchemaItemInComplexType = new List<SeSchemaItem>();
+                seSchema = new SeSchema("", seSchemaItem);
+                List<List<SeSchemaItem>> complexTypeList = new List<List<SeSchemaItem>>();
 
-                //schemaElement = sChemaItem as XmlSchemaElement;
-                //schemaType = sChemaItem as XmlSchemaComplexType;
-                if (sChemaItem is XmlSchemaElement)
-                {//annotation
-                    schemaElement = sChemaItem as XmlSchemaElement;
-                    seSchemaItem.Add(new SeSchemaItem(schemaElement.Name, schemaElement.SchemaTypeName.ToString()));
-
-                    ClassToTreeView(seSchema,i);
-                }
-                else if (sChemaItem is XmlSchemaComplexType)
+                complexTypeList.Add(seSchemaItem);
+                foreach (var sChemaItem in schema.Items)
                 {
-                    schemaType = sChemaItem as XmlSchemaComplexType;
-                    seSchemaItem.Add(new SeSchemaItem(schemaType.Name,seSchemaItemInComplexType 
-                        = new List<SeSchemaItem>()
-                        ));
+                   
+                    if (sChemaItem is XmlSchemaElement)
+                    {//annotation
+                        seSchema.name = ((System.Xml.Schema.XmlSchemaElement)sChemaItem).Name;
+                        schemaElement = sChemaItem as XmlSchemaElement;
+                        seSchemaItem.Add(new SeSchemaItem(schemaElement.Name, schemaElement.SchemaTypeName.ToString()));
 
-                    XmlSchemaSequence sequence = schemaType.ContentTypeParticle as XmlSchemaSequence;
-                    foreach (XmlSchemaElement childElement in sequence.Items)
-                    {
-                        //  MessageBox.Show("ELEMENT OF "+ complexType.Name+" = " + childElement.Name);
-                        seSchemaItemInComplexType.Add(new SeSchemaItem(childElement.Name, childElement.SchemaTypeName.ToString()));
-                        XmlSchemaComplexType complexType2 = childElement.ElementSchemaType as XmlSchemaComplexType;
-                        complexTypeList.Add(seSchemaItemInComplexType);
+                        ClassToTreeView(seSchema, i);
                     }
+                    else if (sChemaItem is XmlSchemaComplexType)
+                    {
+                        schemaType = sChemaItem as XmlSchemaComplexType;
+                        seSchemaItem.Add(new SeSchemaItem(schemaType.Name, seSchemaItemInComplexType
+                            = new List<SeSchemaItem>()
+                            ));
 
-                    nodeIndex = 0;
-                    ClassToTreeView(seSchema,i);
+                        XmlSchemaSequence sequence = schemaType.ContentTypeParticle as XmlSchemaSequence;
+                        foreach (XmlSchemaElement childElement in sequence.Items)
+                        {
+                           
+                            seSchemaItemInComplexType.Add(new SeSchemaItem(childElement.Name, childElement.SchemaTypeName.ToString()));
+                            XmlSchemaComplexType complexType2 = childElement.ElementSchemaType as XmlSchemaComplexType;
+                            complexTypeList.Add(seSchemaItemInComplexType);
+                        }
 
+                        nodeIndex = 0;
+                        ClassToTreeView(seSchema, i);
+
+
+                    }
+                    i++;
+                   
+                    
 
                 }
-                i++;
+                // ПРОВЕРКА ПРАВИЛЬНОЙ ЗАПИСИ В КЛАСС
+                //try
+                //{
+                //    MessageBox.Show(seSchema.name + " have:\n" + seSchema.schemaItems[0].name + " \n " + seSchema.schemaItems[1].name + " \n " + seSchema.schemaItems[2].name + " \n " + seSchema.schemaItems[3].name + " \n " + " \n "
+                //        + seSchema.schemaItems[0].name + " have:\n" + seSchema.schemaItems[0].schemaItems[0].name + " \n "
+                //        + seSchema.schemaItems[1].name + " have:\n" + seSchema.schemaItems[1].schemaItems[0].name + " \n "
+                //         + seSchema.schemaItems[2].name + " have:\n" + seSchema.schemaItems[2].schemaItems[0].name + " \n "
+                //        );
+                //}
+                //catch { }
+                comboBox1.Items.Add(seSchema.name);
             }
 
+                  }
 
-            // ПРОВЕРКА ПРАВИЛЬНОЙ ЗАПИСИ В КЛАСС
-            //MessageBox.Show(Passport.name + " have:\n" + Passport.schemaItems[0].name + " \n " + Passport.schemaItems[1].name + " \n " + Passport.schemaItems[2].name + " \n " + Passport.schemaItems[3].name + " \n " + " \n "
-            //    + Passport.schemaItems[0].name + " have:\n" + Passport.schemaItems[0].schemaItems[0].name + " \n "
-            //    + Passport.schemaItems[1].name + " have:\n" + Passport.schemaItems[1].schemaItems[0].name + " \n "
-            //     + Passport.schemaItems[2].name + " have:\n" + Passport.schemaItems[2].schemaItems[0].name + " \n "
-            //    );
-
-
-
-            treeView2.ExpandAll();
-
-        }
-
-       
+        
     }
 }
 
