@@ -45,7 +45,7 @@ namespace XSDTypeCl
                     xss.Add(xs);
                     schemas.Add(xs);
                 }
-               // MessageBox.Show("Schema " + fi.Name + " read successfully ");
+                // MessageBox.Show("Schema " + fi.Name + " read successfully ");
 
             }
             xss.Compile();
@@ -59,32 +59,15 @@ namespace XSDTypeCl
             treeView1.Nodes.Clear();
 
             if (seSchema != null)
-                treeView1.Nodes.Add(seSchema.Name);
-            ConvertXmlNodeToTreeNode(seSchema.schemaItems, treeView1.Nodes[0].Nodes);
+                seSchema.ClassToTreeView(treeView1.Nodes);
 
-            treeView1.Nodes[0].ExpandAll();
+           // treeView1.Nodes[0].ExpandAll();
 
 
         }
-        
 
-        private void ConvertXmlNodeToTreeNode(List<SeSchemaItem> schemaItems, TreeNodeCollection treeNodes)
+        private void BtnXSDToSeSChema_Click(object sender, EventArgs e)
         {
-            foreach (SeSchemaItem eachSchemaItem in schemaItems)
-            {
-                TreeNode newTreeNode;
-                if (eachSchemaItem.Type != "")
-                {
-                    newTreeNode = treeNodes.Add(eachSchemaItem.Name + " (" + eachSchemaItem.Discription + ") type- " + eachSchemaItem.Type);
-                }
-                else
-                    newTreeNode = treeNodes.Add(eachSchemaItem.Name + " (" + eachSchemaItem.Discription + ")" );
-            }
-        }
-
-        private void xsdToTreeViewBtn_Click(object sender, EventArgs e) //чтение и запись в класс
-        {
-
             XmlSchemaSet xss = ReadXSD();
             SeSchema seSchema;
             List<SeSchema> seSchemaList = null;
@@ -93,7 +76,7 @@ namespace XSDTypeCl
                 seSchema = new SeSchema(schema);
                 seSchemaList = seSchemaList ?? new List<SeSchema>();
                 seSchemaList.Add(seSchema);
-                
+
             }
 
             var bindingSource1 = new BindingSource();
@@ -102,10 +85,21 @@ namespace XSDTypeCl
             comboBox1.DisplayMember = "Name";
             comboBox1.ValueMember = "Name";
 
-            MessageBox.Show("Все доступные схемы прочитаны и добавлены в ComboBox");
+            //MessageBox.Show("Все доступные схемы прочитаны и добавлены в ComboBox");
         }
 
+        private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
+            string str = e.Node.Text.Split(' ')[0];
+            textBox1.Text = str;
 
+        }
+
+        private void BtnSchemasToTV_Click(object sender, EventArgs e)
+        {
+            //все схемы в treeView
+        }
     }
 }
 

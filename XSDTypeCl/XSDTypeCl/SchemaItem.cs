@@ -29,15 +29,7 @@ namespace XSDTypeCl
             this.Discription = Discription;
             this.Type = Type;
         }
-
-
-        public SeSchemaItem(string Name, string Discription, List<SeSchemaItem> SchemaItemsChildren)
-        {
-            this.Name = Name;
-            this.Discription = Discription;
-            this.SchemaItemsChildren = SchemaItemsChildren;
-        }
-
+        
         public string GetAnnotation(XmlSchemaObject schemaElement)
         {
             XmlSchemaAnnotation discriptionAnn = new XmlSchemaAnnotation();
@@ -101,7 +93,7 @@ namespace XSDTypeCl
                     foreach (XmlSchemaElement childElement2 in all.Items)
                     {
                         if (childElement2.SchemaTypeName.Name.ToString() != "")
-                        schemaTypeInCT.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString()));
+                            schemaTypeInCT.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString()));
                         else schemaTypeInCT.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), GetSimpleType(childElement2)));
 
                     }
@@ -113,17 +105,19 @@ namespace XSDTypeCl
         }
         public void ClassToTreeView(TreeNodeCollection treeNodes)
         {
-            
-                TreeNode newTreeNode;
-                if (Type != "")
-                {
-                    if(Discription!=null)
+
+            TreeNode newTreeNode;
+            if (Type != "")
+            {
+                if (Discription != null)
                     newTreeNode = treeNodes.Add(Name + " (" + Discription + ") type - " + Type);
-                    else
+                else
                     newTreeNode = treeNodes.Add(Name + " type - " + Type);
             }
-                else 
-                    newTreeNode = treeNodes.Add(Name + " (" + Discription + ")");
+            else
+                newTreeNode = treeNodes.Add(Name + " (" + Discription + ")");
+
+
             if (SchemaItemsChildren != null)
             {
                 foreach (SeSchemaItem schemaElement in SchemaItemsChildren)

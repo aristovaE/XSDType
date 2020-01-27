@@ -1,1 +1,12 @@
 C:\TEMP\XSDTypeCl\XSDTypeCl\bin\Debug\XSDTypeCl.exe.config
+C:\TEMP\XSDTypeCl\XSDTypeCl\bin\Debug\XSDTypeCl.exe
+C:\TEMP\XSDTypeCl\XSDTypeCl\bin\Debug\XSDTypeCl.pdb
+C:\TEMP\XSDTypeCl\XSDTypeCl\obj\Debug\XSDTypeCl.Form1.resources
+C:\TEMP\XSDTypeCl\XSDTypeCl\obj\Debug\XSDTypeCl.Properties.Resources.resources
+C:\TEMP\XSDTypeCl\XSDTypeCl\obj\Debug\XSDTypeCl.csproj.GenerateResource.Cache
+C:\TEMP\XSDTypeCl\XSDTypeCl\obj\Debug\XSDTypeCl.exe
+C:\TEMP\XSDTypeCl\XSDTypeCl\obj\Debug\XSDTypeCl.pdb
+F:\Практика\24_01\XSDTypeCl\XSDTypeCl\bin\Debug\XSDTypeCl.exe.config
+F:\Практика\24_01\XSDTypeCl\XSDTypeCl\obj\Debug\XSDTypeCl.exe
+F:\Практика\24_01\XSDTypeCl\XSDTypeCl\obj\Debug\XSDTypeCl.pdb
+C:\TEMP\XSDTypeCl\XSDTypeCl\obj\Debug\XSDTypeCl.csprojResolveAssemblyReference.cache
