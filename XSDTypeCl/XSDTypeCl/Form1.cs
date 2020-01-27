@@ -32,7 +32,7 @@ namespace XSDTypeCl
             DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\"));
 
 
-            treeView2.Nodes.Clear();
+            treeView1.Nodes.Clear();
             xss = new XmlSchemaSet();
             xss.ValidationEventHandler += ValidationErrorHandler;
             xss.XmlResolver = new XmlUrlResolver();
@@ -56,8 +56,30 @@ namespace XSDTypeCl
         private void BtnToTV_Click(object sender, EventArgs e)
         {
             SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
-            MessageBox.Show(seSchema.Name);
+            treeView1.Nodes.Clear();
 
+            if (seSchema != null)
+                treeView1.Nodes.Add(seSchema.Name);
+            ConvertXmlNodeToTreeNode(seSchema.schemaItems, treeView1.Nodes[0].Nodes);
+
+            treeView1.Nodes[0].ExpandAll();
+
+
+        }
+        
+
+        private void ConvertXmlNodeToTreeNode(List<SeSchemaItem> schemaItems, TreeNodeCollection treeNodes)
+        {
+            foreach (SeSchemaItem eachSchemaItem in schemaItems)
+            {
+                TreeNode newTreeNode;
+                if (eachSchemaItem.Type != "")
+                {
+                    newTreeNode = treeNodes.Add(eachSchemaItem.Name + " (" + eachSchemaItem.Discription + ") type- " + eachSchemaItem.Type);
+                }
+                else
+                    newTreeNode = treeNodes.Add(eachSchemaItem.Name + " (" + eachSchemaItem.Discription + ")" );
+            }
         }
 
         private void xsdToTreeViewBtn_Click(object sender, EventArgs e) //чтение и запись в класс
@@ -76,9 +98,7 @@ namespace XSDTypeCl
 
             var bindingSource1 = new BindingSource();
             bindingSource1.DataSource = seSchemaList;
-
             comboBox1.DataSource = bindingSource1.DataSource;
-
             comboBox1.DisplayMember = "Name";
             comboBox1.ValueMember = "Name";
 

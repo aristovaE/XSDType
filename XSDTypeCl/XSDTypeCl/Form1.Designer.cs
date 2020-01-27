@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.xsdToTreeViewBtn = new System.Windows.Forms.Button();
-            this.treeView2 = new System.Windows.Forms.TreeView();
+            this.treeView1 = new System.Windows.Forms.TreeView();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.BtnToTV = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -44,13 +44,13 @@
             this.xsdToTreeViewBtn.UseVisualStyleBackColor = true;
             this.xsdToTreeViewBtn.Click += new System.EventHandler(this.xsdToTreeViewBtn_Click);
             // 
-            // treeView2
+            // treeView1
             // 
-            this.treeView2.ItemHeight = 20;
-            this.treeView2.Location = new System.Drawing.Point(12, 81);
-            this.treeView2.Name = "treeView2";
-            this.treeView2.Size = new System.Drawing.Size(468, 526);
-            this.treeView2.TabIndex = 3;
+            this.treeView1.ItemHeight = 20;
+            this.treeView1.Location = new System.Drawing.Point(12, 81);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Size = new System.Drawing.Size(822, 526);
+            this.treeView1.TabIndex = 3;
             // 
             // comboBox1
             // 
@@ -62,7 +62,7 @@
             // 
             // BtnToTV
             // 
-            this.BtnToTV.Location = new System.Drawing.Point(226, 37);
+            this.BtnToTV.Location = new System.Drawing.Point(134, 37);
             this.BtnToTV.Name = "BtnToTV";
             this.BtnToTV.Size = new System.Drawing.Size(101, 38);
             this.BtnToTV.TabIndex = 6;
@@ -74,10 +74,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(492, 619);
+            this.ClientSize = new System.Drawing.Size(846, 619);
             this.Controls.Add(this.BtnToTV);
             this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.treeView2);
+            this.Controls.Add(this.treeView1);
             this.Controls.Add(this.xsdToTreeViewBtn);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -87,7 +87,7 @@
 
         #endregion
         private System.Windows.Forms.Button xsdToTreeViewBtn;
-        private System.Windows.Forms.TreeView treeView2;
+        private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button BtnToTV;
     }
