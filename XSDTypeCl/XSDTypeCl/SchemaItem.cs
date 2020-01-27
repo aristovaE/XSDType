@@ -117,11 +117,21 @@ namespace XSDTypeCl
                 TreeNode newTreeNode;
                 if (Type != "")
                 {
-                    newTreeNode = treeNodes.Add(Name + " (" + Discription + ") type- " + Type);
-                }
-                else
+                    if(Discription!=null)
+                    newTreeNode = treeNodes.Add(Name + " (" + Discription + ") type - " + Type);
+                    else
+                    newTreeNode = treeNodes.Add(Name + " type - " + Type);
+            }
+                else 
                     newTreeNode = treeNodes.Add(Name + " (" + Discription + ")");
-                
+            if (SchemaItemsChildren != null)
+            {
+                foreach (SeSchemaItem schemaElement in SchemaItemsChildren)
+                {
+                    schemaElement.ClassToTreeView(newTreeNode.Nodes);
+                }
+            }
+
         }
 
 
