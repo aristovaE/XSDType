@@ -52,38 +52,11 @@ namespace XSDTypeCl
             return xss;
         }
 
-        public void ClassToTreeView(SeSchema Passport, int i)
-        {
-            //try
-            //{
-
-
-            //    treeView2.Nodes[nodeIndex].Nodes.Add(Passport.schemaItems[i].name + " (" + Passport.schemaItems[i].Type + ")");
-
-            //    ComplexTypeToTreeView(nodeIndex, i, Passport.schemaItems[i]);
-            //    nodeIndex++;
-            //}
-            //catch { }
-
-        }
-
-        public void ComplexTypeToTreeView(int nodeIndex, int i, SeSchemaItem pI)
-        {
-
-            //foreach (SeSchemaItem pI2 in pI.schemaItems)
-            //{
-            //    try
-            //    {
-
-            //        treeView2.Nodes[nodeIndex].Nodes[i].Nodes.Add(pI2.name + " (" + pI2.Type + ")");
-
-            //    }
-            //    catch { }
-            //}
-        }
 
         private void BtnToTV_Click(object sender, EventArgs e)
         {
+            SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
+            MessageBox.Show(seSchema.Name);
 
         }
 
@@ -99,11 +72,17 @@ namespace XSDTypeCl
                 seSchemaList = seSchemaList ?? new List<SeSchema>();
                 seSchemaList.Add(seSchema);
                 
-                comboBox1.Items.Add(seSchema.Name);
-                // ПРОВЕРКА ПРАВИЛЬНОЙ ЗАПИСИ В КЛАСС
-                //    MessageBox.Show(seSchema.Name + " have:\n" + seSchema.schemaItems[0].Name);
             }
 
+            var bindingSource1 = new BindingSource();
+            bindingSource1.DataSource = seSchemaList;
+
+            comboBox1.DataSource = bindingSource1.DataSource;
+
+            comboBox1.DisplayMember = "Name";
+            comboBox1.ValueMember = "Name";
+
+            MessageBox.Show("Все доступные схемы прочитаны и добавлены в ComboBox");
         }
 
 
