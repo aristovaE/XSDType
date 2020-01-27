@@ -98,25 +98,10 @@ namespace XSDTypeCl
                 seSchema = new SeSchema(schema);
                 seSchemaList = seSchemaList ?? new List<SeSchema>();
                 seSchemaList.Add(seSchema);
-
-
-                // ПРОВЕРКА ПРАВИЛЬНОЙ ЗАПИСИ В КЛАСС
-                //try
-                //{
-                //    MessageBox.Show(seSchema.Name + " have:\n" + seSchema.schemaItems[0].Name
-                //        + " \n " + seSchema.schemaItems[1].Name + " \n " + seSchema.schemaItems[2].Name + " \n " + seSchema.schemaItems[3].Name + " \n " + " \n "
-                //        + seSchema.schemaItems[0].Name + " have:\n" + seSchema.schemaItems[0].schemaItemsChildren[0].Name + " \n "
-                //        + seSchema.schemaItems[1].Name + " have:\n" + seSchema.schemaItems[1].schemaItemsChildren[0].Name + " \n "
-                //         + seSchema.schemaItems[2].Name + " have:\n" + seSchema.schemaItems[2].schemaItemsChildren[0].Name + " \n "
-
-                //          + seSchema.schemaItems[0].schemaItemsChildren[0].Name + " have:\n" + seSchema.schemaItems[0].schemaItemsChildren[0].schemaItemsChildren[0].Name + " \n "
-                //       + seSchema.schemaItems[1].schemaItemsChildren[0].Name + " have:\n" + seSchema.schemaItems[1].schemaItemsChildren[0].schemaItemsChildren[0].Name + " \n "
-                //       + seSchema.schemaItems[2].schemaItemsChildren[0].Name + " have:\n" + seSchema.schemaItems[2].schemaItemsChildren[0].schemaItemsChildren[0].Name + " \n "
-                //        );
-                //}
-                //catch { }
-
+                
                 comboBox1.Items.Add(seSchema.Name);
+                // ПРОВЕРКА ПРАВИЛЬНОЙ ЗАПИСИ В КЛАСС
+                //    MessageBox.Show(seSchema.Name + " have:\n" + seSchema.schemaItems[0].Name);
             }
 
         }

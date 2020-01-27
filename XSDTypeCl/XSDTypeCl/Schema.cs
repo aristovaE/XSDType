@@ -17,7 +17,7 @@ namespace XSDTypeCl
         public string Name { get; set; }
         public string Discription { get; set; }
         public List<SeSchemaItem> schemaItems;
-        
+
         public SeSchema(XmlSchema schema)
         {
             schemaItems = new List<SeSchemaItem>(); //без определения schemaItems не работает
@@ -27,39 +27,70 @@ namespace XSDTypeCl
             }
         }
 
+        public string GetAnnotation(XmlSchemaObject schemaElement)
+        {
+            XmlSchemaAnnotation discriptionAnn = new XmlSchemaAnnotation();
+
+            if (schemaElement is XmlSchemaElement)
+            {
+                XmlSchemaElement schemaElementAnn = schemaElement as XmlSchemaElement;
+                discriptionAnn = schemaElementAnn.Annotation;
+            }
+            else
+            {
+                XmlSchemaComplexType schemaElementAnn = schemaElement as XmlSchemaComplexType;
+                discriptionAnn = schemaElementAnn.Annotation;
+            }
+
+
+
+            XmlSchemaDocumentation discriptionDoc = new XmlSchemaDocumentation();
+            if (discriptionAnn != null)
+            {
+                foreach (XmlSchemaDocumentation MarkupSchemaItem in discriptionAnn.Items)
+                {
+                    if (MarkupSchemaItem.Markup[0] != null)
+                    {
+                        return MarkupSchemaItem.Markup[0].Value.ToString();
+                        
+                    }
+                }
+            }
+            return null;
+        }
         public void ReadXSD(XmlSchemaObject sChemaItem)
         {
             XmlSchemaElement schemaElement = null;
             XmlSchemaComplexType schemaType = null;
             SeSchemaItem seSchemaItemTable = null;
-            SeSchemaItem seSchemaItemTable2 = null;
 
             if (sChemaItem is XmlSchemaElement)
             {//annotation
 
                 schemaElement = sChemaItem as XmlSchemaElement;
                 Name = schemaElement.Name;
-                seSchemaItemTable = new SeSchemaItem(schemaElement.Name, schemaElement.SchemaTypeName.ToString());
                 
+                seSchemaItemTable = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name);
+
             }
             else if (sChemaItem is XmlSchemaComplexType)
             {
                 List<SeSchemaItem> schemaTypeInCT;
 
                 schemaType = sChemaItem as XmlSchemaComplexType;
-                seSchemaItemTable = new SeSchemaItem(schemaType.Name, schemaTypeInCT = new List<SeSchemaItem>());
-                seSchemaItemTable2 = new SeSchemaItem(schemaType.Name, schemaTypeInCT = new List<SeSchemaItem>());
+                seSchemaItemTable = new SeSchemaItem(schemaType.Name, GetAnnotation(schemaType), "", schemaTypeInCT = new List<SeSchemaItem>());
                 XmlSchemaSequence sequence = schemaType.ContentTypeParticle as XmlSchemaSequence;
+
                 foreach (XmlSchemaElement childElement in sequence.Items)
                 {
                     seSchemaItemTable.ReadXSD(childElement);
                 }
 
             }
-            
-            if(seSchemaItemTable!=null)
+
+            if (seSchemaItemTable != null)
                 schemaItems.Add(seSchemaItemTable);
-           
+
         }
 
         public void FillTree(TreeNodeCollection treeNodes)
