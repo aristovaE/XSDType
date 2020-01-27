@@ -41,9 +41,7 @@ namespace XSDTypeCl
                 XmlSchemaComplexType schemaElementAnn = schemaElement as XmlSchemaComplexType;
                 discriptionAnn = schemaElementAnn.Annotation;
             }
-
-
-
+            
             XmlSchemaDocumentation discriptionDoc = new XmlSchemaDocumentation();
             if (discriptionAnn != null)
             {
@@ -65,8 +63,7 @@ namespace XSDTypeCl
             SeSchemaItem seSchemaItemTable = null;
 
             if (sChemaItem is XmlSchemaElement)
-            {//annotation
-
+            {
                 schemaElement = sChemaItem as XmlSchemaElement;
                 Name = schemaElement.Name;
                 
@@ -93,9 +90,14 @@ namespace XSDTypeCl
 
         }
 
-        public void FillTree(TreeNodeCollection treeNodes)
+        public void ClassToTreeView(TreeNodeCollection treeNodes)
         {
-            // TreeNode newTreeNode = treeNodes.Add(xmlNode.LocalName); 
+            TreeNode newTreeNode=treeNodes.Add(Name);
+            foreach(SeSchemaItem schemaItem in schemaItems)
+            {
+                schemaItem.ClassToTreeView(newTreeNode.Nodes);
+            }
+            
         }
 
     }

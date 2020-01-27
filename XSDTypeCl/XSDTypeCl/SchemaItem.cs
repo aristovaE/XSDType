@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Forms;
 using System.Xml.Schema;
 
 namespace XSDTypeCl
@@ -107,12 +107,21 @@ namespace XSDTypeCl
                     }
 
                 }
-                //else {
-                //    foreach (XmlSchemaElement childElement2 in complexType.Particle.It)
-                //        }
 
             }
 
+        }
+        public void ClassToTreeView(TreeNodeCollection treeNodes)
+        {
+            
+                TreeNode newTreeNode;
+                if (Type != "")
+                {
+                    newTreeNode = treeNodes.Add(Name + " (" + Discription + ") type- " + Type);
+                }
+                else
+                    newTreeNode = treeNodes.Add(Name + " (" + Discription + ")");
+                
         }
 
 
