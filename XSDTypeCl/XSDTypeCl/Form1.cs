@@ -77,6 +77,8 @@ namespace XSDTypeCl
                 seSchemaList = seSchemaList ?? new List<SeSchema>();
                 seSchemaList.Add(seSchema);
 
+                seSchema.ClassToTreeView(treeView1.Nodes);
+
             }
 
             var bindingSource1 = new BindingSource();
@@ -84,7 +86,7 @@ namespace XSDTypeCl
             comboBox1.DataSource = bindingSource1.DataSource;
             comboBox1.DisplayMember = "Name";
             comboBox1.ValueMember = "Name";
-
+            
             //MessageBox.Show("Все доступные схемы прочитаны и добавлены в ComboBox");
         }
 
@@ -96,10 +98,7 @@ namespace XSDTypeCl
 
         }
 
-        private void BtnSchemasToTV_Click(object sender, EventArgs e)
-        {
-            //все схемы в treeView
-        }
+       
     }
 }
 

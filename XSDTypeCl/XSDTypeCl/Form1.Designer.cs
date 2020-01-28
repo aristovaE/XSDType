@@ -32,18 +32,18 @@
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.BtnToTV = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // BtnXSDToSeSChema
             // 
             this.BtnXSDToSeSChema.Location = new System.Drawing.Point(12, 37);
             this.BtnXSDToSeSChema.Name = "BtnXSDToSeSChema";
-            this.BtnXSDToSeSChema.Size = new System.Drawing.Size(101, 38);
+            this.BtnXSDToSeSChema.Size = new System.Drawing.Size(164, 38);
             this.BtnXSDToSeSChema.TabIndex = 2;
-            this.BtnXSDToSeSChema.Text = "READ";
+            this.BtnXSDToSeSChema.Text = "All schemas to TreeView";
             this.BtnXSDToSeSChema.UseVisualStyleBackColor = true;
             this.BtnXSDToSeSChema.Click += new System.EventHandler(this.BtnXSDToSeSChema_Click);
             // 
@@ -61,18 +61,27 @@
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(12, 10);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(223, 21);
+            this.comboBox1.Size = new System.Drawing.Size(164, 21);
             this.comboBox1.TabIndex = 4;
             // 
             // BtnToTV
             // 
-            this.BtnToTV.Location = new System.Drawing.Point(241, 10);
+            this.BtnToTV.Location = new System.Drawing.Point(182, 12);
             this.BtnToTV.Name = "BtnToTV";
-            this.BtnToTV.Size = new System.Drawing.Size(84, 21);
+            this.BtnToTV.Size = new System.Drawing.Size(164, 21);
             this.BtnToTV.TabIndex = 6;
-            this.BtnToTV.Text = "1 to treeView";
+            this.BtnToTV.Text = "1 schema to TreeView";
             this.BtnToTV.UseVisualStyleBackColor = true;
             this.BtnToTV.Click += new System.EventHandler(this.BtnToTV_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(182, 37);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(164, 38);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Save";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // textBox1
             // 
@@ -87,16 +96,6 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(208, 20);
             this.textBox2.TabIndex = 8;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(134, 37);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(101, 38);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "All to treeView";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.BtnSchemasToTV_Click);
             // 
             // Form1
             // 
@@ -122,9 +121,9 @@
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button BtnToTV;
+        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button button1;
     }
 }
 
