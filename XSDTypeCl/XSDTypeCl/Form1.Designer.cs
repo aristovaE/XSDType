@@ -32,9 +32,9 @@
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.BtnToTV = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.BtnSave = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // BtnXSDToSeSChema
@@ -74,15 +74,6 @@
             this.BtnToTV.UseVisualStyleBackColor = true;
             this.BtnToTV.Click += new System.EventHandler(this.BtnToTV_Click);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(182, 37);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(164, 38);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "Save";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(614, 81);
@@ -97,12 +88,22 @@
             this.textBox2.Size = new System.Drawing.Size(208, 20);
             this.textBox2.TabIndex = 8;
             // 
+            // BtnSave
+            // 
+            this.BtnSave.Location = new System.Drawing.Point(182, 37);
+            this.BtnSave.Name = "BtnSave";
+            this.BtnSave.Size = new System.Drawing.Size(164, 38);
+            this.BtnSave.TabIndex = 10;
+            this.BtnSave.Text = "Save";
+            this.BtnSave.UseVisualStyleBackColor = true;
+            this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1370, 619);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.BtnSave);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.BtnToTV);
@@ -121,9 +122,9 @@
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button BtnToTV;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Button BtnSave;
     }
 }
 

@@ -37,18 +37,22 @@ namespace XSDTypeCl
             xss.ValidationEventHandler += ValidationErrorHandler;
             xss.XmlResolver = new XmlUrlResolver();
             schemas = new XmlSchemas();
-            foreach (var fi in diXsd.GetFiles())
+            try
             {
-                using (var sr = new StreamReader(fi.FullName))
+                foreach (var fi in diXsd.GetFiles())
                 {
-                    xs = XmlSchema.Read(sr, ValidationErrorHandler);
-                    xss.Add(xs);
-                    schemas.Add(xs);
-                }
-                // MessageBox.Show("Schema " + fi.Name + " read successfully ");
+                    using (var sr = new StreamReader(fi.FullName))
+                    {
+                        xs = XmlSchema.Read(sr, ValidationErrorHandler);
+                        xss.Add(xs);
+                        schemas.Add(xs);
+                    }
+                    // MessageBox.Show("Schema " + fi.Name + " read successfully ");
 
+                }
+                xss.Compile();
             }
-            xss.Compile();
+            catch { }
             return xss;
         }
 
@@ -99,6 +103,44 @@ namespace XSDTypeCl
         }
 
        
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
+
+            ////чтение выбранной схемы
+            //XmlSchema xs = null;
+            //ValidationEventHandler ValidationErrorHandler = null;
+            //xs = XmlSchema.Read(new StreamReader(@"..\..\..\..\xsd\"+seSchema.Name + ".xsd"), ValidationErrorHandler);
+
+            XmlSchema xs1 = new XmlSchema();
+            foreach (SeSchemaItem ssi in seSchema.schemaItems)
+            {
+                XmlSchemaElement newElement = new XmlSchemaElement();
+                XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
+                if (ssi.Type != "")
+                {
+                    newElement.Name = ssi.Name+" Copy";
+                    xs1.Items.Add(newElement);
+                }
+                else {
+
+                    xs1.Items.Add(newSchemaType);
+                    newSchemaType.Name = ssi.Name;
+                }
+                
+            }
+
+            
+            
+
+            //создание новой схемы
+            FileStream file = new FileStream(@"..\..\..\..\xsd\new\"+ seSchema.Name+ ".xsd", FileMode.Create, FileAccess.ReadWrite);
+            XmlTextWriter xwriter = new XmlTextWriter(file, new UTF8Encoding());
+            xwriter.Formatting = Formatting.Indented;
+            xs1.Write(xwriter);
+
+        }
     }
 }
 

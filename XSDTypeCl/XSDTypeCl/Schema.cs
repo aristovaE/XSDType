@@ -77,11 +77,15 @@ namespace XSDTypeCl
                 schemaType = sChemaItem as XmlSchemaComplexType;
                 seSchemaItemTable = new SeSchemaItem(schemaType.Name, GetAnnotation(schemaType), "", schemaTypeInCT = new List<SeSchemaItem>());
                 XmlSchemaSequence sequence = schemaType.ContentTypeParticle as XmlSchemaSequence;
-
-                foreach (XmlSchemaElement childElement in sequence.Items)
+                try
                 {
-                    seSchemaItemTable.ReadXSD(childElement);
+                    foreach (XmlSchemaElement childElement in sequence.Items)
+                    {
+                        seSchemaItemTable.ReadXSD(childElement);
+                    }
                 }
+                catch
+                { }
 
             }
 
