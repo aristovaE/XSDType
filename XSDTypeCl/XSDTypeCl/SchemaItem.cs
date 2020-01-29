@@ -29,7 +29,7 @@ namespace XSDTypeCl
             this.Discription = Discription;
             this.Type = Type;
         }
-        
+
         public string GetAnnotation(XmlSchemaObject schemaElement)
         {
             XmlSchemaAnnotation discriptionAnn = new XmlSchemaAnnotation();
@@ -131,7 +131,21 @@ namespace XSDTypeCl
 
         public void SaveXSD(XmlSchema xs1)
         {
+            XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
+            XmlSchemaAll newAll = new XmlSchemaAll();
+            newSchemaType.Particle = newAll;
+            foreach (SeSchemaItem ssi in SchemaItemsChildren)
+            {
+                XmlSchemaElement newElement = new XmlSchemaElement();
+                newElement.Name = ssi.Name + "_Copy";
+                newAll.Items.Add(newElement);
+            }
 
+        }
+        public string SetAnnotation(XmlSchemaObject schemaElement)
+        {
+
+            return null;
         }
     }
 }

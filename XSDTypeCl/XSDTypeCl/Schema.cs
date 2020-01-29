@@ -120,11 +120,31 @@ namespace XSDTypeCl
                 }
                 else
                 {
-
                     newSchemaType.Name = newschemaItem.Name + "_Copy";
+
+                    XmlSchemaSequence newSeq= new XmlSchemaSequence();
+                    newSchemaType.Particle = newSeq;
+                    XmlSchemaElement newElement1 = new XmlSchemaElement();
+                    foreach (SeSchemaItem seqItem in newschemaItem.SchemaItemsChildren)
+                    {
+                        newElement1.Name = seqItem.Name + "_Copy";
+                        newSeq.Items.Add(newElement1);
+                        //newElement1.SchemaType = new XmlSchemaType();
+
+                        seqItem.SaveXSD(xs1);
+                        
+                    }
                     xs1.Items.Add(newSchemaType);
+
+
                 }
             }
+        }
+
+        public string SetAnnotation(XmlSchemaObject schemaElement)
+        {
+            
+            return null;
         }
     }
 
