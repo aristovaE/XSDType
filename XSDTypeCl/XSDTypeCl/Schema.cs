@@ -104,6 +104,28 @@ namespace XSDTypeCl
 
         }
 
+        public void SaveXSD(XmlSchema xs1)
+        {
+            foreach (SeSchemaItem newschemaItem in schemaItems)
+            {
+                XmlSchemaElement newElement = new XmlSchemaElement();
+                XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
+                if (newschemaItem.Type != "")
+                {
+                    newElement.Name = newschemaItem.Name + "_Copy";
+                    newElement.SchemaTypeName = new XmlQualifiedName(newschemaItem.Type + "_Copy");
+                    
+                    xs1.Items.Add(newElement);
+
+                }
+                else
+                {
+
+                    newSchemaType.Name = newschemaItem.Name + "_Copy";
+                    xs1.Items.Add(newSchemaType);
+                }
+            }
+        }
     }
 
 }

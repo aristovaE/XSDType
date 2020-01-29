@@ -13,5 +13,7 @@ namespace XSDTypeCl
         void ReadXSD(XmlSchemaObject SchemaElement);
         string GetAnnotation(XmlSchemaObject SchemaElement);
         void ClassToTreeView(TreeNodeCollection treeNodes);
+        
+        void SaveXSD(XmlSchema xs1);
     }
 }

@@ -30,6 +30,7 @@ namespace XSDTypeCl
             ValidationEventHandler ValidationErrorHandler = null;
 
             DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\"));
+           // DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\new\")); //для проверки новых схем
 
 
             treeView1.Nodes.Clear();
@@ -114,28 +115,10 @@ namespace XSDTypeCl
             //xs = XmlSchema.Read(new StreamReader(@"..\..\..\..\xsd\"+seSchema.Name + ".xsd"), ValidationErrorHandler);
 
             XmlSchema xs1 = new XmlSchema();
-            foreach (SeSchemaItem ssi in seSchema.schemaItems)
-            {
-                XmlSchemaElement newElement = new XmlSchemaElement();
-                XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
-                if (ssi.Type != "")
-                {
-                    newElement.Name = ssi.Name+" Copy";
-                    xs1.Items.Add(newElement);
-                }
-                else {
-
-                    xs1.Items.Add(newSchemaType);
-                    newSchemaType.Name = ssi.Name;
-                }
-                
-            }
-
-            
-            
-
+            seSchema.SaveXSD(xs1);
+          
             //создание новой схемы
-            FileStream file = new FileStream(@"..\..\..\..\xsd\new\"+ seSchema.Name+ ".xsd", FileMode.Create, FileAccess.ReadWrite);
+            FileStream file = new FileStream(@"..\..\..\..\xsd\new\"+ seSchema.Name+ "NEW.xsd", FileMode.Create, FileAccess.ReadWrite);
             XmlTextWriter xwriter = new XmlTextWriter(file, new UTF8Encoding());
             xwriter.Formatting = Formatting.Indented;
             xs1.Write(xwriter);

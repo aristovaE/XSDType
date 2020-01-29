@@ -129,5 +129,9 @@ namespace XSDTypeCl
         }
 
 
+        public void SaveXSD(XmlSchema xs1)
+        {
+
+        }
     }
 }
