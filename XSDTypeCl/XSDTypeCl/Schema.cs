@@ -110,29 +110,29 @@ namespace XSDTypeCl
             {
                 XmlSchemaElement newElement = new XmlSchemaElement();
                 XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
+                XmlSchemaAnnotation discriptionAnn = new XmlSchemaAnnotation();
                 if (newschemaItem.Type != "")
                 {
                     newElement.Name = newschemaItem.Name + "_Copy";
-                    newElement.SchemaTypeName = new XmlQualifiedName(newschemaItem.Type + "_Copy");
-                    
+                    newElement.SchemaTypeName = new XmlQualifiedName(newschemaItem.Type);
+                    newElement.Annotation = SetAnnotation(newschemaItem,discriptionAnn);
                     xs1.Items.Add(newElement);
 
                 }
                 else
                 {
-                    newSchemaType.Name = newschemaItem.Name + "_Copy";
+                    newSchemaType.Name = newschemaItem.Name;
 
                     XmlSchemaSequence newSeq= new XmlSchemaSequence();
                     newSchemaType.Particle = newSeq;
                     XmlSchemaElement newElement1 = new XmlSchemaElement();
+                    newSchemaType.Annotation = SetAnnotation(newschemaItem, discriptionAnn);
                     foreach (SeSchemaItem seqItem in newschemaItem.SchemaItemsChildren)
                     {
                         newElement1.Name = seqItem.Name + "_Copy";
                         newSeq.Items.Add(newElement1);
-                        //newElement1.SchemaType = new XmlSchemaType();
-
-                        seqItem.SaveXSD(xs1);
-                        
+                       
+                        seqItem.SaveXSD(newElement1, xs1);
                     }
                     xs1.Items.Add(newSchemaType);
 
@@ -140,11 +140,19 @@ namespace XSDTypeCl
                 }
             }
         }
-
-        public string SetAnnotation(XmlSchemaObject schemaElement)
+        public static XmlNode[] TextToNodeArray(string text)
         {
-            
-            return null;
+            XmlDocument doc = new XmlDocument();
+            return new XmlNode[1] {doc.CreateTextNode(text)};
+        }
+
+        public XmlSchemaAnnotation SetAnnotation(SeSchemaItem newschemaItem, XmlSchemaAnnotation discriptionAnn)
+        {
+            XmlSchemaDocumentation discriptionDoc = new XmlSchemaDocumentation();
+            discriptionAnn.Items.Add(discriptionDoc);
+            discriptionDoc.Markup = TextToNodeArray(newschemaItem.Discription);
+            return discriptionAnn;
+           
         }
     }
 

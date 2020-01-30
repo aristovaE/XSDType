@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 using System.Xml.Schema;
 
 namespace XSDTypeCl
@@ -129,23 +130,42 @@ namespace XSDTypeCl
         }
 
 
-        public void SaveXSD(XmlSchema xs1)
+        public void SaveXSD(XmlSchemaElement newElement1, XmlSchema xs1)
         {
+            
             XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
+            newElement1.SchemaType = newSchemaType;
             XmlSchemaAll newAll = new XmlSchemaAll();
             newSchemaType.Particle = newAll;
             foreach (SeSchemaItem ssi in SchemaItemsChildren)
             {
+                XmlSchemaAnnotation discriptionAnn = new XmlSchemaAnnotation();
                 XmlSchemaElement newElement = new XmlSchemaElement();
                 newElement.Name = ssi.Name + "_Copy";
+                newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
+
+                if (ssi.Discription != null)
+                {
+                    newElement.Annotation = SetAnnotation(ssi, discriptionAnn);
+                }
+                
                 newAll.Items.Add(newElement);
             }
 
         }
-        public string SetAnnotation(XmlSchemaObject schemaElement)
+        public static XmlNode[] TextToNodeArray(string text)
         {
+            XmlDocument doc = new XmlDocument();
+            return new XmlNode[1] {doc.CreateTextNode(text)};
+        }
 
-            return null;
+        public XmlSchemaAnnotation SetAnnotation(SeSchemaItem newschemaItem, XmlSchemaAnnotation discriptionAnn)
+        {
+            XmlSchemaDocumentation discriptionDoc = new XmlSchemaDocumentation();
+            discriptionAnn.Items.Add(discriptionDoc);
+            discriptionDoc.Markup = TextToNodeArray(newschemaItem.Discription);
+            return discriptionAnn;
+           
         }
     }
 }
