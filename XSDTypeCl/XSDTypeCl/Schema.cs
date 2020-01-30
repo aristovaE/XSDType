@@ -106,6 +106,8 @@ namespace XSDTypeCl
 
         public void SaveXSD(XmlSchema xs1)
         {
+            xs1.AttributeFormDefault = XmlSchemaForm.Unqualified;
+            xs1.ElementFormDefault = XmlSchemaForm.Qualified;
             xs1.Namespaces.Add("xsd", "http://www.w3.org/2001/XMLSchema");
             foreach (SeSchemaItem newschemaItem in schemaItems)
             {
@@ -133,6 +135,7 @@ namespace XSDTypeCl
                     newElement1.Annotation = SetAnnotation(newschemaItem, discriptionAnnEl);
                     foreach (SeSchemaItem seqItem in newschemaItem.SchemaItemsChildren)
                     {
+                       
                         newElement1.Name = seqItem.Name;
                         newSeq.Items.Add(newElement1);
                        

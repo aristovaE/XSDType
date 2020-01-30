@@ -116,12 +116,19 @@ namespace XSDTypeCl
 
             XmlSchema xs1 = new XmlSchema();
             seSchema.SaveXSD(xs1);
-          
+
+            using (FileStream fs = new FileStream(@"..\..\..\..\xsd\new\" + seSchema.Name + "NEW.xsd", FileMode.Create, FileAccess.ReadWrite))
+            {
+                using (XmlTextWriter tw = new XmlTextWriter(fs, new UTF8Encoding()))
+                {
+                    tw.Formatting = Formatting.Indented;
+                    xs1.Write(tw);
+                }
+                fs.Close();
+            }
             //создание новой схемы
-            FileStream file = new FileStream(@"..\..\..\..\xsd\new\"+ seSchema.Name+ "NEW.xsd", FileMode.Create, FileAccess.ReadWrite);
-            XmlTextWriter xwriter = new XmlTextWriter(file, new UTF8Encoding());
-            xwriter.Formatting = Formatting.Indented;
-            xs1.Write(xwriter);
+            
+            
 
         }
     }

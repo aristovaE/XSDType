@@ -11,11 +11,21 @@ namespace XSDTypeCl
 {
     public class SeSchemaItem : SeISchema
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string Name;
         public string Discription;
         public string Type;
         public List<SeSchemaItem> SchemaItemsChildren;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="Discription"></param>
+        /// <param name="Type"></param>
+        /// <param name="SchemaItemsChildren"></param>
         public SeSchemaItem(string Name, string Discription, string Type, List<SeSchemaItem> SchemaItemsChildren)
         {
             this.Name = Name;
@@ -31,6 +41,11 @@ namespace XSDTypeCl
             this.Type = Type;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="schemaElement"></param>
+        /// <returns></returns>
         public string GetAnnotation(XmlSchemaObject schemaElement)
         {
             XmlSchemaAnnotation discriptionAnn = new XmlSchemaAnnotation();
