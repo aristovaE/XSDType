@@ -141,7 +141,7 @@ namespace XSDTypeCl
             {
                 XmlSchemaAnnotation discriptionAnn = new XmlSchemaAnnotation();
                 XmlSchemaElement newElement = new XmlSchemaElement();
-                newElement.Name = ssi.Name + "_Copy";
+                newElement.Name = ssi.Name;
                 newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
 
                 if (ssi.Discription != null)

@@ -106,14 +106,16 @@ namespace XSDTypeCl
 
         public void SaveXSD(XmlSchema xs1)
         {
+            xs1.Namespaces.Add("xsd", "http://www.w3.org/2001/XMLSchema");
             foreach (SeSchemaItem newschemaItem in schemaItems)
             {
                 XmlSchemaElement newElement = new XmlSchemaElement();
+                
                 XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
                 XmlSchemaAnnotation discriptionAnn = new XmlSchemaAnnotation();
                 if (newschemaItem.Type != "")
                 {
-                    newElement.Name = newschemaItem.Name + "_Copy";
+                    newElement.Name = newschemaItem.Name;
                     newElement.SchemaTypeName = new XmlQualifiedName(newschemaItem.Type);
                     newElement.Annotation = SetAnnotation(newschemaItem,discriptionAnn);
                     xs1.Items.Add(newElement);
@@ -126,10 +128,12 @@ namespace XSDTypeCl
                     XmlSchemaSequence newSeq= new XmlSchemaSequence();
                     newSchemaType.Particle = newSeq;
                     XmlSchemaElement newElement1 = new XmlSchemaElement();
+                    XmlSchemaAnnotation discriptionAnnEl = new XmlSchemaAnnotation();
                     newSchemaType.Annotation = SetAnnotation(newschemaItem, discriptionAnn);
+                    newElement1.Annotation = SetAnnotation(newschemaItem, discriptionAnnEl);
                     foreach (SeSchemaItem seqItem in newschemaItem.SchemaItemsChildren)
                     {
-                        newElement1.Name = seqItem.Name + "_Copy";
+                        newElement1.Name = seqItem.Name;
                         newSeq.Items.Add(newElement1);
                        
                         seqItem.SaveXSD(newElement1, xs1);
