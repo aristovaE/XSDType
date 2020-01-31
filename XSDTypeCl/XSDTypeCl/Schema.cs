@@ -102,6 +102,7 @@ namespace XSDTypeCl
                 schemaItem.ClassToTreeView(newTreeNode.Nodes);
             }
 
+
         }
 
         public void SaveXSD(XmlSchema xs1)

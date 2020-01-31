@@ -144,6 +144,10 @@ namespace XSDTypeCl
             }
 
         }
+        //public TreeNode FindNode()
+        //{
+
+        //}
         public void ClassToTreeView(TreeNodeCollection treeNodes)
         {
 
@@ -158,6 +162,7 @@ namespace XSDTypeCl
             else
                 newTreeNode = treeNodes.Add(Name + " (" + Discription + ")");
 
+            
 
             if (SchemaItemsChildren != null)
             {
@@ -195,6 +200,27 @@ namespace XSDTypeCl
                     XmlSchemaSimpleTypeRestriction restriction = new XmlSchemaSimpleTypeRestriction();
                     simpleType.Content = restriction;
                     restriction.BaseTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
+                    foreach (SeSchemaItem sstc in ssi.SchemaItemsChildren)
+                    {
+                        if (sstc.Discription == "XmlSchemaMaxLengthFacet")
+                        {
+                            XmlSchemaMaxLengthFacet ml = new XmlSchemaMaxLengthFacet();
+                            restriction.Facets.Add(ml);
+                            ml.Value =sstc.Type;
+                        }
+                        else if (sstc.Discription == "XmlSchemaTotalDigitsFacet")
+                        {
+                            XmlSchemaTotalDigitsFacet ml = new XmlSchemaTotalDigitsFacet();
+                            restriction.Facets.Add(ml);
+                            ml.Value = sstc.Type;
+                        }
+                        else if (sstc.Discription == "XmlSchemaFractionDigitsFacet")
+                        {
+                            XmlSchemaFractionDigitsFacet ml = new XmlSchemaFractionDigitsFacet();
+                            restriction.Facets.Add(ml);
+                            ml.Value = sstc.Type;
+                        }
+                    }
                 }
                 newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
                 newAll.Items.Add(newElement);
