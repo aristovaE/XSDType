@@ -15,6 +15,8 @@ namespace XSDTypeCl
       //  void SetAnnotation(XmlSchemaObject SchemaElement);
         void ClassToTreeView(TreeNodeCollection treeNodes);
 
-        
+        XmlSchemaAnnotation SetAnnotation(SeSchemaItem newschemaItem, XmlSchemaAnnotation discriptionAnn);
+
+
     }
 }

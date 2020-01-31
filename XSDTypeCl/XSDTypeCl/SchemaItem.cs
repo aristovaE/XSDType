@@ -77,7 +77,12 @@ namespace XSDTypeCl
             return null;
         }
 
-        public string GetSimpleType(XmlSchemaElement childElement)
+        public void GetFacet(List<SeSchemaItem> schemaTypeInST, XmlSchemaFacet facet, XmlSchemaElement childElement)
+        {
+            schemaTypeInST.Add(new SeSchemaItem("SimpleType", facet.ToString().Split('.')[3], facet.Value));
+
+        }
+        public string GetSimpleType(List<SeSchemaItem> schemaTypeInST, XmlSchemaElement childElement)
         {
             string type;
             XmlSchemaSimpleType simpleType = childElement.ElementSchemaType as XmlSchemaSimpleType;
@@ -87,6 +92,17 @@ namespace XSDTypeCl
                 if (restriction != null)
                 {
                     type = restriction.BaseTypeName.Name;
+
+                    var enumFacets = restriction.Facets.OfType<XmlSchemaFacet>();
+
+                    if (enumFacets.Any())
+                    {
+
+                        foreach (var facet in enumFacets)
+                        {
+                            GetFacet(schemaTypeInST, facet, childElement);
+                        }
+                    }
                     return type;
                 }
 
@@ -108,9 +124,18 @@ namespace XSDTypeCl
                 {
                     foreach (XmlSchemaElement childElement2 in all.Items)
                     {
+
                         if (childElement2.SchemaTypeName.Name.ToString() != "")
+                        {
+
                             schemaTypeInCT.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString()));
-                        else schemaTypeInCT.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), GetSimpleType(childElement2)));
+                        }
+                        else
+                        {
+                            List<SeSchemaItem> schemaTypeInST = new List<SeSchemaItem>();
+                            schemaTypeInCT.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), GetSimpleType(schemaTypeInST, childElement2), schemaTypeInST));
+
+                        }
 
                     }
 
@@ -147,7 +172,7 @@ namespace XSDTypeCl
 
         public void SaveXSD(XmlSchemaElement newElement1, XmlSchema xs1)
         {
-            
+
             XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
             newElement1.SchemaType = newSchemaType;
             XmlSchemaAll newAll = new XmlSchemaAll();
@@ -157,13 +182,21 @@ namespace XSDTypeCl
                 XmlSchemaAnnotation discriptionAnn = new XmlSchemaAnnotation();
                 XmlSchemaElement newElement = new XmlSchemaElement();
                 newElement.Name = ssi.Name;
-                newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
+               
 
                 if (ssi.Discription != null)
                 {
                     newElement.Annotation = SetAnnotation(ssi, discriptionAnn);
                 }
-                
+                if (ssi.SchemaItemsChildren != null)
+                {
+                    XmlSchemaSimpleType simpleType = new XmlSchemaSimpleType();
+                    newElement.SchemaType = simpleType;
+                    XmlSchemaSimpleTypeRestriction restriction = new XmlSchemaSimpleTypeRestriction();
+                    simpleType.Content = restriction;
+                    restriction.BaseTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
+                }
+                newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
                 newAll.Items.Add(newElement);
             }
 
@@ -171,7 +204,7 @@ namespace XSDTypeCl
         public static XmlNode[] TextToNodeArray(string text)
         {
             XmlDocument doc = new XmlDocument();
-            return new XmlNode[1] {doc.CreateTextNode(text)};
+            return new XmlNode[1] { doc.CreateTextNode(text) };
         }
 
         public XmlSchemaAnnotation SetAnnotation(SeSchemaItem newschemaItem, XmlSchemaAnnotation discriptionAnn)
@@ -180,7 +213,7 @@ namespace XSDTypeCl
             discriptionAnn.Items.Add(discriptionDoc);
             discriptionDoc.Markup = TextToNodeArray(newschemaItem.Discription);
             return discriptionAnn;
-           
+
         }
     }
 }
