@@ -91,7 +91,7 @@ namespace XSDTypeCl
             comboBox1.DataSource = bindingSource1.DataSource;
             comboBox1.DisplayMember = "Name";
             comboBox1.ValueMember = "Name";
-            
+
             //MessageBox.Show("Все доступные схемы прочитаны и добавлены в ComboBox");
         }
 

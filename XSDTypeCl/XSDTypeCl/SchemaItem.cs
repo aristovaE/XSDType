@@ -12,7 +12,7 @@ namespace XSDTypeCl
     public class SeSchemaItem : SeISchema
     {
         /// <summary>
-        /// 
+        /// Элемент списка SchemaItems класса SeSchema
         /// </summary>
         public string Name;
         public string Discription;
@@ -20,12 +20,12 @@ namespace XSDTypeCl
         public List<SeSchemaItem> SchemaItemsChildren;
 
         /// <summary>
-        /// 
+        /// Конструктор класса SeSchemaItem
         /// </summary>
-        /// <param name="Name"></param>
-        /// <param name="Discription"></param>
-        /// <param name="Type"></param>
-        /// <param name="SchemaItemsChildren"></param>
+        /// <param name="Name">Имя элемента</param>
+        /// <param name="Discription">Описание элемента(Annotation->Documentation)</param>
+        /// <param name="Type">Тип элемента(может быть SimpleType)</param>
+        /// <param name="SchemaItemsChildren">Список дочерних элементов</param>
         public SeSchemaItem(string Name, string Discription, string Type, List<SeSchemaItem> SchemaItemsChildren)
         {
             this.Name = Name;
@@ -42,10 +42,10 @@ namespace XSDTypeCl
         }
 
         /// <summary>
-        /// 
+        /// Запись в класс SeSchemaItem описания из Annotation в XSD
         /// </summary>
-        /// <param name="schemaElement"></param>
-        /// <returns></returns>
+        /// <param name="schemaElement">Элемент из List(SeShemaItem)</param>
+        /// <returns>Содержимое Annotation->Documentation из файла XSD (string)</returns>
         public string GetAnnotation(XmlSchemaObject schemaElement)
         {
             XmlSchemaAnnotation discriptionAnn = new XmlSchemaAnnotation();
@@ -113,6 +113,7 @@ namespace XSDTypeCl
         {
             List<SeSchemaItem> schemaTypeInCT;
             XmlSchemaElement schemaElement = null;
+            SeSchemaItem seSchemaItemTable = null;
             schemaElement = childElement as XmlSchemaElement;
             SchemaItemsChildren.Add(new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name, schemaTypeInCT = new List<SeSchemaItem>()));
 
@@ -124,18 +125,42 @@ namespace XSDTypeCl
                 {
                     foreach (XmlSchemaElement childElement2 in all.Items)
                     {
+                        //try
+                        //{
+                        //    XmlSchemaComplexType schemaType = childElement2.ElementSchemaType as XmlSchemaComplexType;
 
-                        if (childElement2.SchemaTypeName.Name.ToString() != "")
-                        {
+                        //    seSchemaItemTable = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(), schemaTypeInCT = new List<SeSchemaItem>());
 
-                            schemaTypeInCT.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString()));
-                        }
-                        else
-                        {
-                            List<SeSchemaItem> schemaTypeInST = new List<SeSchemaItem>();
-                            schemaTypeInCT.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), GetSimpleType(schemaTypeInST, childElement2), schemaTypeInST));
+                        //    XmlSchemaSequence sequence = schemaType.ContentTypeParticle as XmlSchemaSequence;
+                        //    try
+                        //    {
+                        //        foreach (XmlSchemaElement childElement3 in sequence.Items)
+                        //        {
+                        //            seSchemaItemTable.ReadXSD(childElement3);
+                        //        }
+                        //    }
+                        //    catch
+                        //    {
+                        //    }
 
-                        }
+                        //    if (seSchemaItemTable != null)
+                        //        schemaTypeInCT.Add(seSchemaItemTable);
+                        //}
+                        //catch
+                        //{
+                            if (childElement2.SchemaTypeName.Name.ToString() != "")
+                            {
+
+                                schemaTypeInCT.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString()));
+                            }
+                            else
+                            {
+                                List<SeSchemaItem> schemaTypeInST = new List<SeSchemaItem>();
+                                schemaTypeInCT.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), GetSimpleType(schemaTypeInST, childElement2), schemaTypeInST));
+
+                            }
+                        //}
+
 
                     }
 
@@ -155,9 +180,9 @@ namespace XSDTypeCl
             if (Type != "")
             {
                 if (Discription != null)
-                    newTreeNode = treeNodes.Add(Name + " (" + Discription + ") type - " + Type);
+                    newTreeNode = treeNodes.Add(Name + " (" + Discription + ") - " + Type);
                 else
-                    newTreeNode = treeNodes.Add(Name + " type - " + Type);
+                    newTreeNode = treeNodes.Add(Name + " - " + Type);
             }
             else
                 newTreeNode = treeNodes.Add(Name + " (" + Discription + ")");
@@ -184,13 +209,14 @@ namespace XSDTypeCl
             newSchemaType.Particle = newAll;
             foreach (SeSchemaItem ssi in SchemaItemsChildren)
             {
-                XmlSchemaAnnotation discriptionAnn = new XmlSchemaAnnotation();
+                
                 XmlSchemaElement newElement = new XmlSchemaElement();
                 newElement.Name = ssi.Name;
                
 
                 if (ssi.Discription != null)
                 {
+                    XmlSchemaAnnotation discriptionAnn = new XmlSchemaAnnotation();
                     newElement.Annotation = SetAnnotation(ssi, discriptionAnn);
                 }
                 if (ssi.SchemaItemsChildren != null)
@@ -222,7 +248,7 @@ namespace XSDTypeCl
                         }
                     }
                 }
-                newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
+               else newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
                 newAll.Items.Add(newElement);
             }
 
