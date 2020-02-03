@@ -29,8 +29,8 @@ namespace XSDTypeCl
             XmlSchemas schemas = null;
             ValidationEventHandler ValidationErrorHandler = null;
 
-          DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\"));
-          // DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\new\")); //для проверки новых схем
+            DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\"));
+            // DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\new\")); //для проверки новых схем
 
 
             treeView1.Nodes.Clear();
@@ -66,7 +66,7 @@ namespace XSDTypeCl
             if (seSchema != null)
                 seSchema.ClassToTreeView(treeView1.Nodes);
 
-           // treeView1.Nodes[0].ExpandAll();
+            // treeView1.Nodes[0].ExpandAll();
 
 
         }
@@ -103,7 +103,7 @@ namespace XSDTypeCl
 
         }
 
-       
+
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
@@ -127,8 +127,8 @@ namespace XSDTypeCl
                 fs.Close();
             }
             //создание новой схемы
-            
-            
+
+
 
         }
     }

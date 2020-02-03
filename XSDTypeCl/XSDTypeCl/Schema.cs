@@ -17,9 +17,9 @@ namespace XSDTypeCl
         /// Класс SeSchema 
         /// </summary>
         public string Name { get; set; }
-        
+
         public List<SeSchemaItem> schemaItems;
-        
+
         public SeSchema(XmlSchema schema)
         {
             schemaItems = new List<SeSchemaItem>();
@@ -63,7 +63,7 @@ namespace XSDTypeCl
             }
             return null;
         }
-        
+
         public void ReadXSD(XmlSchemaObject sChemaItem)
         {
             XmlSchemaElement schemaElement = null;
@@ -111,7 +111,6 @@ namespace XSDTypeCl
 
             if (seSchemaItemTable != null)
                 schemaItems.Add(seSchemaItemTable);
-
         }
 
         public void ClassToTreeView(TreeNodeCollection treeNodes)
@@ -121,10 +120,6 @@ namespace XSDTypeCl
             {
                 schemaItem.ClassToTreeView(newTreeNode.Nodes);
             }
-            
-            
-
-
         }
 
         public void SaveXSD(XmlSchema xs1)
@@ -135,60 +130,58 @@ namespace XSDTypeCl
             foreach (SeSchemaItem newschemaItem in schemaItems)
             {
                 XmlSchemaElement newElement = new XmlSchemaElement();
-                
+
                 XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
-               
+
                 if (newschemaItem.Type != "")
                 {
-                    XmlSchemaAnnotation discriptionAnn = new XmlSchemaAnnotation();
+                   
                     newElement.Name = newschemaItem.Name;
                     newElement.SchemaTypeName = new XmlQualifiedName(newschemaItem.Type);
-                    newElement.Annotation = SetAnnotation(newschemaItem,discriptionAnn);
+                    newElement.Annotation = SetAnnotation(newschemaItem);
                     xs1.Items.Add(newElement);
 
                 }
                 else
                 {
-                    XmlSchemaAnnotation discriptionAnn = new XmlSchemaAnnotation();
                     newSchemaType.Name = newschemaItem.Name;
 
-                    XmlSchemaSequence newSeq= new XmlSchemaSequence();
+                    XmlSchemaSequence newSeq = new XmlSchemaSequence();
                     newSchemaType.Particle = newSeq;
                     XmlSchemaElement newElement1 = new XmlSchemaElement();
-                  
-                    newSchemaType.Annotation = SetAnnotation(newschemaItem, discriptionAnn);
+
+                    newSchemaType.Annotation = SetAnnotation(newschemaItem);
                     if (newschemaItem.SchemaItemsChildren[0].Discription != null)
                     {
-                        XmlSchemaAnnotation discriptionAnnEl = new XmlSchemaAnnotation();
-                        newElement1.Annotation = SetAnnotation(newschemaItem.SchemaItemsChildren[0], discriptionAnnEl);
+                        newElement1.Annotation = SetAnnotation(newschemaItem.SchemaItemsChildren[0]);
                     }
+
                     foreach (SeSchemaItem seqItem in newschemaItem.SchemaItemsChildren)
                     {
-                       
+
                         newElement1.Name = seqItem.Name;
                         newSeq.Items.Add(newElement1);
-                       
+
                         seqItem.SaveXSD(newElement1, xs1);
                     }
                     xs1.Items.Add(newSchemaType);
-
-
                 }
             }
         }
         public static XmlNode[] TextToNodeArray(string text)
         {
             XmlDocument doc = new XmlDocument();
-            return new XmlNode[1] {doc.CreateTextNode(text)};
+            return new XmlNode[1] { doc.CreateTextNode(text) };
         }
 
-        public XmlSchemaAnnotation SetAnnotation(SeSchemaItem newschemaItem, XmlSchemaAnnotation discriptionAnn)
+        public XmlSchemaAnnotation SetAnnotation(SeSchemaItem newschemaItem)
         {
+            XmlSchemaAnnotation discriptionAnn = new XmlSchemaAnnotation();
             XmlSchemaDocumentation discriptionDoc = new XmlSchemaDocumentation();
             discriptionAnn.Items.Add(discriptionDoc);
             discriptionDoc.Markup = TextToNodeArray(newschemaItem.Discription);
             return discriptionAnn;
-           
+
         }
     }
 

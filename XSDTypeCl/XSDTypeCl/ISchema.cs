@@ -13,7 +13,7 @@ namespace XSDTypeCl
         void ReadXSD(XmlSchemaObject SchemaElement);
         string GetAnnotation(XmlSchemaObject SchemaElement);
         void ClassToTreeView(TreeNodeCollection treeNodes);
-        XmlSchemaAnnotation SetAnnotation(SeSchemaItem newschemaItem, XmlSchemaAnnotation discriptionAnn);
+        XmlSchemaAnnotation SetAnnotation(SeSchemaItem newschemaItem);
 
 
     }

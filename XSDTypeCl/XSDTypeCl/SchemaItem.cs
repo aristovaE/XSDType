@@ -20,7 +20,7 @@ namespace XSDTypeCl
         public List<SeSchemaItem> SchemaItemsChildren;
 
         /// <summary>
-        /// Конструктор класса SeSchemaItem
+        /// Конструкторы класса SeSchemaItem
         /// </summary>
         /// <param name="Name">Имя элемента</param>
         /// <param name="Discription">Описание элемента(Annotation->Documentation)</param>
@@ -49,7 +49,7 @@ namespace XSDTypeCl
         public string GetAnnotation(XmlSchemaObject schemaElement)
         {
             XmlSchemaAnnotation discriptionAnn = new XmlSchemaAnnotation();
-
+            //прикрепление XmlSchemaAnnotation к текущему объекту
             if (schemaElement is XmlSchemaElement)
             {
                 XmlSchemaElement schemaElementAnn = schemaElement as XmlSchemaElement;
@@ -60,9 +60,7 @@ namespace XSDTypeCl
                 XmlSchemaComplexType schemaElementAnn = schemaElement as XmlSchemaComplexType;
                 discriptionAnn = schemaElementAnn.Annotation;
             }
-
-
-
+            //Чтение содержимого Annotation 
             XmlSchemaDocumentation discriptionDoc = new XmlSchemaDocumentation();
             if (discriptionAnn != null)
             {
@@ -77,11 +75,22 @@ namespace XSDTypeCl
             return null;
         }
 
-        public void GetFacet(List<SeSchemaItem> schemaTypeInST, XmlSchemaFacet facet, XmlSchemaElement childElement)
+        /// <summary>
+        /// Добавление ограничения элемента XSD в список класса SeSchemaItem
+        /// </summary>
+        /// <param name="schemaTypeInST">Список, куда добавится facet</param>
+        /// <param name="facet">Ограничение</param>
+        public void GetFacet(List<SeSchemaItem> schemaTypeInST, XmlSchemaFacet facet)
         {
             schemaTypeInST.Add(new SeSchemaItem("SimpleType", facet.ToString().Split('.')[3], facet.Value));
 
         }
+        /// <summary>
+        /// Считывание SimpleType из XSD
+        /// </summary>
+        /// <param name="schemaTypeInST">Список facetов внутри SimpleType</param>
+        /// <param name="childElement">Читаемый element</param>
+        /// <returns>Тип считываемого элемента</returns>
         public string GetSimpleType(List<SeSchemaItem> schemaTypeInST, XmlSchemaElement childElement)
         {
             string type;
@@ -100,7 +109,7 @@ namespace XSDTypeCl
 
                         foreach (var facet in enumFacets)
                         {
-                            GetFacet(schemaTypeInST, facet, childElement);
+                            GetFacet(schemaTypeInST, facet);
                         }
                     }
                     return type;
@@ -109,6 +118,11 @@ namespace XSDTypeCl
             }
             return null;
         }
+
+        /// <summary>
+        /// Запись в класс SeSchemaItem из файла XSD
+        /// </summary>
+        /// <param name="childElement">Считанный элемент из XSD</param>
         public void ReadXSD(XmlSchemaObject childElement)
         {
             List<SeSchemaItem> schemaTypeInCT;
@@ -160,24 +174,20 @@ namespace XSDTypeCl
 
                             }
                         }
-                        
-
-
                     }
-
                 }
-
             }
-
         }
-        //public TreeNode FindNode()
-        //{
 
-        //}
+        /// <summary>
+        /// Запись из класса в treeView
+        /// </summary>
+        /// <param name="treeNodes">Текущая ветка</param>
         public void ClassToTreeView(TreeNodeCollection treeNodes)
         {
-
             TreeNode newTreeNode;
+
+            //вывод
             if (Type != "")
             {
                 if (Discription != null)
@@ -188,8 +198,7 @@ namespace XSDTypeCl
             else
                 newTreeNode = treeNodes.Add(Name + " (" + Discription + ")");
 
-            
-
+            //рекурсия (в случае, если у текущего элемента есть дочерние)
             if (SchemaItemsChildren != null)
             {
                 foreach (SeSchemaItem schemaElement in SchemaItemsChildren)
@@ -201,24 +210,24 @@ namespace XSDTypeCl
         }
 
 
+        /// <summary>
+        /// Запись в новый XSD файл содержимого класса
+        /// </summary>
+        /// <param name="newElement1">Новый элемент в схеме</param>
+        /// <param name="xs1">Новый экземпляр схемы</param>
         public void SaveXSD(XmlSchemaElement newElement1, XmlSchema xs1)
         {
-
             XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
             newElement1.SchemaType = newSchemaType;
             XmlSchemaAll newAll = new XmlSchemaAll();
             newSchemaType.Particle = newAll;
             foreach (SeSchemaItem ssi in SchemaItemsChildren)
             {
-                
                 XmlSchemaElement newElement = new XmlSchemaElement();
                 newElement.Name = ssi.Name;
-               
-
                 if (ssi.Discription != null)
                 {
-                    XmlSchemaAnnotation discriptionAnn = new XmlSchemaAnnotation();
-                    newElement.Annotation = SetAnnotation(ssi, discriptionAnn);
+                    newElement.Annotation = SetAnnotation(ssi);
                 }
                 if (ssi.SchemaItemsChildren != null)
                 {
@@ -230,8 +239,8 @@ namespace XSDTypeCl
                         simpleType.Content = restriction;
                         restriction.BaseTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
                         foreach (SeSchemaItem sstc in ssi.SchemaItemsChildren)
-                    {
-                        
+                        {
+
                             if (sstc.Discription == "XmlSchemaMaxLengthFacet")
                             {
                                 XmlSchemaMaxLengthFacet ml = new XmlSchemaMaxLengthFacet();
@@ -251,27 +260,35 @@ namespace XSDTypeCl
                                 ml.Value = sstc.Type;
                             }
                         }
-                        
+
                     }
                 }
-               else newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
+                else newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
                 newAll.Items.Add(newElement);
             }
 
         }
-        public static XmlNode[] TextToNodeArray(string text)
-        {
-            XmlDocument doc = new XmlDocument();
-            return new XmlNode[1] { doc.CreateTextNode(text) };
-        }
 
-        public XmlSchemaAnnotation SetAnnotation(SeSchemaItem newschemaItem, XmlSchemaAnnotation discriptionAnn)
+
+        /// <summary>
+        /// Запись Annotation в новый файл XSD
+        /// </summary>
+        /// <param name="newschemaItem">Текущий экземпляр класса SeSchemaItem</param>
+        /// <param name="discriptionAnn">Новый элемент XmlSchemaAnnotation</param>
+        /// <returns></returns>
+        public XmlSchemaAnnotation SetAnnotation(SeSchemaItem newschemaItem)
         {
+            XmlSchemaAnnotation discriptionAnn = new XmlSchemaAnnotation();
             XmlSchemaDocumentation discriptionDoc = new XmlSchemaDocumentation();
             discriptionAnn.Items.Add(discriptionDoc);
             discriptionDoc.Markup = TextToNodeArray(newschemaItem.Discription);
             return discriptionAnn;
+        }
 
+        public static XmlNode[] TextToNodeArray(string text)
+        {
+            XmlDocument doc = new XmlDocument();
+            return new XmlNode[1] { doc.CreateTextNode(text) };
         }
     }
 }
