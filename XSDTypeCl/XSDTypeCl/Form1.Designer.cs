@@ -52,7 +52,7 @@
             this.treeView1.ItemHeight = 20;
             this.treeView1.Location = new System.Drawing.Point(12, 81);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(596, 526);
+            this.treeView1.Size = new System.Drawing.Size(1146, 526);
             this.treeView1.TabIndex = 3;
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
             // 
@@ -76,14 +76,14 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(614, 81);
+            this.textBox1.Location = new System.Drawing.Point(393, 13);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(208, 20);
             this.textBox1.TabIndex = 7;
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(614, 107);
+            this.textBox2.Location = new System.Drawing.Point(393, 39);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(208, 20);
             this.textBox2.TabIndex = 8;
@@ -102,7 +102,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1370, 619);
+            this.ClientSize = new System.Drawing.Size(1170, 619);
             this.Controls.Add(this.BtnSave);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);

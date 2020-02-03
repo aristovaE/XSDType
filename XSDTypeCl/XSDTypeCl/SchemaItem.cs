@@ -112,6 +112,7 @@ namespace XSDTypeCl
         public void ReadXSD(XmlSchemaObject childElement)
         {
             List<SeSchemaItem> schemaTypeInCT;
+            List<SeSchemaItem> schemaTypeInCT2;
             XmlSchemaElement schemaElement = null;
             SeSchemaItem seSchemaItemTable = null;
             schemaElement = childElement as XmlSchemaElement;
@@ -125,32 +126,31 @@ namespace XSDTypeCl
                 {
                     foreach (XmlSchemaElement childElement2 in all.Items)
                     {
-                        //try
-                        //{
-                        //    XmlSchemaComplexType schemaType = childElement2.ElementSchemaType as XmlSchemaComplexType;
 
-                        //    seSchemaItemTable = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(), schemaTypeInCT = new List<SeSchemaItem>());
+                        if (childElement2.ElementSchemaType is System.Xml.Schema.XmlSchemaComplexType)
+                        {
+                            XmlSchemaComplexType schemaType = childElement2.ElementSchemaType as XmlSchemaComplexType;
+                            seSchemaItemTable = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(), schemaTypeInCT2 = new List<SeSchemaItem>());
 
-                        //    XmlSchemaSequence sequence = schemaType.ContentTypeParticle as XmlSchemaSequence;
-                        //    try
-                        //    {
-                        //        foreach (XmlSchemaElement childElement3 in sequence.Items)
-                        //        {
-                        //            seSchemaItemTable.ReadXSD(childElement3);
-                        //        }
-                        //    }
-                        //    catch
-                        //    {
-                        //    }
+                            XmlSchemaSequence sequence = schemaType.ContentTypeParticle as XmlSchemaSequence;
+                            try
+                            {
+                                foreach (XmlSchemaElement childElement3 in sequence.Items)
+                                {
+                                    seSchemaItemTable.ReadXSD(childElement3);
+                                }
+                            }
+                            catch
+                            {
+                            }
 
-                        //    if (seSchemaItemTable != null)
-                        //        schemaTypeInCT.Add(seSchemaItemTable);
-                        //}
-                        //catch
-                        //{
+                            if (seSchemaItemTable != null)
+                                schemaTypeInCT.Add(seSchemaItemTable);
+                        }
+                        else
+                        {
                             if (childElement2.SchemaTypeName.Name.ToString() != "")
                             {
-
                                 schemaTypeInCT.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString()));
                             }
                             else
@@ -159,7 +159,8 @@ namespace XSDTypeCl
                                 schemaTypeInCT.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), GetSimpleType(schemaTypeInST, childElement2), schemaTypeInST));
 
                             }
-                        //}
+                        }
+                        
 
 
                     }
@@ -221,31 +222,36 @@ namespace XSDTypeCl
                 }
                 if (ssi.SchemaItemsChildren != null)
                 {
-                    XmlSchemaSimpleType simpleType = new XmlSchemaSimpleType();
-                    newElement.SchemaType = simpleType;
-                    XmlSchemaSimpleTypeRestriction restriction = new XmlSchemaSimpleTypeRestriction();
-                    simpleType.Content = restriction;
-                    restriction.BaseTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
-                    foreach (SeSchemaItem sstc in ssi.SchemaItemsChildren)
+                    if (ssi.SchemaItemsChildren[0].Name == "SimpleType")
                     {
-                        if (sstc.Discription == "XmlSchemaMaxLengthFacet")
-                        {
-                            XmlSchemaMaxLengthFacet ml = new XmlSchemaMaxLengthFacet();
-                            restriction.Facets.Add(ml);
-                            ml.Value =sstc.Type;
+                        XmlSchemaSimpleType simpleType = new XmlSchemaSimpleType();
+                        newElement.SchemaType = simpleType;
+                        XmlSchemaSimpleTypeRestriction restriction = new XmlSchemaSimpleTypeRestriction();
+                        simpleType.Content = restriction;
+                        restriction.BaseTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
+                        foreach (SeSchemaItem sstc in ssi.SchemaItemsChildren)
+                    {
+                        
+                            if (sstc.Discription == "XmlSchemaMaxLengthFacet")
+                            {
+                                XmlSchemaMaxLengthFacet ml = new XmlSchemaMaxLengthFacet();
+                                restriction.Facets.Add(ml);
+                                ml.Value = sstc.Type;
+                            }
+                            if (sstc.Discription == "XmlSchemaTotalDigitsFacet")
+                            {
+                                XmlSchemaTotalDigitsFacet ml = new XmlSchemaTotalDigitsFacet();
+                                restriction.Facets.Add(ml);
+                                ml.Value = sstc.Type;
+                            }
+                            if (sstc.Discription == "XmlSchemaFractionDigitsFacet")
+                            {
+                                XmlSchemaFractionDigitsFacet ml = new XmlSchemaFractionDigitsFacet();
+                                restriction.Facets.Add(ml);
+                                ml.Value = sstc.Type;
+                            }
                         }
-                        else if (sstc.Discription == "XmlSchemaTotalDigitsFacet")
-                        {
-                            XmlSchemaTotalDigitsFacet ml = new XmlSchemaTotalDigitsFacet();
-                            restriction.Facets.Add(ml);
-                            ml.Value = sstc.Type;
-                        }
-                        else if (sstc.Discription == "XmlSchemaFractionDigitsFacet")
-                        {
-                            XmlSchemaFractionDigitsFacet ml = new XmlSchemaFractionDigitsFacet();
-                            restriction.Facets.Add(ml);
-                            ml.Value = sstc.Type;
-                        }
+                        
                     }
                 }
                else newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");

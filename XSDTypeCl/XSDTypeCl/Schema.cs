@@ -120,18 +120,6 @@ namespace XSDTypeCl
             foreach (SeSchemaItem schemaItem in schemaItems)
             {
                 schemaItem.ClassToTreeView(newTreeNode.Nodes);
-                //if (schemaItem.Type != "")
-                //{
-                //    TreeNode[] tt = (TreeNode[])treeNodes.Find(schemaItem.Type, true).Clone();
-                   
-                //    if (tt != null)
-                //    {
-                //        foreach (TreeNode tn in tt)
-                //        {
-                //            newTreeNode.Nodes.Add(tn);
-                //        }
-                //    }
-                //}
             }
             
             
