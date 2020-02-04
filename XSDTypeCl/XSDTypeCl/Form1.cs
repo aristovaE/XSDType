@@ -109,11 +109,6 @@ namespace XSDTypeCl
         {
             SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
 
-            ////чтение выбранной схемы
-            //XmlSchema xs = null;
-            //ValidationEventHandler ValidationErrorHandler = null;
-            //xs = XmlSchema.Read(new StreamReader(@"..\..\..\..\xsd\"+seSchema.Name + ".xsd"), ValidationErrorHandler);
-
             XmlSchema xs1 = new XmlSchema();
             seSchema.SaveXSD(xs1);
 

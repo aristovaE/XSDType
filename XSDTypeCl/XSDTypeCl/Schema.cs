@@ -64,6 +64,10 @@ namespace XSDTypeCl
             return null;
         }
 
+        /// <summary>
+        ///Чтение дочерних элементов класса SeSchema и запись их в класс SeSchema
+        /// </summary>
+        /// <param name="sChemaItem">Считанный корневой элемент считанного XSD</param>
         public void ReadXSD(XmlSchemaObject sChemaItem)
         {
             XmlSchemaElement schemaElement = null;
@@ -113,6 +117,10 @@ namespace XSDTypeCl
                 schemaItems.Add(seSchemaItemTable);
         }
 
+        /// <summary>
+        /// Запись из класса в treeView
+        /// </summary>
+        /// <param name="treeNodes">Ссылка на дерево</param>
         public void ClassToTreeView(TreeNodeCollection treeNodes)
         {
             TreeNode newTreeNode = treeNodes.Add(Name);
@@ -122,6 +130,10 @@ namespace XSDTypeCl
             }
         }
 
+        /// <summary>
+        /// Запись в новый XSD файл содержимого класса SeSchema
+        /// </summary>
+        /// <param name="xs1">Новый экземпляр схемы</param>
         public void SaveXSD(XmlSchema xs1)
         {
             xs1.AttributeFormDefault = XmlSchemaForm.Unqualified;
@@ -168,12 +180,13 @@ namespace XSDTypeCl
                 }
             }
         }
-        public static XmlNode[] TextToNodeArray(string text)
-        {
-            XmlDocument doc = new XmlDocument();
-            return new XmlNode[1] { doc.CreateTextNode(text) };
-        }
 
+        /// <summary>
+        /// Запись Annotation в новый файл XSD
+        /// </summary>
+        /// <param name="newschemaItem">Текущий экземпляр класса SeSchemaItem(список List(SeSchemaItem) класса SeSchema</param>
+        /// <param name="discriptionAnn">Новый элемент XmlSchemaAnnotation</param>
+        /// <returns>Измененный элемент XmlSchemaAnnotation</returns>
         public XmlSchemaAnnotation SetAnnotation(SeSchemaItem newschemaItem)
         {
             XmlSchemaAnnotation discriptionAnn = new XmlSchemaAnnotation();
@@ -181,7 +194,11 @@ namespace XSDTypeCl
             discriptionAnn.Items.Add(discriptionDoc);
             discriptionDoc.Markup = TextToNodeArray(newschemaItem.Discription);
             return discriptionAnn;
-
+        }
+        public static XmlNode[] TextToNodeArray(string text)
+        {
+            XmlDocument doc = new XmlDocument();
+            return new XmlNode[1] { doc.CreateTextNode(text) };
         }
     }
 

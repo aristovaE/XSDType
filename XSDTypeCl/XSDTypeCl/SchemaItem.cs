@@ -120,9 +120,9 @@ namespace XSDTypeCl
         }
 
         /// <summary>
-        /// Запись в класс SeSchemaItem из файла XSD
+        ///Чтение дочерних элементов класса SeSchemaIyem и запись их в класс SeSchemaIyem
         /// </summary>
-        /// <param name="childElement">Считанный элемент из XSD</param>
+        /// <param name="childElement">Считанный дочерний элемент считанного XSD</param>
         public void ReadXSD(XmlSchemaObject childElement)
         {
             List<SeSchemaItem> schemaTypeInCT;
@@ -180,6 +180,27 @@ namespace XSDTypeCl
         }
 
         /// <summary>
+        /// Переопределенный метод ToString() для корректного вывода в TreeView
+        /// </summary>
+        /// <returns>Строку, содержащую сведения о SeSchemaItem</returns>
+        public override string ToString()
+        {
+            if (Type != "" && Type != null)
+            {
+                if (Discription != "" && Discription != null)
+                    return Name + " (" + Discription + ") - " + Type;//this.tostring()
+                else
+                    return Name + " - " + Type;
+            }
+            else if (Discription != "" && Discription != null)
+                return Name + " (" + Discription + ")";
+            else
+                return Name;
+        }
+
+
+
+        /// <summary>
         /// Запись из класса в treeView
         /// </summary>
         /// <param name="treeNodes">Текущая ветка</param>
@@ -188,15 +209,15 @@ namespace XSDTypeCl
             TreeNode newTreeNode;
 
             //вывод
-            if (Type != "")
-            {
-                if (Discription != null)
-                    newTreeNode = treeNodes.Add(Name + " (" + Discription + ") - " + Type);
-                else
-                    newTreeNode = treeNodes.Add(Name + " - " + Type);
-            }
-            else
-                newTreeNode = treeNodes.Add(Name + " (" + Discription + ")");
+            //if (Type != "")
+            //{
+            //    if (Discription != null)
+            //        newTreeNode = treeNodes.Add(Name + " (" + Discription + ") - " + Type);//this.tostring()
+            //    else
+            //        newTreeNode = treeNodes.Add(Name + " - " + Type);
+            //}
+            //else
+                newTreeNode = treeNodes.Add(ToString());
 
             //рекурсия (в случае, если у текущего элемента есть дочерние)
             if (SchemaItemsChildren != null)
@@ -211,7 +232,7 @@ namespace XSDTypeCl
 
 
         /// <summary>
-        /// Запись в новый XSD файл содержимого класса
+        /// Запись в новый XSD файл содержимого класса SeSchemaItem
         /// </summary>
         /// <param name="newElement1">Новый элемент в схеме</param>
         /// <param name="xs1">Новый экземпляр схемы</param>
@@ -273,9 +294,9 @@ namespace XSDTypeCl
         /// <summary>
         /// Запись Annotation в новый файл XSD
         /// </summary>
-        /// <param name="newschemaItem">Текущий экземпляр класса SeSchemaItem</param>
+        /// <param name="newschemaItem">Текущий экземпляр класса SeSchemaItem(список List(SeSchemaItem) класса SeSchemaItem</param>
         /// <param name="discriptionAnn">Новый элемент XmlSchemaAnnotation</param>
-        /// <returns></returns>
+        /// <returns>Измененный элемент XmlSchemaAnnotation</returns>
         public XmlSchemaAnnotation SetAnnotation(SeSchemaItem newschemaItem)
         {
             XmlSchemaAnnotation discriptionAnn = new XmlSchemaAnnotation();
@@ -284,7 +305,6 @@ namespace XSDTypeCl
             discriptionDoc.Markup = TextToNodeArray(newschemaItem.Discription);
             return discriptionAnn;
         }
-
         public static XmlNode[] TextToNodeArray(string text)
         {
             XmlDocument doc = new XmlDocument();

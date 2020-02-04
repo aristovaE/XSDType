@@ -49,6 +49,7 @@
             // 
             // treeView1
             // 
+            this.treeView1.Indent = 30;
             this.treeView1.ItemHeight = 20;
             this.treeView1.Location = new System.Drawing.Point(12, 81);
             this.treeView1.Name = "treeView1";
