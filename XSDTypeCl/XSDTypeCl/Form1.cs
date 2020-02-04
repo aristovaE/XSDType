@@ -98,7 +98,7 @@ namespace XSDTypeCl
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
-            string str = e.Node.Text.Split(' ')[0];
+            string str = e.Node.Tag.ToString();
             textBox1.Text = str;
 
         }

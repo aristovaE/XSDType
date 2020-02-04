@@ -114,8 +114,10 @@ namespace XSDTypeCl
             }
 
             if (seSchemaItemTable != null)
+            {
                 schemaItems.Add(seSchemaItemTable);
-        }
+            }
+            }
 
         /// <summary>
         /// Запись из класса в treeView
@@ -127,6 +129,7 @@ namespace XSDTypeCl
             foreach (SeSchemaItem schemaItem in schemaItems)
             {
                 schemaItem.ClassToTreeView(newTreeNode.Nodes);
+             //   newTreeNode.Tag=schemaItem    .Parent;
             }
         }
 
