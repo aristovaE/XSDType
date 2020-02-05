@@ -98,10 +98,21 @@ namespace XSDTypeCl
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
-            string str = e.Node.Tag.ToString();
-            textBox1.Text = str;
+            if (e.Node.Tag != null)
+            {
+                SeSchemaItem ssi = (SeSchemaItem)e.Node.Tag;
+                textBox1.Text = ssi.Name;
+                textBox2.Text = ssi.Type;
+                textBox3.Text = ssi.Discription;
+            }
+            else
+            {
+                textBox1.Text = seSchema.Name;
+                textBox2.Clear();
+                textBox3.Clear();
+            }
 
-        }
+            }
 
 
 

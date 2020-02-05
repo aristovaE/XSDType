@@ -17,7 +17,7 @@ namespace XSDTypeCl
         public string Name;
         public string Discription;
         public string Type;
-        public SeSchemaItem Parent;
+        public SeSchemaItem Parent; //тип object для указания на SeSchema?
         public List<SeSchemaItem> SchemaItemsChildren;
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace XSDTypeCl
             this.Type = Type;
             this.SchemaItemsChildren = SchemaItemsChildren;
         }
-        public SeSchemaItem(string Name, string Discription, string Type,SeSchemaItem Parent, List<SeSchemaItem> SchemaItemsChildren)
+        public SeSchemaItem(string Name, string Discription, string Type, SeSchemaItem Parent, List<SeSchemaItem> SchemaItemsChildren)
         {
             this.Name = Name;
             this.Discription = Discription;
@@ -90,13 +90,13 @@ namespace XSDTypeCl
         }
 
         /// <summary>
-        /// Добавление ограничения элемента XSD в список класса SeSchemaItem
+        /// Добавление свойств элемента XSD в список класса SeSchemaItem
         /// </summary>
         /// <param name="schemaTypeInST">Список, куда добавится facet</param>
         /// <param name="facet">Ограничение</param>
         public void GetFacet(List<SeSchemaItem> schemaTypeInST, XmlSchemaFacet facet)
         {
-            schemaTypeInST.Add(new SeSchemaItem("SimpleType", facet.ToString().Split('.')[3], facet.Value));
+            schemaTypeInST.Add(new SeSchemaItem("SimpleType", facet.ToString().Split('.')[3], facet.Value,this));
 
         }
         /// <summary>
@@ -226,14 +226,13 @@ namespace XSDTypeCl
             TreeNode newTreeNode;
             
             newTreeNode = treeNodes.Add(ToString());
+            newTreeNode.Tag = this;
             //рекурсия (в случае, если у текущего элемента есть дочерние)
             if (SchemaItemsChildren != null)
             {
                 foreach (SeSchemaItem schemaElement in SchemaItemsChildren)
                 {
-                  
                     schemaElement.ClassToTreeView(newTreeNode.Nodes);
-                
                 }
             }
 
