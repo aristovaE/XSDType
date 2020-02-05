@@ -14,11 +14,11 @@ namespace XSDTypeCl
         /// <summary>
         /// Элемент списка SchemaItems класса SeSchema
         /// </summary>
-        public string Name;
-        public string Discription;
-        public string Type;
-        public SeSchemaItem Parent; //тип object для указания на SeSchema?
-        public List<SeSchemaItem> SchemaItemsChildren;
+        public string Name { get; set; }
+        public string Discription { get; set; }
+        public string Type { get; set; }
+        public SeSchemaItem Parent { get; set; } //тип object для указания на SeSchema?
+        public List<SeSchemaItem> SchemaItemsChildren { get; set; }
 
         /// <summary>
         /// Конструкторы класса SeSchemaItem

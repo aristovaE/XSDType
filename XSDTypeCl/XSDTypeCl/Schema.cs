@@ -18,7 +18,7 @@ namespace XSDTypeCl
         /// </summary>
         public string Name { get; set; }
 
-        public List<SeSchemaItem> schemaItems;
+        public List<SeSchemaItem> schemaItems { get; set; }
 
         public SeSchema(XmlSchema schema)
         {
@@ -117,7 +117,7 @@ namespace XSDTypeCl
             {
                 schemaItems.Add(seSchemaItemTable);
             }
-            }
+        }
 
         /// <summary>
         /// Запись из класса в treeView
@@ -129,7 +129,7 @@ namespace XSDTypeCl
             foreach (SeSchemaItem schemaItem in schemaItems)
             {
                 schemaItem.ClassToTreeView(newTreeNode.Nodes);
-             //   newTreeNode.Tag=schemaItem    .Parent;
+
             }
         }
 
@@ -150,12 +150,11 @@ namespace XSDTypeCl
 
                 if (newschemaItem.Type != "")
                 {
-                   
                     newElement.Name = newschemaItem.Name;
                     newElement.SchemaTypeName = new XmlQualifiedName(newschemaItem.Type);
+                   
                     newElement.Annotation = SetAnnotation(newschemaItem);
                     xs1.Items.Add(newElement);
-
                 }
                 else
                 {

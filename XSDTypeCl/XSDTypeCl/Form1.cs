@@ -101,18 +101,28 @@ namespace XSDTypeCl
             if (e.Node.Tag != null)
             {
                 SeSchemaItem ssi = (SeSchemaItem)e.Node.Tag;
-                textBox1.Text = ssi.Name;
-                textBox2.Text = ssi.Type;
-                textBox3.Text = ssi.Discription;
+
+                textBox1.DataBindings.Clear();
+                textBox2.DataBindings.Clear();
+                textBox3.DataBindings.Clear();
+                textBox4.DataBindings.Clear();
+
+                textBox1.DataBindings.Add(new Binding("Text", ssi, "Name", true));
+                textBox2.DataBindings.Add(new Binding("Text", ssi, "Type", true));
+                textBox3.DataBindings.Add(new Binding("Text", ssi, "Discription", true));
+               if(ssi.Parent!=null)
+                    textBox4.DataBindings.Add(new Binding("Text", ssi, "Parent.Name", true));
+
             }
             else
             {
                 textBox1.Text = seSchema.Name;
                 textBox2.Clear();
                 textBox3.Clear();
+                textBox4.Clear();
             }
-
-            }
+            
+        }
 
 
 
@@ -122,7 +132,11 @@ namespace XSDTypeCl
 
             XmlSchema xs1 = new XmlSchema();
             seSchema.SaveXSD(xs1);
-
+            XmlSchemaSet xss = new XmlSchemaSet();
+            ValidationEventHandler ValidationErrorHandler = null;
+            xss.ValidationEventHandler += ValidationErrorHandler;
+            xss.Add(xs1);
+            xss.Compile();
             using (FileStream fs = new FileStream(@"..\..\..\..\xsd\new\" + seSchema.Name + "NEW.xsd", FileMode.Create, FileAccess.ReadWrite))
             {
                 using (XmlTextWriter tw = new XmlTextWriter(fs, new UTF8Encoding()))
@@ -136,6 +150,14 @@ namespace XSDTypeCl
 
 
 
+        }
+
+        private void Btn_SaveChanges_Click(object sender, EventArgs e)
+        {
+            SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
+
+            treeView1.Nodes.Clear();
+            seSchema.ClassToTreeView(treeView1.Nodes);
         }
     }
 }
