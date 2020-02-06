@@ -51,11 +51,9 @@ namespace XSDTypeCl
                     // MessageBox.Show("Schema " + fi.Name + " read successfully ");
 
                 }
+                xss.Compile();
             }
             catch { }
-            xss.Compile();
-            
-            
             return xss;
         }
 
@@ -131,9 +129,13 @@ namespace XSDTypeCl
         private void BtnSave_Click(object sender, EventArgs e)
         {
             SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
-
+            int i = 0;
             XmlSchema xs1 = seSchema.Schema;
-            //seSchema.SaveXSD(xs1);
+            foreach (XmlSchemaObject xso in xs1.Items)
+            {
+                seSchema.SaveNewXSD(i, xso);
+                i++;
+            }
            
             using (FileStream fs = new FileStream(@"..\..\..\..\xsd\new\" + seSchema.Name + "NEW.xsd", FileMode.Create, FileAccess.ReadWrite))
             {

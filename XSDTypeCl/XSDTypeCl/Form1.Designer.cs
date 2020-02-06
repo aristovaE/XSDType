@@ -74,7 +74,7 @@
             // 
             // BtnToTV
             // 
-            this.BtnToTV.Location = new System.Drawing.Point(182, 9);
+            this.BtnToTV.Location = new System.Drawing.Point(182, 10);
             this.BtnToTV.Name = "BtnToTV";
             this.BtnToTV.Size = new System.Drawing.Size(164, 21);
             this.BtnToTV.TabIndex = 6;
@@ -86,14 +86,14 @@
             // 
             this.textBox1.Location = new System.Drawing.Point(447, 10);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(149, 20);
+            this.textBox1.Size = new System.Drawing.Size(290, 20);
             this.textBox1.TabIndex = 7;
             // 
             // textBox2
             // 
             this.textBox2.Location = new System.Drawing.Point(447, 36);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(149, 20);
+            this.textBox2.Size = new System.Drawing.Size(290, 20);
             this.textBox2.TabIndex = 8;
             // 
             // BtnSave
@@ -102,7 +102,7 @@
             this.BtnSave.Name = "BtnSave";
             this.BtnSave.Size = new System.Drawing.Size(164, 38);
             this.BtnSave.TabIndex = 10;
-            this.BtnSave.Text = "Save";
+            this.BtnSave.Text = "Save schema";
             this.BtnSave.UseVisualStyleBackColor = true;
             this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
@@ -110,7 +110,7 @@
             // 
             this.textBox3.Location = new System.Drawing.Point(447, 62);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(149, 20);
+            this.textBox3.Size = new System.Drawing.Size(290, 20);
             this.textBox3.TabIndex = 11;
             // 
             // label1
@@ -142,18 +142,18 @@
             // 
             // Btn_SaveChanges
             // 
-            this.Btn_SaveChanges.Location = new System.Drawing.Point(906, 36);
+            this.Btn_SaveChanges.Location = new System.Drawing.Point(793, 44);
             this.Btn_SaveChanges.Name = "Btn_SaveChanges";
-            this.Btn_SaveChanges.Size = new System.Drawing.Size(134, 20);
+            this.Btn_SaveChanges.Size = new System.Drawing.Size(365, 38);
             this.Btn_SaveChanges.TabIndex = 16;
-            this.Btn_SaveChanges.Text = "Save Changes";
+            this.Btn_SaveChanges.Text = "Save Class";
             this.Btn_SaveChanges.UseVisualStyleBackColor = true;
             this.Btn_SaveChanges.Click += new System.EventHandler(this.Btn_SaveChanges_Click);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(607, 39);
+            this.label4.Location = new System.Drawing.Point(790, 14);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(72, 13);
             this.label4.TabIndex = 18;
@@ -161,9 +161,9 @@
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(685, 36);
+            this.textBox4.Location = new System.Drawing.Point(868, 11);
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(149, 20);
+            this.textBox4.Size = new System.Drawing.Size(290, 20);
             this.textBox4.TabIndex = 17;
             // 
             // Form1
