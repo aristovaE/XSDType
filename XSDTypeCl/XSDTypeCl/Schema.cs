@@ -199,12 +199,14 @@ namespace XSDTypeCl
 
             if (xso is XmlSchemaElement)
             {
+              
                 schemaElement = xso as XmlSchemaElement;
                 if (schemaItems[i].Name != schemaElement.Name)
                     schemaElement.Name= schemaItems[i].Name;
 
 
-               
+                seSchemaItemTable = schemaItems[i];
+
                 schemaType = schemaElement.ElementSchemaType as XmlSchemaComplexType;
 
                 if (schemaType != null)
@@ -228,6 +230,7 @@ namespace XSDTypeCl
                
             }
 
+           
         }
         /// <summary>
         /// Запись Annotation в новый файл XSD

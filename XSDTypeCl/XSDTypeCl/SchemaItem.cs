@@ -300,11 +300,11 @@ namespace XSDTypeCl
 
         public void SaveNewXSD(int i,XmlSchemaElement childElement)
         {
-         
             XmlSchemaElement schemaElement = null;
             schemaElement = childElement as XmlSchemaElement;
-
-            XmlSchemaComplexType complexType = schemaElement.ElementSchemaType as XmlSchemaComplexType;
+            if (SchemaItemsChildren[i].Name != childElement.Name)
+                childElement.Name = SchemaItemsChildren[i].Name;
+          XmlSchemaComplexType complexType = schemaElement.ElementSchemaType as XmlSchemaComplexType;
             if (complexType != null)
             {
                 XmlSchemaAll all = complexType.Particle as XmlSchemaAll; // <xsd:all>
@@ -315,9 +315,10 @@ namespace XSDTypeCl
 
                         if (childElement2.ElementSchemaType is XmlSchemaComplexType)
                         {
-                           
                         }
-                        
+                        else
+                        {
+                        }
                     }
                 }
             }
