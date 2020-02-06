@@ -30,7 +30,7 @@ namespace XSDTypeCl
             ValidationEventHandler ValidationErrorHandler = null;
 
             DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\"));
-            // DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\new\")); //для проверки новых схем
+            //DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\new\")); //для проверки новых схем
 
 
             treeView1.Nodes.Clear();
@@ -51,9 +51,11 @@ namespace XSDTypeCl
                     // MessageBox.Show("Schema " + fi.Name + " read successfully ");
 
                 }
-                xss.Compile();
             }
             catch { }
+            xss.Compile();
+            
+            
             return xss;
         }
 
@@ -130,13 +132,9 @@ namespace XSDTypeCl
         {
             SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
 
-            XmlSchema xs1 = new XmlSchema();
-            seSchema.SaveXSD(xs1);
-            XmlSchemaSet xss = new XmlSchemaSet();
-            ValidationEventHandler ValidationErrorHandler = null;
-            xss.ValidationEventHandler += ValidationErrorHandler;
-            xss.Add(xs1);
-            xss.Compile();
+            XmlSchema xs1 = seSchema.Schema;
+            //seSchema.SaveXSD(xs1);
+           
             using (FileStream fs = new FileStream(@"..\..\..\..\xsd\new\" + seSchema.Name + "NEW.xsd", FileMode.Create, FileAccess.ReadWrite))
             {
                 using (XmlTextWriter tw = new XmlTextWriter(fs, new UTF8Encoding()))
@@ -146,10 +144,6 @@ namespace XSDTypeCl
                 }
                 fs.Close();
             }
-            //создание новой схемы
-
-
-
         }
 
         private void Btn_SaveChanges_Click(object sender, EventArgs e)

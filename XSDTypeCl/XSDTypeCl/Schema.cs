@@ -18,12 +18,14 @@ namespace XSDTypeCl
         /// </summary>
         public string Name { get; set; }
 
-        public List<SeSchemaItem> schemaItems { get; set; }
+        public List<SeSchemaItem> schemaItems{ get; set; }
 
+        public XmlSchema Schema { get; set; }
         public SeSchema(XmlSchema schema)
         {
+            Schema = schema;
             schemaItems = new List<SeSchemaItem>();
-            foreach (var sChemaItem in schema.Items)
+            foreach (var sChemaItem in Schema.Items)
             {
                 ReadXSD(sChemaItem);
             }
@@ -80,19 +82,24 @@ namespace XSDTypeCl
                 schemaElement = sChemaItem as XmlSchemaElement;
                 Name = schemaElement.Name;
 
-                schemaType = schemaElement.ElementSchemaType as XmlSchemaComplexType;
+               
                 seSchemaItemTable = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name, schemaTypeInCT = new List<SeSchemaItem>());
 
-                XmlSchemaSequence sequence = schemaType.ContentTypeParticle as XmlSchemaSequence;
-                try
+                schemaType = schemaElement.ElementSchemaType as XmlSchemaComplexType;
+
+                if (schemaType != null)
                 {
-                    foreach (XmlSchemaElement childElement in sequence.Items)
+                    XmlSchemaSequence sequence = schemaType.Particle as XmlSchemaSequence;
+                    try
                     {
-                        seSchemaItemTable.ReadXSD(childElement);
+                        foreach (XmlSchemaElement childElement in sequence.Items)
+                        {
+                            seSchemaItemTable.ReadXSD(childElement);
+                        }
                     }
+                    catch
+                    { }
                 }
-                catch
-                { }
             }
             else if (sChemaItem is XmlSchemaComplexType)
             {
@@ -182,7 +189,7 @@ namespace XSDTypeCl
                 }
             }
         }
-
+        
         /// <summary>
         /// Запись Annotation в новый файл XSD
         /// </summary>
