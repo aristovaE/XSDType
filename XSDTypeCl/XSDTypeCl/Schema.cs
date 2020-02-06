@@ -81,7 +81,7 @@ namespace XSDTypeCl
                 List<SeSchemaItem> schemaTypeInCT;
                 schemaElement = sChemaItem as XmlSchemaElement;
                 Name = schemaElement.Name;
-
+                
                
                 seSchemaItemTable = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name, schemaTypeInCT = new List<SeSchemaItem>());
 
@@ -133,6 +133,7 @@ namespace XSDTypeCl
         public void ClassToTreeView(TreeNodeCollection treeNodes)
         {
             TreeNode newTreeNode = treeNodes.Add(Name);
+            
             foreach (SeSchemaItem schemaItem in schemaItems)
             {
                 schemaItem.ClassToTreeView(newTreeNode.Nodes);
@@ -189,7 +190,45 @@ namespace XSDTypeCl
                 }
             }
         }
-        
+
+        public void SaveNewXSD(int i,XmlSchemaObject xso)
+        {
+            XmlSchemaElement schemaElement = null;
+            XmlSchemaComplexType schemaType = null;
+            SeSchemaItem seSchemaItemTable = null;
+
+            if (xso is XmlSchemaElement)
+            {
+                schemaElement = xso as XmlSchemaElement;
+                if (schemaItems[i].Name != schemaElement.Name)
+                    schemaElement.Name= schemaItems[i].Name;
+
+
+               
+                schemaType = schemaElement.ElementSchemaType as XmlSchemaComplexType;
+
+                if (schemaType != null)
+                {
+                    XmlSchemaSequence sequence = schemaType.Particle as XmlSchemaSequence;
+                    try
+                    {
+                        int ii = 0;
+                        foreach (XmlSchemaElement childElement in sequence.Items)
+                        {
+                            seSchemaItemTable.SaveNewXSD(ii,childElement);
+                            ii++;
+                        }
+                    }
+                    catch
+                    { }
+                }
+            }
+            else if (xso is XmlSchemaComplexType)
+            {
+               
+            }
+
+        }
         /// <summary>
         /// Запись Annotation в новый файл XSD
         /// </summary>

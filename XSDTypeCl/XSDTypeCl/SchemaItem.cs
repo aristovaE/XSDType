@@ -199,7 +199,7 @@ namespace XSDTypeCl
         /// <summary>
         /// Переопределенный метод ToString() для корректного вывода в TreeView
         /// </summary>
-        /// <returns>Строку, содержащую сведения о SeSchemaItem</returns>
+        /// <returns>Строка, содержащую сведения о SeSchemaItem</returns>
         public override string ToString()
         {
             if (Type != "" && Type != null)
@@ -254,7 +254,7 @@ namespace XSDTypeCl
             {
                 XmlSchemaElement newElement = new XmlSchemaElement();
                 newElement.Name = ssi.Name;
-                if (ssi.Discription != null)
+                if (ssi.Discription != null && ssi.Discription!="")
                 {
                     newElement.Annotation = SetAnnotation(ssi);
                 }
@@ -298,7 +298,31 @@ namespace XSDTypeCl
 
         }
 
+        public void SaveNewXSD(int i,XmlSchemaElement childElement)
+        {
+         
+            XmlSchemaElement schemaElement = null;
+            schemaElement = childElement as XmlSchemaElement;
 
+            XmlSchemaComplexType complexType = schemaElement.ElementSchemaType as XmlSchemaComplexType;
+            if (complexType != null)
+            {
+                XmlSchemaAll all = complexType.Particle as XmlSchemaAll; // <xsd:all>
+                if (all != null)
+                {
+                    foreach (XmlSchemaElement childElement2 in all.Items)
+                    {
+
+                        if (childElement2.ElementSchemaType is XmlSchemaComplexType)
+                        {
+                           
+                        }
+                        
+                    }
+                }
+            }
+
+        }
         /// <summary>
         /// Запись Annotation в новый файл XSD
         /// </summary>
