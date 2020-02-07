@@ -26,7 +26,9 @@ namespace XSDTypeCl
         /// </summary>
         /// <param name="Name">Имя элемента</param>
         /// <param name="Discription">Описание элемента(Annotation->Documentation)</param>
-        /// <param name="Type">Тип элемента(может быть SimpleType)</param>
+        /// <param name="Type">Тип элемента(может быть SimpleType)</param>  
+        /// <param name="Parent">Родитель класса</param>  
+        /// <param name="HasComplexType">Имеет или не имеет ComplexType (Для корректного сохранения)</param>
         /// <param name="SchemaItemsChildren">Список дочерних элементов</param>
         public SeSchemaItem(string Name, string Discription, string Type, List<SeSchemaItem> SchemaItemsChildren)
         {
@@ -44,21 +46,21 @@ namespace XSDTypeCl
             HasComplexType = false;
             this.SchemaItemsChildren = SchemaItemsChildren;
         }
-        public SeSchemaItem(string Name, string Discription, string Type, SeSchemaItem Parent, bool IsComplexType, List<SeSchemaItem> SchemaItemsChildren)
+        public SeSchemaItem(string Name, string Discription, string Type, SeSchemaItem Parent, bool HasComplexType, List<SeSchemaItem> SchemaItemsChildren)
         {
             this.Name = Name;
             this.Discription = Discription;
             this.Type = Type;
             this.Parent = Parent;
-            this.HasComplexType = IsComplexType;
+            this.HasComplexType = HasComplexType;
             this.SchemaItemsChildren = SchemaItemsChildren;
         }
-        public SeSchemaItem(string Name, string Discription, string Type, bool IsComplexType, List<SeSchemaItem> SchemaItemsChildren)
+        public SeSchemaItem(string Name, string Discription, string Type, bool HasComplexType, List<SeSchemaItem> SchemaItemsChildren)
         {
             this.Name = Name;
             this.Discription = Discription;
             this.Type = Type;
-            this.HasComplexType = IsComplexType;
+            this.HasComplexType = HasComplexType;
             this.SchemaItemsChildren = SchemaItemsChildren;
         }
         public SeSchemaItem(string Name, string Discription, string Type, SeSchemaItem Parent)
@@ -67,12 +69,6 @@ namespace XSDTypeCl
             this.Discription = Discription;
             this.Type = Type;
             this.Parent = Parent;
-        }
-        public SeSchemaItem(string Name, string Discription, string Type)
-        {
-            this.Name = Name;
-            this.Discription = Discription;
-            this.Type = Type;
         }
         /// <summary>
         /// Запись в класс SeSchemaItem описания из Annotation в XSD
@@ -256,25 +252,34 @@ namespace XSDTypeCl
                 }
             }
 
-            foreach (TreeNode eachTnn in newTreeNode.Nodes)
-            {
-                foreach (TreeNode eachTn in newTreeNode.Nodes)
-                {
-                    SeSchemaItem newSsi = (SeSchemaItem)eachTnn.Tag;
-                    SeSchemaItem eachSsi = (SeSchemaItem)eachTn.Tag;
-                    if (newSsi != null)
-                    {
-                        if (newSsi.Type == eachSsi.Name)
-                        {
-                            //Insert the cloned node as the first root node.
-                            TreeNode clonedNode = (TreeNode)eachTn.Clone();
-                            eachTnn.Nodes.Insert(0, clonedNode);
-                            break;
-                        }
+            //if (SchemaItemsChildren != null)//обход не всех веток
+            //{
+            //    foreach (TreeNode eachTnn in newTreeNode.TreeView.Nodes[0].Nodes)
+            //    {
+            //        if (newTreeNode.Nodes.Count!=0)
+            //        foreach (TreeNode eachTn in newTreeNode.Nodes[0].Nodes)
+            //        {
+            //            SeSchemaItem newSsi = (SeSchemaItem)eachTnn.Tag;
+            //            SeSchemaItem eachSsi = (SeSchemaItem)eachTn.Tag;
+            //            if (eachSsi != null)
+            //            {
+            //                if (newSsi.HasComplexType == false && eachSsi.HasComplexType == true)
+            //                {
+            //                    if (eachSsi.Type == newSsi.Name)
+            //                    {
+            //                        //Insert the cloned node as the first root node.
+            //                        TreeNode clonedNode = (TreeNode)eachTnn.Clone();
+            //                            eachTn.Nodes.Insert(0, clonedNode);
+            //                            break;
+            //                    }
 
-                    }
-                }
-            }
+
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+            
 
         }
 
@@ -334,8 +339,8 @@ namespace XSDTypeCl
                 }
                 else
                     if (ssi.HasComplexType == false)
-                    newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
-                else newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type);
+                    newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema"); //<element ... type="xsd:...">
+                else newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type);                                    //<element ... type="...">
                 newAll.Items.Add(newElement);
             }
 

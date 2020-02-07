@@ -142,7 +142,7 @@ namespace XSDTypeCl
             ValidationEventHandler ValidationErrorHandler = null;
             xss.ValidationEventHandler += ValidationErrorHandler;
             xss.XmlResolver = new XmlUrlResolver();
-            DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\"));
+            DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\new\")); //?? работает и при "...\xsd\"
             xss.Add(xs1);
             try
             {
@@ -154,7 +154,8 @@ namespace XSDTypeCl
                     }
 
                 }
-                xss.Compile();
+                //для записи в readonly ElementSchemaType 
+                xss.Compile();  
             }
             catch { }
             using (FileStream fs = new FileStream(@"..\..\..\..\xsd\new\" + seSchema.Name + "NEW.xsd", FileMode.Create, FileAccess.ReadWrite))
