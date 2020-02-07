@@ -63,8 +63,8 @@ namespace XSDTypeCl
             SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
             treeView1.Nodes.Clear();
 
-            if (seSchema != null)
-                seSchema.ClassToTreeView(treeView1.Nodes);
+          //  if (seSchema != null)
+               // seSchema.ClassToTreeView(treeView1.Nodes);
 
             // treeView1.Nodes[0].ExpandAll();
 
@@ -76,16 +76,16 @@ namespace XSDTypeCl
             XmlSchemaSet xss = ReadXSD();
             SeSchema seSchema;
             List<SeSchema> seSchemaList = null;
+            int i = 0;
             foreach (XmlSchema schema in xss.Schemas())
             {
                 seSchema = new SeSchema(schema);
                 seSchemaList = seSchemaList ?? new List<SeSchema>();
                 seSchemaList.Add(seSchema);
-
-                seSchema.ClassToTreeView(treeView1.Nodes);
-
+                seSchema.ClassToTreeView(i,treeView1.Nodes);
+                
             }
-
+           
             var bindingSource1 = new BindingSource();
             bindingSource1.DataSource = seSchemaList;
             comboBox1.DataSource = bindingSource1.DataSource;
@@ -130,13 +130,33 @@ namespace XSDTypeCl
         {
             SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
             int i = 0;
-            XmlSchema xs1 = seSchema.Schema;
-            foreach (XmlSchemaObject xso in xs1.Items)
+       //     XmlSchema xs1 = seSchema.Schema;
+            //foreach (XmlSchemaObject xso in xs1.Items)
+            //{
+            //    seSchema.SaveNewXSD(i, xso);
+            //    i++;
+            //}
+            XmlSchema xs1=new XmlSchema();
+            seSchema.SaveXSD(xs1);
+            XmlSchemaSet xss = new XmlSchemaSet();
+            ValidationEventHandler ValidationErrorHandler = null;
+            xss.ValidationEventHandler += ValidationErrorHandler;
+            xss.XmlResolver = new XmlUrlResolver();
+            DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\"));
+            xss.Add(xs1);
+            try
             {
-                seSchema.SaveNewXSD(i, xso);
-                i++;
+                foreach (var fi in diXsd.GetFiles())
+                {
+                    using (var sr = new StreamReader(fi.FullName))
+                    {
+                        xss.Add(xs1);
+                    }
+
+                }
+                xss.Compile();
             }
-           
+            catch { }
             using (FileStream fs = new FileStream(@"..\..\..\..\xsd\new\" + seSchema.Name + "NEW.xsd", FileMode.Create, FileAccess.ReadWrite))
             {
                 using (XmlTextWriter tw = new XmlTextWriter(fs, new UTF8Encoding()))
@@ -153,7 +173,7 @@ namespace XSDTypeCl
             SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
 
             treeView1.Nodes.Clear();
-            seSchema.ClassToTreeView(treeView1.Nodes);
+            seSchema.ClassToTreeView(comboBox1.SelectedIndex, treeView1.Nodes);
         }
     }
 }

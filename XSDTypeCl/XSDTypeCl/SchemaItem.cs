@@ -18,6 +18,7 @@ namespace XSDTypeCl
         public string Discription { get; set; }
         public string Type { get; set; }
         public SeSchemaItem Parent { get; set; } //тип object для указания на SeSchema?
+        public bool HasComplexType { get; set; }
         public List<SeSchemaItem> SchemaItemsChildren { get; set; }
 
         /// <summary>
@@ -40,6 +41,24 @@ namespace XSDTypeCl
             this.Discription = Discription;
             this.Type = Type;
             this.Parent = Parent;
+            HasComplexType = false;
+            this.SchemaItemsChildren = SchemaItemsChildren;
+        }
+        public SeSchemaItem(string Name, string Discription, string Type, SeSchemaItem Parent, bool IsComplexType, List<SeSchemaItem> SchemaItemsChildren)
+        {
+            this.Name = Name;
+            this.Discription = Discription;
+            this.Type = Type;
+            this.Parent = Parent;
+            this.HasComplexType = IsComplexType;
+            this.SchemaItemsChildren = SchemaItemsChildren;
+        }
+        public SeSchemaItem(string Name, string Discription, string Type, bool IsComplexType, List<SeSchemaItem> SchemaItemsChildren)
+        {
+            this.Name = Name;
+            this.Discription = Discription;
+            this.Type = Type;
+            this.HasComplexType = IsComplexType;
             this.SchemaItemsChildren = SchemaItemsChildren;
         }
         public SeSchemaItem(string Name, string Discription, string Type, SeSchemaItem Parent)
@@ -96,7 +115,7 @@ namespace XSDTypeCl
         /// <param name="facet">Ограничение</param>
         public void GetFacet(List<SeSchemaItem> schemaTypeInST, XmlSchemaFacet facet)
         {
-            schemaTypeInST.Add(new SeSchemaItem("SimpleType", facet.ToString().Split('.')[3], facet.Value,this));
+            schemaTypeInST.Add(new SeSchemaItem("SimpleType", facet.ToString().Split('.')[3], facet.Value, this));
 
         }
         /// <summary>
@@ -145,7 +164,7 @@ namespace XSDTypeCl
             SeSchemaItem seSchemaItemTable = null;
             schemaElement = childElement as XmlSchemaElement;
 
-            SeSchemaItem schemaItem = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name, this, schemaTypeInCT = new List<SeSchemaItem>());
+            SeSchemaItem schemaItem = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name, this, true, schemaTypeInCT = new List<SeSchemaItem>());
             SchemaItemsChildren.Add(schemaItem);
 
             XmlSchemaComplexType complexType = schemaElement.ElementSchemaType as XmlSchemaComplexType;
@@ -160,19 +179,19 @@ namespace XSDTypeCl
                         if (childElement2.ElementSchemaType is XmlSchemaComplexType)
                         {
                             XmlSchemaComplexType schemaType = childElement2.ElementSchemaType as XmlSchemaComplexType;
-                            seSchemaItemTable = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(),this, schemaTypeInCT2 = new List<SeSchemaItem>());
+                            seSchemaItemTable = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(), this, true, schemaTypeInCT2 = new List<SeSchemaItem>());
 
-                            XmlSchemaSequence sequence = schemaType.ContentTypeParticle as XmlSchemaSequence;
-                            try
-                            {
-                                foreach (XmlSchemaElement childElement3 in sequence.Items)
-                                {
-                                    seSchemaItemTable.ReadXSD(childElement3);
-                                }
-                            }
-                            catch
-                            {
-                            }
+                            //XmlSchemaSequence sequence = schemaType.ContentTypeParticle as XmlSchemaSequence;
+                            //try
+                            //{
+                            //    foreach (XmlSchemaElement childElement3 in sequence.Items)
+                            //    {
+                            //        seSchemaItemTable.ReadXSD(childElement3);
+                            //    }
+                            //}
+                            //catch
+                            //{
+                            //}
 
                             if (seSchemaItemTable != null)
                                 schemaTypeInCT.Add(seSchemaItemTable);
@@ -224,15 +243,36 @@ namespace XSDTypeCl
         public void ClassToTreeView(TreeNodeCollection treeNodes)
         {
             TreeNode newTreeNode;
-            
+
             newTreeNode = treeNodes.Add(ToString());
             newTreeNode.Tag = this;
+
             //рекурсия (в случае, если у текущего элемента есть дочерние)
             if (SchemaItemsChildren != null)
             {
                 foreach (SeSchemaItem schemaElement in SchemaItemsChildren)
                 {
                     schemaElement.ClassToTreeView(newTreeNode.Nodes);
+                }
+            }
+
+            foreach (TreeNode eachTnn in newTreeNode.Nodes)
+            {
+                foreach (TreeNode eachTn in newTreeNode.Nodes)
+                {
+                    SeSchemaItem newSsi = (SeSchemaItem)eachTnn.Tag;
+                    SeSchemaItem eachSsi = (SeSchemaItem)eachTn.Tag;
+                    if (newSsi != null)
+                    {
+                        if (newSsi.Type == eachSsi.Name)
+                        {
+                            //Insert the cloned node as the first root node.
+                            TreeNode clonedNode = (TreeNode)eachTn.Clone();
+                            eachTnn.Nodes.Insert(0, clonedNode);
+                            break;
+                        }
+
+                    }
                 }
             }
 
@@ -254,11 +294,11 @@ namespace XSDTypeCl
             {
                 XmlSchemaElement newElement = new XmlSchemaElement();
                 newElement.Name = ssi.Name;
-                if (ssi.Discription != null && ssi.Discription!="")
+                if (ssi.Discription != null && ssi.Discription != "")
                 {
                     newElement.Annotation = SetAnnotation(ssi);
                 }
-                if (ssi.SchemaItemsChildren != null)
+                if (ssi.SchemaItemsChildren != null && ssi.SchemaItemsChildren.Count != 0)
                 {
                     if (ssi.SchemaItemsChildren[0].Name == "SimpleType")
                     {
@@ -292,38 +332,15 @@ namespace XSDTypeCl
 
                     }
                 }
-                else newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
+                else
+                    if (ssi.HasComplexType == false)
+                    newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
+                else newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type);
                 newAll.Items.Add(newElement);
             }
 
         }
 
-        public void SaveNewXSD(int i,XmlSchemaElement childElement)
-        {
-            XmlSchemaElement schemaElement = null;
-            schemaElement = childElement as XmlSchemaElement;
-            if (SchemaItemsChildren[i].Name != childElement.Name)
-                childElement.Name = SchemaItemsChildren[i].Name;
-          XmlSchemaComplexType complexType = schemaElement.ElementSchemaType as XmlSchemaComplexType;
-            if (complexType != null)
-            {
-                XmlSchemaAll all = complexType.Particle as XmlSchemaAll; // <xsd:all>
-                if (all != null)
-                {
-                    foreach (XmlSchemaElement childElement2 in all.Items)
-                    {
-
-                        if (childElement2.ElementSchemaType is XmlSchemaComplexType)
-                        {
-                        }
-                        else
-                        {
-                        }
-                    }
-                }
-            }
-
-        }
         /// <summary>
         /// Запись Annotation в новый файл XSD
         /// </summary>

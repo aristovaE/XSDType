@@ -20,12 +20,12 @@ namespace XSDTypeCl
 
         public List<SeSchemaItem> schemaItems{ get; set; }
 
-        public XmlSchema Schema { get; set; }
+       // public XmlSchema Schema { get; set; }
         public SeSchema(XmlSchema schema)
         {
-            Schema = schema;
+          //  Schema = schema;
             schemaItems = new List<SeSchemaItem>();
-            foreach (var sChemaItem in Schema.Items)
+            foreach (var sChemaItem in schema.Items)
             {
                 ReadXSD(sChemaItem);
             }
@@ -83,23 +83,8 @@ namespace XSDTypeCl
                 Name = schemaElement.Name;
                 
                
-                seSchemaItemTable = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name, schemaTypeInCT = new List<SeSchemaItem>());
-
-                schemaType = schemaElement.ElementSchemaType as XmlSchemaComplexType;
-
-                if (schemaType != null)
-                {
-                    XmlSchemaSequence sequence = schemaType.Particle as XmlSchemaSequence;
-                    try
-                    {
-                        foreach (XmlSchemaElement childElement in sequence.Items)
-                        {
-                            seSchemaItemTable.ReadXSD(childElement);
-                        }
-                    }
-                    catch
-                    { }
-                }
+                seSchemaItemTable = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name, true,schemaTypeInCT = new List<SeSchemaItem>());
+                
             }
             else if (sChemaItem is XmlSchemaComplexType)
             {
@@ -130,15 +115,34 @@ namespace XSDTypeCl
         /// Запись из класса в treeView
         /// </summary>
         /// <param name="treeNodes">Ссылка на дерево</param>
-        public void ClassToTreeView(TreeNodeCollection treeNodes)
+        public void ClassToTreeView(int i,TreeNodeCollection treeNodes)
         {
             TreeNode newTreeNode = treeNodes.Add(Name);
             
             foreach (SeSchemaItem schemaItem in schemaItems)
             {
                 schemaItem.ClassToTreeView(newTreeNode.Nodes);
-
+                
             }
+            foreach (TreeNode eachTnn in newTreeNode.Nodes)
+            {
+                foreach (TreeNode eachTn in newTreeNode.Nodes)
+                {
+                    SeSchemaItem newSsi = (SeSchemaItem)eachTnn.Tag;
+                    SeSchemaItem eachSsi = (SeSchemaItem)eachTn.Tag;
+                    if (newSsi != null)
+                    {
+                        if (newSsi.Type == eachSsi.Name)
+                        {
+                            //Insert the cloned node as the first root node.
+                            TreeNode clonedNode = (TreeNode)eachTn.Clone();
+                            eachTnn.Nodes.Insert(0, clonedNode);
+                        }
+
+                    }
+                }
+            }
+
         }
 
         /// <summary>
@@ -153,9 +157,11 @@ namespace XSDTypeCl
             foreach (SeSchemaItem newschemaItem in schemaItems)
             {
                 XmlSchemaElement newElement = new XmlSchemaElement();
+                
 
                 XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
-
+                //newElement.SchemaType = newSchemaType;
+               
                 if (newschemaItem.Type != "")
                 {
                     newElement.Name = newschemaItem.Name;
@@ -191,47 +197,8 @@ namespace XSDTypeCl
             }
         }
 
-        public void SaveNewXSD(int i,XmlSchemaObject xso)
-        {
-            XmlSchemaElement schemaElement = null;
-            XmlSchemaComplexType schemaType = null;
-            SeSchemaItem seSchemaItemTable = null;
+        
 
-            if (xso is XmlSchemaElement)
-            {
-              
-                schemaElement = xso as XmlSchemaElement;
-                if (schemaItems[i].Name != schemaElement.Name)
-                    schemaElement.Name= schemaItems[i].Name;
-
-
-                seSchemaItemTable = schemaItems[i];
-
-                schemaType = schemaElement.ElementSchemaType as XmlSchemaComplexType;
-
-                if (schemaType != null)
-                {
-                    XmlSchemaSequence sequence = schemaType.Particle as XmlSchemaSequence;
-                    try
-                    {
-                        int ii = 0;
-                        foreach (XmlSchemaElement childElement in sequence.Items)
-                        {
-                            seSchemaItemTable.SaveNewXSD(ii,childElement);
-                            ii++;
-                        }
-                    }
-                    catch
-                    { }
-                }
-            }
-            else if (xso is XmlSchemaComplexType)
-            {
-               
-            }
-
-           
-        }
         /// <summary>
         /// Запись Annotation в новый файл XSD
         /// </summary>
