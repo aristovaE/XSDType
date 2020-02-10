@@ -21,31 +21,18 @@ namespace XSDTypeCl
         public bool HasComplexType { get; set; }
         public List<SeSchemaItem> SchemaItemsChildren { get; set; }
 
+        public SeProperties Properties { get; set; }
+
         /// <summary>
-        /// Конструкторы класса SeSchemaItem
+        /// Конструктор класса SeSchemaItem
         /// </summary>
         /// <param name="Name">Имя элемента</param>
         /// <param name="Discription">Описание элемента(Annotation->Documentation)</param>
-        /// <param name="Type">Тип элемента(может быть SimpleType)</param>  
+        /// <param name="Type">Тип элемента(может быть ComplexType)</param>  
         /// <param name="Parent">Родитель класса</param>  
         /// <param name="HasComplexType">Имеет или не имеет ComplexType (Для корректного сохранения)</param>
         /// <param name="SchemaItemsChildren">Список дочерних элементов</param>
-        public SeSchemaItem(string Name, string Discription, string Type, List<SeSchemaItem> SchemaItemsChildren)
-        {
-            this.Name = Name;
-            this.Discription = Discription;
-            this.Type = Type;
-            this.SchemaItemsChildren = SchemaItemsChildren;
-        }
-        public SeSchemaItem(string Name, string Discription, string Type, SeSchemaItem Parent, List<SeSchemaItem> SchemaItemsChildren)
-        {
-            this.Name = Name;
-            this.Discription = Discription;
-            this.Type = Type;
-            this.Parent = Parent;
-            HasComplexType = false;
-            this.SchemaItemsChildren = SchemaItemsChildren;
-        }
+        
         public SeSchemaItem(string Name, string Discription, string Type, SeSchemaItem Parent, bool HasComplexType, List<SeSchemaItem> SchemaItemsChildren)
         {
             this.Name = Name;
@@ -54,15 +41,25 @@ namespace XSDTypeCl
             this.Parent = Parent;
             this.HasComplexType = HasComplexType;
             this.SchemaItemsChildren = SchemaItemsChildren;
+
         }
-        public SeSchemaItem(string Name, string Discription, string Type, bool HasComplexType, List<SeSchemaItem> SchemaItemsChildren)
+        public SeSchemaItem(string Name, string Discription, string Type, SeSchemaItem Parent, bool HasComplexType, List<SeSchemaItem> SchemaItemsChildren, SeProperties Properties)
         {
             this.Name = Name;
             this.Discription = Discription;
             this.Type = Type;
+            this.Parent = Parent;
             this.HasComplexType = HasComplexType;
             this.SchemaItemsChildren = SchemaItemsChildren;
+            this.Properties = Properties;
         }
+        /// <summary>
+        /// Конструктор класса SeSchemaItem для определения SimpleType
+        /// </summary>
+        /// <param name="Name">"SimpleType"</param>
+        /// <param name="Discription">Полное название ограничения</param>
+        /// <param name="Type">Значение ограничения</param>  
+        /// <param name="Parent">Класс-владелец Simple Type</param>  
         public SeSchemaItem(string Name, string Discription, string Type, SeSchemaItem Parent)
         {
             this.Name = Name;
@@ -171,24 +168,12 @@ namespace XSDTypeCl
                 {
                     foreach (XmlSchemaElement childElement2 in all.Items)
                     {
-
+                        SeProperties seProp = new SeProperties(childElement2);
                         if (childElement2.ElementSchemaType is XmlSchemaComplexType)
                         {
                             XmlSchemaComplexType schemaType = childElement2.ElementSchemaType as XmlSchemaComplexType;
-                            seSchemaItemTable = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(), this, true, schemaTypeInCT2 = new List<SeSchemaItem>());
-
-                            //XmlSchemaSequence sequence = schemaType.ContentTypeParticle as XmlSchemaSequence;
-                            //try
-                            //{
-                            //    foreach (XmlSchemaElement childElement3 in sequence.Items)
-                            //    {
-                            //        seSchemaItemTable.ReadXSD(childElement3);
-                            //    }
-                            //}
-                            //catch
-                            //{
-                            //}
-
+                            seSchemaItemTable = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(), this, true, schemaTypeInCT2 = new List<SeSchemaItem>(),seProp);
+                            
                             if (seSchemaItemTable != null)
                                 schemaTypeInCT.Add(seSchemaItemTable);
                         }
@@ -196,12 +181,13 @@ namespace XSDTypeCl
                         {
                             if (childElement2.SchemaTypeName.Name.ToString() != "")
                             {
-                                schemaTypeInCT.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(), schemaItem));
+                                
+                                schemaTypeInCT.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(), schemaItem,false,null, seProp));
                             }
                             else
                             {
                                 List<SeSchemaItem> schemaTypeInST = new List<SeSchemaItem>();
-                                SeSchemaItem ssi = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), GetSimpleType(schemaTypeInST, childElement2), schemaItem, schemaTypeInST);
+                                SeSchemaItem ssi = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), GetSimpleType(schemaTypeInST, childElement2), schemaItem, false,schemaTypeInST, seProp);
                                 schemaTypeInCT.Add(ssi);
 
                             }
@@ -217,14 +203,15 @@ namespace XSDTypeCl
         /// <returns>Строка, содержащую сведения о SeSchemaItem</returns>
         public override string ToString()
         {
-            if (Type != "" && Type != null)
-            {
-                if (Discription != "" && Discription != null)
-                    return Name + " (" + Discription + ") - " + Type;//this.tostring()
-                else
-                    return Name + " - " + Type;
-            }
-            else if (Discription != "" && Discription != null)
+            //if (Type != "" && Type != null)
+            //{
+            //    if (Discription != "" && Discription != null)
+            //        return Name + " (" + Discription + ") - " + Type;//this.tostring()
+            //    else
+            //        return Name + " - " + Type;
+            //}
+            //else
+            if (Discription != "" && Discription != null)
                 return Name + " (" + Discription + ")";
             else
                 return Name;
@@ -251,34 +238,6 @@ namespace XSDTypeCl
                     schemaElement.ClassToTreeView(newTreeNode.Nodes);
                 }
             }
-
-            //if (SchemaItemsChildren != null)//обход не всех веток
-            //{
-            //    foreach (TreeNode eachTnn in newTreeNode.TreeView.Nodes[0].Nodes)
-            //    {
-            //        if (newTreeNode.Nodes.Count!=0)
-            //        foreach (TreeNode eachTn in newTreeNode.Nodes[0].Nodes)
-            //        {
-            //            SeSchemaItem newSsi = (SeSchemaItem)eachTnn.Tag;
-            //            SeSchemaItem eachSsi = (SeSchemaItem)eachTn.Tag;
-            //            if (eachSsi != null)
-            //            {
-            //                if (newSsi.HasComplexType == false && eachSsi.HasComplexType == true)
-            //                {
-            //                    if (eachSsi.Type == newSsi.Name)
-            //                    {
-            //                        //Insert the cloned node as the first root node.
-            //                        TreeNode clonedNode = (TreeNode)eachTnn.Clone();
-            //                            eachTn.Nodes.Insert(0, clonedNode);
-            //                            break;
-            //                    }
-
-
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
             
 
         }
@@ -299,6 +258,11 @@ namespace XSDTypeCl
             {
                 XmlSchemaElement newElement = new XmlSchemaElement();
                 newElement.Name = ssi.Name;
+                if (ssi.Properties.HasMinOccurs == true)
+                    newElement.MinOccursString = ssi.Properties.MinOccurs;
+                if (ssi.Properties.HasMaxOccurs == true)
+                    newElement.MaxOccursString = ssi.Properties.MaxOccurs;
+                    newElement.IsNillable = ssi.Properties.IsNillable;
                 if (ssi.Discription != null && ssi.Discription != "")
                 {
                     newElement.Annotation = SetAnnotation(ssi);

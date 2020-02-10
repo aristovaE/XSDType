@@ -110,7 +110,8 @@ namespace XSDTypeCl
                 textBox1.DataBindings.Add(new Binding("Text", ssi, "Name", true));
                 textBox2.DataBindings.Add(new Binding("Text", ssi, "Type", true));
                 textBox3.DataBindings.Add(new Binding("Text", ssi, "Discription", true));
-               if(ssi.Parent!=null)
+
+                if (ssi.Parent!=null)
                     textBox4.DataBindings.Add(new Binding("Text", ssi, "Parent.Name", true));
 
             }
@@ -130,12 +131,6 @@ namespace XSDTypeCl
         {
             SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
             int i = 0;
-       //     XmlSchema xs1 = seSchema.Schema;
-            //foreach (XmlSchemaObject xso in xs1.Items)
-            //{
-            //    seSchema.SaveNewXSD(i, xso);
-            //    i++;
-            //}
             XmlSchema xs1=new XmlSchema();
             seSchema.SaveXSD(xs1);
             XmlSchemaSet xss = new XmlSchemaSet();

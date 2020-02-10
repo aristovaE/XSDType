@@ -79,7 +79,7 @@ namespace XSDTypeCl
                 schemaElement = sChemaItem as XmlSchemaElement;
                 Name = schemaElement.Name;
 
-                seSchemaItemTable = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name, true, schemaTypeInCT = new List<SeSchemaItem>());
+                seSchemaItemTable = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name,null, true, schemaTypeInCT = new List<SeSchemaItem>());
 
             }
             else if (sChemaItem is XmlSchemaComplexType)
@@ -87,12 +87,14 @@ namespace XSDTypeCl
                 List<SeSchemaItem> schemaTypeInCT;
 
                 schemaType = sChemaItem as XmlSchemaComplexType;
-                seSchemaItemTable = new SeSchemaItem(schemaType.Name, GetAnnotation(schemaType), "", schemaTypeInCT = new List<SeSchemaItem>());
+
+                seSchemaItemTable = new SeSchemaItem(schemaType.Name, GetAnnotation(schemaType), "",null,false, schemaTypeInCT = new List<SeSchemaItem>());
                 XmlSchemaSequence sequence = schemaType.ContentTypeParticle as XmlSchemaSequence;
                 try
                 {
                     foreach (XmlSchemaElement childElement in sequence.Items)
                     {
+                        SeProperties seProp = new SeProperties(childElement);
                         seSchemaItemTable.ReadXSD(childElement);
                     }
                 }
@@ -143,6 +145,9 @@ namespace XSDTypeCl
                     }
                 }
             }
+
+
+
         }
         public void EachNode(TreeNode eachTnn, List<TreeNode> nodesList)
         {
@@ -150,14 +155,13 @@ namespace XSDTypeCl
             {
                 SeSchemaItem ssiTable = (SeSchemaItem)nodeTable.Tag;
                 if (ssiTable.HasComplexType == false)
-                    foreach (TreeNode nodeElement in eachTnn.Nodes)
+                    foreach (TreeNode nodeElement in nodeTable.Nodes[0].Nodes)
                     {
                         SeSchemaItem ssiElement = (SeSchemaItem)nodeElement.Tag;
                         if (ssiElement.HasComplexType == true)
                         {
                             foreach (TreeNode nodeTable2 in nodesList)
                             {
-
                                 SeSchemaItem ssiTable2 = (SeSchemaItem)nodeTable2.Tag;
                                 if (ssiElement.Type == ssiTable2.Name)
                                 {
@@ -166,12 +170,12 @@ namespace XSDTypeCl
                                         EachNode2(nodeTable2.Nodes[0], nodesList);
                                         TreeNode clonedNode = (TreeNode)nodeTable2.Clone();
                                         nodeElement.Nodes.Insert(0, clonedNode);
-
                                         break;
                                     }
-                                }
 
+                                }
                             }
+
                         }
                     }
             }
@@ -208,6 +212,7 @@ namespace XSDTypeCl
                         }
                     }
             }
+            
         }
         /// <summary>
         /// Запись в новый XSD файл содержимого класса SeSchema
