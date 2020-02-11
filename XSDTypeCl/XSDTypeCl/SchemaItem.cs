@@ -67,8 +67,10 @@ namespace XSDTypeCl
             this.Type = Type;
             this.Parent = Parent;
         }
+
+
         /// <summary>
-        /// Запись в класс SeSchemaItem описания из Annotation в XSD
+        /// Запись в класс SeSchemaItem описания из <xsd:Annotation>
         /// </summary>
         /// <param name="schemaElement">Элемент из List(SeShemaItem)</param>
         /// <returns>Содержимое Annotation->Documentation из файла XSD (string)</returns>
@@ -145,6 +147,9 @@ namespace XSDTypeCl
             return null;
         }
 
+       
+
+
         /// <summary>
         ///Чтение дочерних элементов класса SeSchemaIyem и запись их в класс SeSchemaIyem
         /// </summary>
@@ -157,6 +162,7 @@ namespace XSDTypeCl
             SeSchemaItem seSchemaItemTable = null;
             schemaElement = childElement as XmlSchemaElement;
             SeProperties seProp = new SeProperties(schemaElement);
+            //<xsd:element name="..._ITEM">
             SeSchemaItem schemaItem = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name, this, true, schemaTypeInCT = new List<SeSchemaItem>(), seProp);
             SchemaItemsChildren.Add(schemaItem);
 
@@ -172,6 +178,7 @@ namespace XSDTypeCl
                         if (childElement2.ElementSchemaType is XmlSchemaComplexType)
                         {
                             XmlSchemaComplexType schemaType = childElement2.ElementSchemaType as XmlSchemaComplexType;
+                            //<xsd:Complex Type>
                             seSchemaItemTable = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(), this, true, schemaTypeInCT2 = new List<SeSchemaItem>(),seProp2);
                             
                             if (seSchemaItemTable != null)
@@ -180,12 +187,13 @@ namespace XSDTypeCl
                         else
                         {
                             if (childElement2.SchemaTypeName.Name.ToString() != "")
-                            {
-                                
+                            {   
+                                //<xsd:element
                                 schemaTypeInCT.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(), schemaItem,false,null, seProp2));
                             }
                             else
                             {
+                                //<xsd:element ...<SimpleType>
                                 List<SeSchemaItem> schemaTypeInST = new List<SeSchemaItem>();
                                 SeSchemaItem ssi = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), GetSimpleType(schemaTypeInST, childElement2), schemaItem, false,schemaTypeInST, seProp2);
                                 schemaTypeInCT.Add(ssi);
@@ -216,9 +224,7 @@ namespace XSDTypeCl
             else
                 return Name;
         }
-
-
-
+        
         /// <summary>
         /// Запись из класса в treeView
         /// </summary>
@@ -242,21 +248,25 @@ namespace XSDTypeCl
 
         }
 
-
+        public void SetProperties(XmlSchemaElement newElement)
+        {
+            if (Properties != null)
+            {
+                if (Properties.HasMinOccurs == true)
+                    newElement.MinOccursString = Properties.MinOccurs;
+                if (Properties.HasMaxOccurs == true)
+                    newElement.MaxOccursString = Properties.MaxOccurs;
+                newElement.IsNillable = Properties.IsNillable;
+            }
+        }
         /// <summary>
         /// Запись в новый XSD файл содержимого класса SeSchemaItem
         /// </summary>
         /// <param name="newElement1">Новый элемент в схеме</param>
         /// <param name="xs1">Новый экземпляр схемы</param>
         public void SaveXSD(XmlSchemaElement newElement1, XmlSchema xs1)
-        {if (Properties != null)
-            {
-                if (Properties.HasMinOccurs == true)
-                    newElement1.MinOccursString = Properties.MinOccurs;
-                if (Properties.HasMaxOccurs == true)
-                    newElement1.MaxOccursString = Properties.MaxOccurs;
-                newElement1.IsNillable = Properties.IsNillable;
-            }
+        {
+            SetProperties(newElement1);
             XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
             newElement1.SchemaType = newSchemaType;
             XmlSchemaAll newAll = new XmlSchemaAll();
@@ -266,11 +276,7 @@ namespace XSDTypeCl
             {
                 XmlSchemaElement newElement = new XmlSchemaElement();
                 newElement.Name = ssi.Name;
-                if (ssi.Properties.HasMinOccurs == true)
-                    newElement.MinOccursString = ssi.Properties.MinOccurs;
-                if (ssi.Properties.HasMaxOccurs == true)
-                    newElement.MaxOccursString = ssi.Properties.MaxOccurs;
-                    newElement.IsNillable = ssi.Properties.IsNillable;
+                ssi.SetProperties(newElement);
                 if (ssi.Discription != null && ssi.Discription != "")
                 {
                     newElement.Annotation = SetAnnotation(ssi);
@@ -310,9 +316,12 @@ namespace XSDTypeCl
                     }
                 }
                 else
+                    //<element ... type="xsd:...">
                     if (ssi.HasComplexType == false)
-                    newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema"); //<element ... type="xsd:...">
-                else newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type);                                    //<element ... type="...">
+                    newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema"); 
+                else
+                    //<element ... type="...">
+                    newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type);                                   
                 newAll.Items.Add(newElement);
             }
 

@@ -94,7 +94,6 @@ namespace XSDTypeCl
                 {
                     foreach (XmlSchemaElement childElement in sequence.Items)
                     {
-                        
                         seSchemaItemTable.ReadXSD(childElement);
                     }
                 }
@@ -125,7 +124,7 @@ namespace XSDTypeCl
             foreach (TreeNode newNode in newTreeNode.Nodes)
             { nodesList.Add(newNode); }
 
-            EachNode(newTreeNode, nodesList);
+            CloneEachNode(newTreeNode, nodesList);
 
             foreach (TreeNode eachTnn in newTreeNode.Nodes)
             {
@@ -149,7 +148,7 @@ namespace XSDTypeCl
 
 
         }
-        public void EachNode(TreeNode eachTnn, List<TreeNode> nodesList)
+        public void CloneEachNode(TreeNode eachTnn, List<TreeNode> nodesList)
         {
             foreach (TreeNode nodeTable in nodesList)
             {
@@ -167,7 +166,7 @@ namespace XSDTypeCl
                                 {
                                     if (nodeElement.Nodes.Count == 0)
                                     {
-                                        EachNodeChild(nodeTable2.Nodes[0], nodesList);
+                                        CloneEachNodeChild(nodeTable2.Nodes[0], nodesList);
                                         TreeNode clonedNode = (TreeNode)nodeTable2.Clone();
                                         nodeElement.Nodes.Insert(0, clonedNode);
                                         break;
@@ -181,7 +180,7 @@ namespace XSDTypeCl
             }
         }
 
-        public void EachNodeChild(TreeNode eachTnn, List<TreeNode> nodesList)
+        public void CloneEachNodeChild(TreeNode eachTnn, List<TreeNode> nodesList)
         {
             foreach (TreeNode nodeTable in nodesList)
             {
@@ -200,7 +199,7 @@ namespace XSDTypeCl
                                 {
                                     if (nodeElement.Nodes.Count == 0)
                                     {
-                                        EachNodeChild(nodeTable2.Nodes[0], nodesList);
+                                        CloneEachNodeChild(nodeTable2.Nodes[0], nodesList);
                                         TreeNode clonedNode = (TreeNode)nodeTable2.Clone();
                                         nodeElement.Nodes.Insert(0, clonedNode);
 

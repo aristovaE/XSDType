@@ -29,8 +29,8 @@ namespace XSDTypeCl
             XmlSchemas schemas = null;
             ValidationEventHandler ValidationErrorHandler = null;
 
-            DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\"));
-            //DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\new\")); //для проверки новых схем
+            //DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\"));
+            DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\new\")); //для проверки новых схем
 
 
             treeView1.Nodes.Clear();
@@ -94,6 +94,13 @@ namespace XSDTypeCl
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            textBox1.Clear();
+            textBox2.Clear();
+            textBox3.Clear();
+            textBox4.Clear();
+            textBox5.Clear();
+            textBox6.Clear();
+            comboBox2.SelectedIndex=-1;
             SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
             if (e.Node.Tag != null)
             {
@@ -105,7 +112,7 @@ namespace XSDTypeCl
                 textBox4.DataBindings.Clear();
                 textBox5.DataBindings.Clear();
                 textBox6.DataBindings.Clear();
-                textBox7.DataBindings.Clear();
+                comboBox2.DataBindings.Clear();
 
                 textBox1.DataBindings.Add(new Binding("Text", ssi, "Name", true));
                 textBox2.DataBindings.Add(new Binding("Text", ssi, "Type", true));
@@ -120,7 +127,13 @@ namespace XSDTypeCl
                         textBox5.DataBindings.Add(new Binding("Text", ssi, "Properties.MinOccurs", true));
                     if (ssi.Properties.HasMaxOccurs != false)
                         textBox6.DataBindings.Add(new Binding("Text", ssi, "Properties.MaxOccurs", true));
-                    textBox7.DataBindings.Add(new Binding("Text", ssi, "Properties.IsNillable", true));
+                    comboBox2.DataBindings.Add(new Binding("Text", ssi, "Properties.IsNillable", true));
+                }
+                else
+                {
+                    textBox5.Clear();
+                    textBox6.Clear();
+                    comboBox2.SelectedIndex = -1;
                 }
             }
             else
@@ -131,7 +144,7 @@ namespace XSDTypeCl
                 textBox4.Clear();
                 textBox5.Clear();
                 textBox6.Clear();
-                textBox7.Clear();
+                comboBox2.SelectedIndex = -1;
             }
             
         }
@@ -182,11 +195,6 @@ namespace XSDTypeCl
             seSchema.ClassToTreeView(treeView1.Nodes);
         }
         
-
-        private void textBox7_TextChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }
 
