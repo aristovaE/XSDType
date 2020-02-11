@@ -29,8 +29,8 @@ namespace XSDTypeCl
             XmlSchemas schemas = null;
             ValidationEventHandler ValidationErrorHandler = null;
 
-            //DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\"));
-            DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\new\")); //для проверки новых схем
+            DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\"));
+            //DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\new\")); //для проверки новых схем
 
 
             treeView1.Nodes.Clear();
@@ -88,63 +88,20 @@ namespace XSDTypeCl
             comboBox1.ValueMember = "Name";
 
             BtnSave.Enabled = true;
-            Btn_SaveChanges.Enabled = true;
+            //Btn_SaveChanges.Enabled = true;
             //MessageBox.Show("Все доступные схемы прочитаны и добавлены в ComboBox");
         }
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            textBox1.Clear();
-            textBox2.Clear();
-            textBox3.Clear();
-            textBox4.Clear();
-            textBox5.Clear();
-            textBox6.Clear();
-            comboBox2.SelectedIndex=-1;
             SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
             if (e.Node.Tag != null)
             {
-                SeSchemaItem ssi = (SeSchemaItem)e.Node.Tag;
-
-                textBox1.DataBindings.Clear();
-                textBox2.DataBindings.Clear();
-                textBox3.DataBindings.Clear();
-                textBox4.DataBindings.Clear();
-                textBox5.DataBindings.Clear();
-                textBox6.DataBindings.Clear();
-                comboBox2.DataBindings.Clear();
-
-                textBox1.DataBindings.Add(new Binding("Text", ssi, "Name", true));
-                textBox2.DataBindings.Add(new Binding("Text", ssi, "Type", true));
-                textBox3.DataBindings.Add(new Binding("Text", ssi, "Discription", true));
-               
-
-                if (ssi.Parent!=null)
-                    textBox4.DataBindings.Add(new Binding("Text", ssi, "Parent.Name", true));
-                if (ssi.Properties != null)
-                {
-                    if (ssi.Properties.HasMinOccurs != false)
-                        textBox5.DataBindings.Add(new Binding("Text", ssi, "Properties.MinOccurs", true));
-                    if (ssi.Properties.HasMaxOccurs != false)
-                        textBox6.DataBindings.Add(new Binding("Text", ssi, "Properties.MaxOccurs", true));
-                    comboBox2.DataBindings.Add(new Binding("Text", ssi, "Properties.IsNillable", true));
-                }
-                else
-                {
-                    textBox5.Clear();
-                    textBox6.Clear();
-                    comboBox2.SelectedIndex = -1;
-                }
+                    propertyGrid1.SelectedObject = e.Node.Tag;
             }
             else
             {
-                textBox1.Text = seSchema.Name;
-                textBox2.Clear();
-                textBox3.Clear();
-                textBox4.Clear();
-                textBox5.Clear();
-                textBox6.Clear();
-                comboBox2.SelectedIndex = -1;
+               
             }
             
         }
@@ -189,12 +146,69 @@ namespace XSDTypeCl
 
         private void Btn_SaveChanges_Click(object sender, EventArgs e)
         {
+            UpdateTreeView();
+        }
+
+       
+        //private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        //{
+        //    UpdateTreeView();
+        //}
+
+        private void Button_Refresh_Click(object sender, EventArgs e)
+        {
+            UpdateTreeView();
+        }
+        public void UpdateTreeView()
+        {
             SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
 
             treeView1.Nodes.Clear();
             seSchema.ClassToTreeView(treeView1.Nodes);
+
         }
-        
+        private void Button_Add_Click(object sender, EventArgs e)
+        {
+            if (treeView1.SelectedNode.Tag!=null)
+            {
+                if (treeView1.SelectedNode.Tag is SeSchema)
+                {
+                    SeSchema ss = (SeSchema)treeView1.SelectedNode.Tag;
+                    ss.SchemaItems.Add(new SeSchemaItem());
+                }
+                else if (treeView1.SelectedNode.Tag is SeSchemaItem)
+                {
+                    SeSchemaItem ssi = (SeSchemaItem)treeView1.SelectedNode.Tag;
+                    ssi.SchemaItemsChildren.Add(new SeSchemaItem());
+                }
+            }
+            else
+            {
+
+            }
+            UpdateTreeView();
+        }
+
+        private void Button_Remove_Click(object sender, EventArgs e)
+        {
+            if (treeView1.SelectedNode.Tag != null)
+            {
+                if (treeView1.SelectedNode.Tag is SeSchema)
+                {
+                }
+                else if (treeView1.SelectedNode.Tag is SeSchemaItem)
+                {
+                    SeSchemaItem ssi = (SeSchemaItem)treeView1.SelectedNode.Tag;
+                    SeSchemaItem ssiParent = (SeSchemaItem)treeView1.SelectedNode.Parent.Tag;
+                    ssiParent.SchemaItemsChildren.Remove(ssi);
+                }
+            }
+            else
+            {
+
+            }
+            UpdateTreeView();
+        }
     }
 }
 

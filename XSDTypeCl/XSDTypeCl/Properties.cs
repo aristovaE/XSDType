@@ -17,25 +17,25 @@ namespace XSDTypeCl
         public string MaxOccurs { get; set; }
         public bool IsNillable { get; set; }
 
-        public SeProperties(XmlSchemaElement childElement)
+        public SeProperties(XmlSchemaElement element)
         {
-            if (childElement.MinOccursString == null)
+            if (element.MinOccursString == null)
                 HasMinOccurs = false;
             else
             {
                 HasMinOccurs = true;
-                MinOccurs = childElement.MinOccursString;
+                MinOccurs = element.MinOccursString;
             }
 
 
-            if (childElement.MaxOccursString == null)
+            if (element.MaxOccursString == null)
                 HasMaxOccurs = false;
             else
             {
                 HasMaxOccurs = true;
-                MaxOccurs = childElement.MaxOccursString;
+                MaxOccurs = element.MaxOccursString;
             }
-            IsNillable = childElement.IsNillable;
+            IsNillable = element.IsNillable;
         }
     }
 }

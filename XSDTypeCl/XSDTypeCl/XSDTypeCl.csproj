@@ -54,6 +54,7 @@
     </Compile>
     <Compile Include="ISchema.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Properties.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Schema.cs" />
     <Compile Include="SchemaItem.cs" />

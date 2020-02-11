@@ -15,7 +15,7 @@ namespace XSDTypeCl
         /// Элемент списка SchemaItems класса SeSchema
         /// </summary>
         public string Name { get; set; }
-        public string Discription { get; set; }
+        public string Description { get; set; }
         public string Type { get; set; }
         public SeSchemaItem Parent { get; set; } //тип object для указания на SeSchema?
         public bool HasComplexType { get; set; }
@@ -27,26 +27,26 @@ namespace XSDTypeCl
         /// Конструктор класса SeSchemaItem
         /// </summary>
         /// <param name="Name">Имя элемента</param>
-        /// <param name="Discription">Описание элемента(Annotation->Documentation)</param>
+        /// <param name="Description">Описание элемента(Annotation->Documentation)</param>
         /// <param name="Type">Тип элемента(может быть ComplexType)</param>  
         /// <param name="Parent">Родитель класса</param>  
         /// <param name="HasComplexType">Имеет или не имеет ComplexType (Для корректного сохранения)</param>
         /// <param name="SchemaItemsChildren">Список дочерних элементов</param>
-        
-        public SeSchemaItem(string Name, string Discription, string Type, SeSchemaItem Parent, bool HasComplexType, List<SeSchemaItem> SchemaItemsChildren)
+
+        public SeSchemaItem(string Name, string Description, string Type, SeSchemaItem Parent, bool HasComplexType, List<SeSchemaItem> SchemaItemsChildren)
         {
             this.Name = Name;
-            this.Discription = Discription;
+            this.Description = Description;
             this.Type = Type;
             this.Parent = Parent;
             this.HasComplexType = HasComplexType;
             this.SchemaItemsChildren = SchemaItemsChildren;
 
         }
-        public SeSchemaItem(string Name, string Discription, string Type, SeSchemaItem Parent, bool HasComplexType, List<SeSchemaItem> SchemaItemsChildren, SeProperties Properties)
+        public SeSchemaItem(string Name, string Description, string Type, SeSchemaItem Parent, bool HasComplexType, List<SeSchemaItem> SchemaItemsChildren, SeProperties Properties)
         {
             this.Name = Name;
-            this.Discription = Discription;
+            this.Description = Description;
             this.Type = Type;
             this.Parent = Parent;
             this.HasComplexType = HasComplexType;
@@ -60,15 +60,17 @@ namespace XSDTypeCl
         /// <param name="Discription">Полное название ограничения</param>
         /// <param name="Type">Значение ограничения</param>  
         /// <param name="Parent">Класс-владелец Simple Type</param>  
-        public SeSchemaItem(string Name, string Discription, string Type, SeSchemaItem Parent)
+        public SeSchemaItem(string Name, string Description, string Type, SeSchemaItem Parent)
         {
             this.Name = Name;
-            this.Discription = Discription;
+            this.Description = Description;
             this.Type = Type;
             this.Parent = Parent;
         }
 
-
+        public SeSchemaItem()
+        {
+        }
         /// <summary>
         /// Запись в класс SeSchemaItem описания из <xsd:Annotation>
         /// </summary>
@@ -213,14 +215,14 @@ namespace XSDTypeCl
         {
             //if (Type != "" && Type != null)
             //{
-            //    if (Discription != "" && Discription != null)
-            //        return Name + " (" + Discription + ") - " + Type;//this.tostring()
+            //    if (Description != "" && Description != null)
+            //        return Name + " (" + Description + ") - " + Type;//this.tostring()
             //    else
             //        return Name + " - " + Type;
             //}
             //else
-            if (Discription != "" && Discription != null)
-                return Name + " (" + Discription + ")";
+            if (Description != "" && Description != null)
+                return Name + " (" + Description + ")";
             else
                 return Name;
         }
@@ -270,14 +272,14 @@ namespace XSDTypeCl
             XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
             newElement1.SchemaType = newSchemaType;
             XmlSchemaAll newAll = new XmlSchemaAll();
-            newAll.MinOccursString = "0";
+            //newAll.MinOccursString = "0";
             newSchemaType.Particle = newAll;
             foreach (SeSchemaItem ssi in SchemaItemsChildren)
             {
                 XmlSchemaElement newElement = new XmlSchemaElement();
                 newElement.Name = ssi.Name;
                 ssi.SetProperties(newElement);
-                if (ssi.Discription != null && ssi.Discription != "")
+                if (ssi.Description != null && ssi.Description != "")
                 {
                     newElement.Annotation = SetAnnotation(ssi);
                 }
@@ -293,19 +295,19 @@ namespace XSDTypeCl
                         foreach (SeSchemaItem sstc in ssi.SchemaItemsChildren)
                         {
 
-                            if (sstc.Discription == "XmlSchemaMaxLengthFacet")
+                            if (sstc.Description == "XmlSchemaMaxLengthFacet")
                             {
                                 XmlSchemaMaxLengthFacet ml = new XmlSchemaMaxLengthFacet();
                                 restriction.Facets.Add(ml);
                                 ml.Value = sstc.Type;
                             }
-                            if (sstc.Discription == "XmlSchemaTotalDigitsFacet")
+                            if (sstc.Description == "XmlSchemaTotalDigitsFacet")
                             {
                                 XmlSchemaTotalDigitsFacet ml = new XmlSchemaTotalDigitsFacet();
                                 restriction.Facets.Add(ml);
                                 ml.Value = sstc.Type;
                             }
-                            if (sstc.Discription == "XmlSchemaFractionDigitsFacet")
+                            if (sstc.Description == "XmlSchemaFractionDigitsFacet")
                             {
                                 XmlSchemaFractionDigitsFacet ml = new XmlSchemaFractionDigitsFacet();
                                 restriction.Facets.Add(ml);
@@ -338,7 +340,7 @@ namespace XSDTypeCl
             XmlSchemaAnnotation discriptionAnn = new XmlSchemaAnnotation();
             XmlSchemaDocumentation discriptionDoc = new XmlSchemaDocumentation();
             discriptionAnn.Items.Add(discriptionDoc);
-            discriptionDoc.Markup = TextToNodeArray(newschemaItem.Discription);
+            discriptionDoc.Markup = TextToNodeArray(newschemaItem.Description);
             return discriptionAnn;
         }
         public static XmlNode[] TextToNodeArray(string text)

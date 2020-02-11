@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,12 +17,19 @@ namespace XSDTypeCl
         /// <summary>
         /// Класс SeSchema 
         /// </summary>
+        
+        [ReadOnly(false)]
+        [Category("Properties")]
+        [Description("Name of XSD")]
         public string Name { get; set; }
 
-        public List<SeSchemaItem> schemaItems { get; set; }
+        [ReadOnly(false)]
+        [Category("Properties")]
+        [Description("List of items")]
+        public List<SeSchemaItem> SchemaItems { get; set; }
         public SeSchema(XmlSchema schema)
         {
-            schemaItems = new List<SeSchemaItem>();
+            SchemaItems = new List<SeSchemaItem>();
             foreach (var sChemaItem in schema.Items)
             {
                 ReadXSD(sChemaItem);
@@ -104,7 +112,7 @@ namespace XSDTypeCl
 
             if (seSchemaItemTable != null)
             {
-                schemaItems.Add(seSchemaItemTable);
+                SchemaItems.Add(seSchemaItemTable);
             }
         }
 
@@ -116,8 +124,8 @@ namespace XSDTypeCl
         {
             List<TreeNode> nodesList = new List<TreeNode>();
             TreeNode newTreeNode = treeNodes.Add(Name);
-
-            foreach (SeSchemaItem schemaItem in schemaItems)
+            newTreeNode.Tag = this;
+            foreach (SeSchemaItem schemaItem in SchemaItems)
             {
                 schemaItem.ClassToTreeView(newTreeNode.Nodes);
             }
@@ -222,7 +230,7 @@ namespace XSDTypeCl
             xs1.AttributeFormDefault = XmlSchemaForm.Unqualified;
             xs1.ElementFormDefault = XmlSchemaForm.Qualified;
             xs1.Namespaces.Add("xsd", "http://www.w3.org/2001/XMLSchema");
-            foreach (SeSchemaItem newschemaItem in schemaItems)
+            foreach (SeSchemaItem newschemaItem in SchemaItems)
             {
                 XmlSchemaElement newElement = new XmlSchemaElement();
 
@@ -247,7 +255,7 @@ namespace XSDTypeCl
                     XmlSchemaElement newElement1 = new XmlSchemaElement();
 
                     newSchemaType.Annotation = SetAnnotation(newschemaItem);
-                    if (newschemaItem.SchemaItemsChildren[0].Discription != null)
+                    if (newschemaItem.SchemaItemsChildren[0].Description != null)
                     {
                         newElement1.Annotation = SetAnnotation(newschemaItem.SchemaItemsChildren[0]);
                     }
@@ -278,7 +286,7 @@ namespace XSDTypeCl
             XmlSchemaAnnotation discriptionAnn = new XmlSchemaAnnotation();
             XmlSchemaDocumentation discriptionDoc = new XmlSchemaDocumentation();
             discriptionAnn.Items.Add(discriptionDoc);
-            discriptionDoc.Markup = TextToNodeArray(newschemaItem.Discription);
+            discriptionDoc.Markup = TextToNodeArray(newschemaItem.Description);
             return discriptionAnn;
         }
         public static XmlNode[] TextToNodeArray(string text)

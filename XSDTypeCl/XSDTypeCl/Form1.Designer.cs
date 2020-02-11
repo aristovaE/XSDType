@@ -29,25 +29,17 @@
         private void InitializeComponent()
         {
             this.BtnXSDToSeSChema = new System.Windows.Forms.Button();
-            this.treeView1 = new System.Windows.Forms.TreeView();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.BtnToTV = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.BtnSave = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.Btn_SaveChanges = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.splitter1 = new System.Windows.Forms.Splitter();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.Button_Refresh = new System.Windows.Forms.Button();
+            this.Button_Add = new System.Windows.Forms.Button();
+            this.Button_Remove = new System.Windows.Forms.Button();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // BtnXSDToSeSChema
@@ -59,16 +51,6 @@
             this.BtnXSDToSeSChema.Text = "All schemas to TreeView";
             this.BtnXSDToSeSChema.UseVisualStyleBackColor = true;
             this.BtnXSDToSeSChema.Click += new System.EventHandler(this.BtnXSDToSeSChema_Click);
-            // 
-            // treeView1
-            // 
-            this.treeView1.Indent = 30;
-            this.treeView1.ItemHeight = 20;
-            this.treeView1.Location = new System.Drawing.Point(12, 145);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(1146, 462);
-            this.treeView1.TabIndex = 3;
-            this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
             // 
             // comboBox1
             // 
@@ -88,24 +70,10 @@
             this.BtnToTV.UseVisualStyleBackColor = true;
             this.BtnToTV.Click += new System.EventHandler(this.BtnToTV_Click);
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(447, 10);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(290, 20);
-            this.textBox1.TabIndex = 7;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(447, 36);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(290, 20);
-            this.textBox2.TabIndex = 8;
-            // 
             // BtnSave
             // 
             this.BtnSave.Enabled = false;
-            this.BtnSave.Location = new System.Drawing.Point(12, 91);
+            this.BtnSave.Location = new System.Drawing.Point(182, 44);
             this.BtnSave.Name = "BtnSave";
             this.BtnSave.Size = new System.Drawing.Size(164, 38);
             this.BtnSave.TabIndex = 10;
@@ -113,169 +81,105 @@
             this.BtnSave.UseVisualStyleBackColor = true;
             this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
-            // textBox3
+            // treeView1
             // 
-            this.textBox3.Location = new System.Drawing.Point(447, 62);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(290, 20);
-            this.textBox3.TabIndex = 11;
+            this.treeView1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.treeView1.Indent = 30;
+            this.treeView1.ItemHeight = 20;
+            this.treeView1.Location = new System.Drawing.Point(0, 0);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Size = new System.Drawing.Size(771, 565);
+            this.treeView1.TabIndex = 3;
+            this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
             // 
-            // label1
+            // propertyGrid1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(403, 13);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 13);
-            this.label1.TabIndex = 13;
-            this.label1.Text = "Name:";
+            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGrid1.Location = new System.Drawing.Point(771, 0);
+            this.propertyGrid1.Name = "propertyGrid1";
+            this.propertyGrid1.Size = new System.Drawing.Size(353, 565);
+            this.propertyGrid1.TabIndex = 4;
             // 
-            // label2
+            // splitter1
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(407, 39);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(34, 13);
-            this.label2.TabIndex = 14;
-            this.label2.Text = "Type:";
+            this.splitter1.Location = new System.Drawing.Point(771, 0);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(3, 565);
+            this.splitter1.TabIndex = 5;
+            this.splitter1.TabStop = false;
             // 
-            // label3
+            // panel1
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(382, 65);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(59, 13);
-            this.label3.TabIndex = 15;
-            this.label3.Text = "Discription:";
+            this.panel1.Controls.Add(this.splitter1);
+            this.panel1.Controls.Add(this.propertyGrid1);
+            this.panel1.Controls.Add(this.treeView1);
+            this.panel1.Location = new System.Drawing.Point(12, 88);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1124, 565);
+            this.panel1.TabIndex = 26;
             // 
-            // Btn_SaveChanges
+            // Button_Refresh
             // 
-            this.Btn_SaveChanges.Enabled = false;
-            this.Btn_SaveChanges.Location = new System.Drawing.Point(182, 91);
-            this.Btn_SaveChanges.Name = "Btn_SaveChanges";
-            this.Btn_SaveChanges.Size = new System.Drawing.Size(164, 38);
-            this.Btn_SaveChanges.TabIndex = 16;
-            this.Btn_SaveChanges.Text = "Save Class";
-            this.Btn_SaveChanges.UseVisualStyleBackColor = true;
-            this.Btn_SaveChanges.Click += new System.EventHandler(this.Btn_SaveChanges_Click);
+            this.Button_Refresh.Location = new System.Drawing.Point(1061, 59);
+            this.Button_Refresh.Name = "Button_Refresh";
+            this.Button_Refresh.Size = new System.Drawing.Size(75, 23);
+            this.Button_Refresh.TabIndex = 27;
+            this.Button_Refresh.Text = "Refresh";
+            this.Button_Refresh.UseVisualStyleBackColor = true;
+            this.Button_Refresh.Click += new System.EventHandler(this.Button_Refresh_Click);
             // 
-            // label4
+            // Button_Add
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(369, 91);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(72, 13);
-            this.label4.TabIndex = 18;
-            this.label4.Text = "Parent.Name:";
+            this.Button_Add.Location = new System.Drawing.Point(12, 669);
+            this.Button_Add.Name = "Button_Add";
+            this.Button_Add.Size = new System.Drawing.Size(75, 23);
+            this.Button_Add.TabIndex = 28;
+            this.Button_Add.Text = "Add";
+            this.Button_Add.UseVisualStyleBackColor = true;
+            this.Button_Add.Click += new System.EventHandler(this.Button_Add_Click);
             // 
-            // textBox4
+            // Button_Remove
             // 
-            this.textBox4.Location = new System.Drawing.Point(447, 88);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(290, 20);
-            this.textBox4.TabIndex = 17;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(776, 16);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(61, 13);
-            this.label5.TabIndex = 20;
-            this.label5.Text = "MinOccurs:";
-            // 
-            // textBox5
-            // 
-            this.textBox5.Location = new System.Drawing.Point(846, 13);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(290, 20);
-            this.textBox5.TabIndex = 19;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(776, 42);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(64, 13);
-            this.label6.TabIndex = 22;
-            this.label6.Text = "MaxOccurs:";
-            // 
-            // textBox6
-            // 
-            this.textBox6.Location = new System.Drawing.Point(846, 39);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(290, 20);
-            this.textBox6.TabIndex = 21;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(776, 68);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(44, 13);
-            this.label7.TabIndex = 24;
-            this.label7.Text = "Nillable:";
-            // 
-            // textBox7
-            // 
-            this.textBox7.Location = new System.Drawing.Point(846, 65);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(290, 20);
-            this.textBox7.TabIndex = 23;
-            this.textBox7.TextChanged += new System.EventHandler(this.textBox7_TextChanged);
+            this.Button_Remove.Location = new System.Drawing.Point(93, 669);
+            this.Button_Remove.Name = "Button_Remove";
+            this.Button_Remove.Size = new System.Drawing.Size(75, 23);
+            this.Button_Remove.TabIndex = 29;
+            this.Button_Remove.Text = "Remove";
+            this.Button_Remove.UseVisualStyleBackColor = true;
+            this.Button_Remove.Click += new System.EventHandler(this.Button_Remove_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1170, 619);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.textBox7);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.textBox6);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.textBox5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.Btn_SaveChanges);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox3);
+            this.ClientSize = new System.Drawing.Size(1151, 721);
+            this.Controls.Add(this.Button_Remove);
+            this.Controls.Add(this.Button_Add);
+            this.Controls.Add(this.Button_Refresh);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.BtnSave);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.BtnToTV);
             this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.treeView1);
             this.Controls.Add(this.BtnXSDToSeSChema);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
         private System.Windows.Forms.Button BtnXSDToSeSChema;
-        private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button BtnToTV;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Button BtnSave;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button Btn_SaveChanges;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.PropertyGrid propertyGrid1;
+        private System.Windows.Forms.Splitter splitter1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button Button_Refresh;
+        private System.Windows.Forms.Button Button_Add;
+        private System.Windows.Forms.Button Button_Remove;
     }
 }
 
