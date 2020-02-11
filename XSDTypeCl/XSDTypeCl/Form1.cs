@@ -63,12 +63,8 @@ namespace XSDTypeCl
             SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
             treeView1.Nodes.Clear();
 
-          //  if (seSchema != null)
-               // seSchema.ClassToTreeView(treeView1.Nodes);
-
-            // treeView1.Nodes[0].ExpandAll();
-
-
+            if (seSchema != null)
+                seSchema.ClassToTreeView(treeView1.Nodes);
         }
 
         private void BtnXSDToSeSChema_Click(object sender, EventArgs e)
@@ -76,13 +72,12 @@ namespace XSDTypeCl
             XmlSchemaSet xss = ReadXSD();
             SeSchema seSchema;
             List<SeSchema> seSchemaList = null;
-            int i = 0;
             foreach (XmlSchema schema in xss.Schemas())
             {
                 seSchema = new SeSchema(schema);
                 seSchemaList = seSchemaList ?? new List<SeSchema>();
                 seSchemaList.Add(seSchema);
-                seSchema.ClassToTreeView(i,treeView1.Nodes);
+                seSchema.ClassToTreeView(treeView1.Nodes);
                 
             }
            
@@ -92,6 +87,8 @@ namespace XSDTypeCl
             comboBox1.DisplayMember = "Name";
             comboBox1.ValueMember = "Name";
 
+            BtnSave.Enabled = true;
+            Btn_SaveChanges.Enabled = true;
             //MessageBox.Show("Все доступные схемы прочитаны и добавлены в ComboBox");
         }
 
@@ -106,14 +103,25 @@ namespace XSDTypeCl
                 textBox2.DataBindings.Clear();
                 textBox3.DataBindings.Clear();
                 textBox4.DataBindings.Clear();
+                textBox5.DataBindings.Clear();
+                textBox6.DataBindings.Clear();
+                textBox7.DataBindings.Clear();
 
                 textBox1.DataBindings.Add(new Binding("Text", ssi, "Name", true));
                 textBox2.DataBindings.Add(new Binding("Text", ssi, "Type", true));
                 textBox3.DataBindings.Add(new Binding("Text", ssi, "Discription", true));
+               
 
                 if (ssi.Parent!=null)
                     textBox4.DataBindings.Add(new Binding("Text", ssi, "Parent.Name", true));
-
+                if (ssi.Properties != null)
+                {
+                    if (ssi.Properties.HasMinOccurs != false)
+                        textBox5.DataBindings.Add(new Binding("Text", ssi, "Properties.MinOccurs", true));
+                    if (ssi.Properties.HasMaxOccurs != false)
+                        textBox6.DataBindings.Add(new Binding("Text", ssi, "Properties.MaxOccurs", true));
+                    textBox7.DataBindings.Add(new Binding("Text", ssi, "Properties.IsNillable", true));
+                }
             }
             else
             {
@@ -121,6 +129,9 @@ namespace XSDTypeCl
                 textBox2.Clear();
                 textBox3.Clear();
                 textBox4.Clear();
+                textBox5.Clear();
+                textBox6.Clear();
+                textBox7.Clear();
             }
             
         }
@@ -130,7 +141,6 @@ namespace XSDTypeCl
         private void BtnSave_Click(object sender, EventArgs e)
         {
             SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
-            int i = 0;
             XmlSchema xs1=new XmlSchema();
             seSchema.SaveXSD(xs1);
             XmlSchemaSet xss = new XmlSchemaSet();
@@ -169,7 +179,13 @@ namespace XSDTypeCl
             SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
 
             treeView1.Nodes.Clear();
-            seSchema.ClassToTreeView(comboBox1.SelectedIndex, treeView1.Nodes);
+            seSchema.ClassToTreeView(treeView1.Nodes);
+        }
+        
+
+        private void textBox7_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -156,8 +156,8 @@ namespace XSDTypeCl
             XmlSchemaElement schemaElement = null;
             SeSchemaItem seSchemaItemTable = null;
             schemaElement = childElement as XmlSchemaElement;
-
-            SeSchemaItem schemaItem = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name, this, true, schemaTypeInCT = new List<SeSchemaItem>());
+            SeProperties seProp = new SeProperties(schemaElement);
+            SeSchemaItem schemaItem = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name, this, true, schemaTypeInCT = new List<SeSchemaItem>(), seProp);
             SchemaItemsChildren.Add(schemaItem);
 
             XmlSchemaComplexType complexType = schemaElement.ElementSchemaType as XmlSchemaComplexType;
@@ -168,11 +168,11 @@ namespace XSDTypeCl
                 {
                     foreach (XmlSchemaElement childElement2 in all.Items)
                     {
-                        SeProperties seProp = new SeProperties(childElement2);
+                        SeProperties seProp2 = new SeProperties(childElement2);
                         if (childElement2.ElementSchemaType is XmlSchemaComplexType)
                         {
                             XmlSchemaComplexType schemaType = childElement2.ElementSchemaType as XmlSchemaComplexType;
-                            seSchemaItemTable = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(), this, true, schemaTypeInCT2 = new List<SeSchemaItem>(),seProp);
+                            seSchemaItemTable = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(), this, true, schemaTypeInCT2 = new List<SeSchemaItem>(),seProp2);
                             
                             if (seSchemaItemTable != null)
                                 schemaTypeInCT.Add(seSchemaItemTable);
@@ -182,12 +182,12 @@ namespace XSDTypeCl
                             if (childElement2.SchemaTypeName.Name.ToString() != "")
                             {
                                 
-                                schemaTypeInCT.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(), schemaItem,false,null, seProp));
+                                schemaTypeInCT.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(), schemaItem,false,null, seProp2));
                             }
                             else
                             {
                                 List<SeSchemaItem> schemaTypeInST = new List<SeSchemaItem>();
-                                SeSchemaItem ssi = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), GetSimpleType(schemaTypeInST, childElement2), schemaItem, false,schemaTypeInST, seProp);
+                                SeSchemaItem ssi = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), GetSimpleType(schemaTypeInST, childElement2), schemaItem, false,schemaTypeInST, seProp2);
                                 schemaTypeInCT.Add(ssi);
 
                             }
@@ -249,10 +249,18 @@ namespace XSDTypeCl
         /// <param name="newElement1">Новый элемент в схеме</param>
         /// <param name="xs1">Новый экземпляр схемы</param>
         public void SaveXSD(XmlSchemaElement newElement1, XmlSchema xs1)
-        {
+        {if (Properties != null)
+            {
+                if (Properties.HasMinOccurs == true)
+                    newElement1.MinOccursString = Properties.MinOccurs;
+                if (Properties.HasMaxOccurs == true)
+                    newElement1.MaxOccursString = Properties.MaxOccurs;
+                newElement1.IsNillable = Properties.IsNillable;
+            }
             XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
             newElement1.SchemaType = newSchemaType;
             XmlSchemaAll newAll = new XmlSchemaAll();
+            newAll.MinOccursString = "0";
             newSchemaType.Particle = newAll;
             foreach (SeSchemaItem ssi in SchemaItemsChildren)
             {
