@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using System.Collections;
 
 namespace XSDTypeCl
 {
@@ -88,7 +82,7 @@ namespace XSDTypeCl
             comboBox1.ValueMember = "Name";
 
             BtnSave.Enabled = true;
-            //Btn_SaveChanges.Enabled = true;
+            
             //MessageBox.Show("Все доступные схемы прочитаны и добавлены в ComboBox");
         }
 
@@ -97,15 +91,11 @@ namespace XSDTypeCl
             SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
             if (e.Node.Tag is SeSchemaItem)
             {
-                    propertyGrid1.SelectedObject = e.Node.Tag;
+                propertyGrid1.SelectedObject = e.Node.Tag;
             }
             else
             {
-                if (treeView1.SelectedNode!=null)
-                {
-                    if (treeView1.SelectedNode.Level == 0)
-                        comboBox1.SelectedIndex = treeView1.SelectedNode.Index;
-                }
+                comboBox1.SelectedIndex = e.Node.Index;
             }
             
         }
@@ -149,17 +139,17 @@ namespace XSDTypeCl
         
         private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
-            SeSchemaItem ssi=(SeSchemaItem)propertyGrid1.SelectedObject;
+            //SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
+            //SeSchemaItem ssi=(SeSchemaItem)propertyGrid1.SelectedObject;
 
-            SeSchemaItem ssi2 = (SeSchemaItem)treeView1.SelectedNode.Tag;
-            if (ssi.HasComplexType==true )
-            {
-                foreach(SeSchemaItem seSchIt in seSchema.SchemaItems)
-                {
-                   // if(seSchIt.Name)
-                }
-            }
+            //SeSchemaItem ssi2 = (SeSchemaItem)treeView1.SelectedNode.Tag;
+            //if (ssi.HasComplexType==true )
+            //{
+            //    foreach(SeSchemaItem seSchIt in seSchema.SchemaItems)
+            //    {
+            //       // if(seSchIt.Name)
+            //    }
+            //}
             UpdateTreeView();
         }
 
@@ -171,11 +161,12 @@ namespace XSDTypeCl
         {
             //string path = treeView1.SelectedNode.FullPath;
             SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
-
             treeView1.BeginUpdate();
-            treeView1.Refresh();
+            treeView1.Nodes.Clear();
+            seSchema.ClassToTreeView(treeView1.Nodes);
             treeView1.EndUpdate();
-            //  treeView1.
+            treeView1.Refresh();
+            treeView1.Update();
         }
         private void Button_Add_Click(object sender, EventArgs e)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,13 +15,33 @@ namespace XSDTypeCl
         /// <summary>
         /// Элемент списка SchemaItems класса SeSchema
         /// </summary>
+        [ReadOnly(false)]
+        [Category("Properties")]
+        [Description("Name of SchemaItem")]
         public string Name { get; set; }
+
+        [ReadOnly(false)]
+        [Category("Properties")]
+        [Description("Descriprion of SchemaItem")]
         public string Description { get; set; }
+
+        [ReadOnly(false)]
+        [Category("Properties")]
+        [Description("Type of SchemaItem")]
         public string Type { get; set; }
+
+        [Browsable(false)]
         public SeSchemaItem Parent { get; set; } //тип object для указания на SeSchema?
+
+        [Browsable(false)]
         public bool HasComplexType { get; set; }
+
+        [ReadOnly(false)]
+        [Category("Properties")]
+        [Description("SchemaItems of SchemaItem")]
         public List<SeSchemaItem> SchemaItemsChildren { get; set; }
 
+        [Browsable(false)]  //?
         public SeProperties Properties { get; set; }
 
         /// <summary>
