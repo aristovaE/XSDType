@@ -97,8 +97,9 @@
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGrid1.Location = new System.Drawing.Point(771, 0);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(353, 565);
+            this.propertyGrid1.Size = new System.Drawing.Size(608, 565);
             this.propertyGrid1.TabIndex = 4;
+            this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
             // 
             // splitter1
             // 
@@ -115,7 +116,7 @@
             this.panel1.Controls.Add(this.treeView1);
             this.panel1.Location = new System.Drawing.Point(12, 88);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1124, 565);
+            this.panel1.Size = new System.Drawing.Size(1379, 565);
             this.panel1.TabIndex = 26;
             // 
             // Button_Refresh
@@ -152,7 +153,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1151, 721);
+            this.ClientSize = new System.Drawing.Size(1403, 721);
             this.Controls.Add(this.Button_Remove);
             this.Controls.Add(this.Button_Add);
             this.Controls.Add(this.Button_Refresh);

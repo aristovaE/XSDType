@@ -174,6 +174,7 @@ namespace XSDTypeCl
                 XmlSchemaAll all = complexType.Particle as XmlSchemaAll; // <xsd:all>
                 if (all != null)
                 {
+                    seProp.MinOccursAll = all.MinOccursString;
                     foreach (XmlSchemaElement childElement2 in all.Items)
                     {
                         SeProperties seProp2 = new SeProperties(childElement2);
@@ -234,7 +235,7 @@ namespace XSDTypeCl
         public void ClassToTreeView(TreeNodeCollection treeNodes)
         {
             TreeNode newTreeNode;
-
+            
             newTreeNode = treeNodes.Add(ToString());
             newTreeNode.Tag = this;
 
@@ -272,7 +273,7 @@ namespace XSDTypeCl
             XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
             newElement1.SchemaType = newSchemaType;
             XmlSchemaAll newAll = new XmlSchemaAll();
-            //newAll.MinOccursString = "0";
+            Properties.SetPropAll(newAll);
             newSchemaType.Particle = newAll;
             foreach (SeSchemaItem ssi in SchemaItemsChildren)
             {

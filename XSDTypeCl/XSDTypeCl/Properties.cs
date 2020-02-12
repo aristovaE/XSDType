@@ -17,6 +17,7 @@ namespace XSDTypeCl
         public string MaxOccurs { get; set; }
         public bool IsNillable { get; set; }
 
+        public string MinOccursAll { get; set; }
         public SeProperties(XmlSchemaElement element)
         {
             if (element.MinOccursString == null)
@@ -36,6 +37,10 @@ namespace XSDTypeCl
                 MaxOccurs = element.MaxOccursString;
             }
             IsNillable = element.IsNillable;
+        }
+        public void SetPropAll(XmlSchemaAll newAll)
+        {
+            newAll.MinOccursString = MinOccursAll;
         }
     }
 }

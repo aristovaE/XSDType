@@ -80,7 +80,7 @@ namespace XSDTypeCl
                 seSchema.ClassToTreeView(treeView1.Nodes);
                 
             }
-           
+            
             var bindingSource1 = new BindingSource();
             bindingSource1.DataSource = seSchemaList;
             comboBox1.DataSource = bindingSource1.DataSource;
@@ -95,13 +95,17 @@ namespace XSDTypeCl
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
-            if (e.Node.Tag != null)
+            if (e.Node.Tag is SeSchemaItem)
             {
                     propertyGrid1.SelectedObject = e.Node.Tag;
             }
             else
             {
-               
+                if (treeView1.SelectedNode!=null)
+                {
+                    if (treeView1.SelectedNode.Level == 0)
+                        comboBox1.SelectedIndex = treeView1.SelectedNode.Index;
+                }
             }
             
         }
@@ -127,7 +131,6 @@ namespace XSDTypeCl
                     {
                         xss.Add(xs1);
                     }
-
                 }
                 //для записи в readonly ElementSchemaType 
                 xss.Compile();  
@@ -143,17 +146,22 @@ namespace XSDTypeCl
                 fs.Close();
             }
         }
-
-        private void Btn_SaveChanges_Click(object sender, EventArgs e)
+        
+        private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
+            SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
+            SeSchemaItem ssi=(SeSchemaItem)propertyGrid1.SelectedObject;
+
+            SeSchemaItem ssi2 = (SeSchemaItem)treeView1.SelectedNode.Tag;
+            if (ssi.HasComplexType==true )
+            {
+                foreach(SeSchemaItem seSchIt in seSchema.SchemaItems)
+                {
+                   // if(seSchIt.Name)
+                }
+            }
             UpdateTreeView();
         }
-
-       
-        //private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-        //{
-        //    UpdateTreeView();
-        //}
 
         private void Button_Refresh_Click(object sender, EventArgs e)
         {
@@ -161,11 +169,13 @@ namespace XSDTypeCl
         }
         public void UpdateTreeView()
         {
+            //string path = treeView1.SelectedNode.FullPath;
             SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
 
-            treeView1.Nodes.Clear();
-            seSchema.ClassToTreeView(treeView1.Nodes);
-
+            treeView1.BeginUpdate();
+            treeView1.Refresh();
+            treeView1.EndUpdate();
+            //  treeView1.
         }
         private void Button_Add_Click(object sender, EventArgs e)
         {

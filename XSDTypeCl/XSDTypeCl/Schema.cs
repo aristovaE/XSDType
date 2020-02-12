@@ -124,6 +124,7 @@ namespace XSDTypeCl
         {
             List<TreeNode> nodesList = new List<TreeNode>();
             TreeNode newTreeNode = treeNodes.Add(Name);
+            
             newTreeNode.Tag = this;
             foreach (SeSchemaItem schemaItem in SchemaItems)
             {
@@ -174,6 +175,13 @@ namespace XSDTypeCl
                                 {
                                     if (nodeElement.Nodes.Count == 0)
                                     {
+                                        //var bindingSource1 = new BindingSource();
+                                        //bindingSource1.DataSource = ssiElement.Type;
+                                        //ssiElement.DataSource = bindingSource1.DataSource;
+                                        //comboBox1.DisplayMember = "Name";
+                                        //comboBox1.ValueMember = "Name";
+
+
                                         CloneEachNodeChild(nodeTable2.Nodes[0], nodesList);
                                         TreeNode clonedNode = (TreeNode)nodeTable2.Clone();
                                         nodeElement.Nodes.Insert(0, clonedNode);
