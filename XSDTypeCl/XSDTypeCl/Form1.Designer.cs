@@ -1,6 +1,6 @@
 ﻿namespace XSDTypeCl
 {
-    partial class Form1
+    partial class XSDEditor
     {
         /// <summary>
         /// Required designer variable.
@@ -149,7 +149,7 @@
             this.Button_Remove.UseVisualStyleBackColor = true;
             this.Button_Remove.Click += new System.EventHandler(this.Button_Remove_Click);
             // 
-            // Form1
+            // XSDEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -162,8 +162,8 @@
             this.Controls.Add(this.BtnToTV);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.BtnXSDToSeSChema);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "XSDEditor";
+            this.Text = "XSDEditor";
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

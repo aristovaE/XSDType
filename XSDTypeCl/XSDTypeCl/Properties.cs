@@ -18,6 +18,14 @@ namespace XSDTypeCl
         public bool IsNillable { get; set; }
 
         public string MinOccursAll { get; set; }
+
+        public SeProperties()
+        {
+            HasMinOccurs = false;
+            HasMaxOccurs = false;
+            HasNillable = false;
+        }
+
         public SeProperties(XmlSchemaElement element)
         {
             if (element.MinOccursString == null)

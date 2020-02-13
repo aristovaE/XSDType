@@ -35,7 +35,11 @@ namespace XSDTypeCl
                 ReadXSD(sChemaItem);
             }
         }
-
+        public SeSchema()
+        {
+            Name = "Untitled";
+            SchemaItems = new List<SeSchemaItem>();
+        }
         /// <summary>
         /// Запись в класс SeSchemaItem описания из Annotation в XSD
         /// </summary>
@@ -96,7 +100,7 @@ namespace XSDTypeCl
 
                 schemaType = sChemaItem as XmlSchemaComplexType;
 
-                seSchemaItemTable = new SeSchemaItem(schemaType.Name, GetAnnotation(schemaType), "",null,false, schemaTypeInCT = new List<SeSchemaItem>());
+                seSchemaItemTable = new SeSchemaItem(schemaType.Name, GetAnnotation(schemaType), "",null,false,true, schemaTypeInCT = new List<SeSchemaItem>());
                 XmlSchemaSequence sequence = schemaType.ContentTypeParticle as XmlSchemaSequence;
                 try
                 {
@@ -163,29 +167,33 @@ namespace XSDTypeCl
             {
                 SeSchemaItem ssiTable = (SeSchemaItem)nodeTable.Tag;
                 if (ssiTable.HasComplexType == false)
-                    foreach (TreeNode nodeElement in nodeTable.Nodes[0].Nodes)
+                    try
                     {
-                        SeSchemaItem ssiElement = (SeSchemaItem)nodeElement.Tag;
-                        if (ssiElement.HasComplexType == true)
+                        foreach (TreeNode nodeElement in nodeTable.Nodes[0].Nodes)
                         {
-                            foreach (TreeNode nodeTable2 in nodesList)
+                            SeSchemaItem ssiElement = (SeSchemaItem)nodeElement.Tag;
+                            if (ssiElement.HasComplexType == true)
                             {
-                                SeSchemaItem ssiTable2 = (SeSchemaItem)nodeTable2.Tag;
-                                if (ssiElement.Type == ssiTable2.Name)
+                                foreach (TreeNode nodeTable2 in nodesList)
                                 {
-                                    if (nodeElement.Nodes.Count == 0)
+                                    SeSchemaItem ssiTable2 = (SeSchemaItem)nodeTable2.Tag;
+                                    if (ssiElement.Type == ssiTable2.Name)
                                     {
-                                        CloneEachNodeChild(nodeTable2.Nodes[0], nodesList);
-                                        TreeNode clonedNode = (TreeNode)nodeTable2.Clone();
-                                        nodeElement.Nodes.Insert(0, clonedNode);
-                                        break;
+                                        if (nodeElement.Nodes.Count == 0)
+                                        {
+                                            CloneEachNodeChild(nodeTable2.Nodes[0], nodesList);
+                                            TreeNode clonedNode = (TreeNode)nodeTable2.Clone();
+                                            nodeElement.Nodes.Insert(0, clonedNode);
+                                            break;
+                                        }
+
                                     }
-
                                 }
-                            }
 
+                            }
                         }
                     }
+                    catch { }
             }
         }
 
@@ -295,6 +303,7 @@ namespace XSDTypeCl
             XmlDocument doc = new XmlDocument();
             return new XmlNode[1] { doc.CreateTextNode(text) };
         }
+
     }
 
 }

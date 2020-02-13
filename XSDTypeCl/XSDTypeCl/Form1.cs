@@ -9,9 +9,9 @@ using System.Xml.Serialization;
 
 namespace XSDTypeCl
 {
-    public partial class Form1 : Form
+    public partial class XSDEditor : Form
     {
-        public Form1()
+        public XSDEditor()
         {
             InitializeComponent();
         }
@@ -88,15 +88,18 @@ namespace XSDTypeCl
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
+           
             if (e.Node.Tag is SeSchemaItem)
             {
                 propertyGrid1.SelectedObject = e.Node.Tag;
+                
             }
-            else
+            else if (e.Node.Tag is SeSchema)
             {
+                propertyGrid1.SelectedObject = e.Node.Tag;
                 comboBox1.SelectedIndex = e.Node.Index;
             }
+            else { }
             
         }
 
@@ -159,23 +162,32 @@ namespace XSDTypeCl
         }
         public void UpdateTreeView()
         {
+            //treeView1.Nodes.Clear();
             //string path = treeView1.SelectedNode.FullPath;
-            SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
-            treeView1.BeginUpdate();
-            treeView1.Nodes.Clear();
-            seSchema.ClassToTreeView(treeView1.Nodes);
-            treeView1.EndUpdate();
+            //List<SeSchema> schemaList = new List<SeSchema>();
+            //for (int i = 0; i < comboBox1.Items.Count; i++)
+            //{
+            //    SeSchema seSchema = (SeSchema)comboBox1.Items[i];
+            //    seSchema.ClassToTreeView(treeView1.Nodes);
+            ////}
+            //treeView1.BeginUpdate();
+
+            ////seSchema.ClassToTreeView(treeView1.Nodes);
+            //treeView1.EndUpdate();
+
             treeView1.Refresh();
-            treeView1.Update();
-        }
+            treeView1.SelectedNode.Parent.Expand();
+            }
         private void Button_Add_Click(object sender, EventArgs e)
         {
-            if (treeView1.SelectedNode.Tag!=null)
+            if (treeView1.SelectedNode!=null)
             {
                 if (treeView1.SelectedNode.Tag is SeSchema)
                 {
-                    SeSchema ss = (SeSchema)treeView1.SelectedNode.Tag;
-                    ss.SchemaItems.Add(new SeSchemaItem());
+                    SeSchema seSchema = (SeSchema)treeView1.SelectedNode.Tag;
+                    seSchema.SchemaItems.Add(new SeSchemaItem());
+
+
                 }
                 else if (treeView1.SelectedNode.Tag is SeSchemaItem)
                 {
@@ -185,7 +197,7 @@ namespace XSDTypeCl
             }
             else
             {
-
+                MessageBox.Show("Для добавления нового элемента или схемы нажмите на ветку TreeView");//?
             }
             UpdateTreeView();
         }
@@ -196,12 +208,23 @@ namespace XSDTypeCl
             {
                 if (treeView1.SelectedNode.Tag is SeSchema)
                 {
+                    //???
                 }
                 else if (treeView1.SelectedNode.Tag is SeSchemaItem)
                 {
                     SeSchemaItem ssi = (SeSchemaItem)treeView1.SelectedNode.Tag;
-                    SeSchemaItem ssiParent = (SeSchemaItem)treeView1.SelectedNode.Parent.Tag;
-                    ssiParent.SchemaItemsChildren.Remove(ssi);
+                 
+                    if (treeView1.SelectedNode.Parent.Tag is SeSchemaItem)
+                    {
+                        SeSchemaItem ssiParent = (SeSchemaItem)treeView1.SelectedNode.Parent.Tag;
+                        ssiParent.SchemaItemsChildren.Remove(ssi);
+                    }
+                    else if (treeView1.SelectedNode.Parent.Tag is SeSchema)
+                    {
+                        SeSchema ssiParent = (SeSchema)treeView1.SelectedNode.Parent.Tag;
+                        ssiParent.SchemaItems.Remove(ssi);
+                    }
+                   
                 }
             }
             else

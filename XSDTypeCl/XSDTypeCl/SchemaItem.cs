@@ -28,19 +28,43 @@ namespace XSDTypeCl
         [ReadOnly(false)]
         [Category("Properties")]
         [Description("Type of SchemaItem")]
+        [TypeConverter(typeof(MyConverter))]
         public string Type { get; set; }
+        public class MyConverter : StringConverter
+        {
+            public override bool GetStandardValuesSupported(ITypeDescriptorContext
+            context)
+            {
+                //true means show a combobox
+                return true;
+            }
+            public override bool GetStandardValuesExclusive(ITypeDescriptorContext
+            context)
+            {
+                //true will limit to list. false will show the list, but allow free-form entry
+            return true;
+            }
 
+            public override
+            StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
+            {
+                return new StandardValuesCollection(
+                new string[] { "string", "integer", "decimal", "byte" });
+            }
+
+        }
         [Browsable(false)]
         public SeSchemaItem Parent { get; set; } //тип object для указания на SeSchema?
 
         [Browsable(false)]
         public bool HasComplexType { get; set; }
-
+        [Browsable(false)]
+        public bool IsComplexType { get; set; }
         [ReadOnly(false)]
         [Category("Properties")]
         [Description("SchemaItems of SchemaItem")]
         public List<SeSchemaItem> SchemaItemsChildren { get; set; }
-
+        
         [Browsable(false)]  //?
         public SeProperties Properties { get; set; }
 
@@ -54,13 +78,24 @@ namespace XSDTypeCl
         /// <param name="HasComplexType">Имеет или не имеет ComplexType (Для корректного сохранения)</param>
         /// <param name="SchemaItemsChildren">Список дочерних элементов</param>
 
-        public SeSchemaItem(string Name, string Description, string Type, SeSchemaItem Parent, bool HasComplexType, List<SeSchemaItem> SchemaItemsChildren)
+        public SeSchemaItem(string Name, string Description, string Type, SeSchemaItem Parent, bool HasComplexType,  List<SeSchemaItem> SchemaItemsChildren)
         {
             this.Name = Name;
             this.Description = Description;
             this.Type = Type;
             this.Parent = Parent;
             this.HasComplexType = HasComplexType;
+            this.SchemaItemsChildren = SchemaItemsChildren;
+
+        }
+        public SeSchemaItem(string Name, string Description, string Type, SeSchemaItem Parent, bool HasComplexType, bool IsComplexType, List<SeSchemaItem> SchemaItemsChildren)
+        {
+            this.Name = Name;
+            this.Description = Description;
+            this.Type = Type;
+            this.Parent = Parent;
+            this.HasComplexType = HasComplexType;
+            this.IsComplexType = IsComplexType;
             this.SchemaItemsChildren = SchemaItemsChildren;
 
         }
@@ -87,10 +122,18 @@ namespace XSDTypeCl
             this.Description = Description;
             this.Type = Type;
             this.Parent = Parent;
+
         }
 
         public SeSchemaItem()
         {
+            Name = "Untitled";
+            Description = "None";
+            Type = "string";
+            HasComplexType = false;
+            IsComplexType = false;
+            SchemaItemsChildren = new List<SeSchemaItem>();
+            Properties = new SeProperties();
         }
         /// <summary>
         /// Запись в класс SeSchemaItem описания из <xsd:Annotation>
@@ -202,8 +245,8 @@ namespace XSDTypeCl
                         if (childElement2.ElementSchemaType is XmlSchemaComplexType)
                         {
                             XmlSchemaComplexType schemaType = childElement2.ElementSchemaType as XmlSchemaComplexType;
-                            //<xsd:Complex Type>
-                            seSchemaItemTable = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(), this, true, schemaTypeInCT2 = new List<SeSchemaItem>(),seProp2);
+                            //<xsd:element ... type=ComplexType>
+                            seSchemaItemTable = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(), this,true, schemaTypeInCT2 = new List<SeSchemaItem>(),seProp2);
                             
                             if (seSchemaItemTable != null)
                                 schemaTypeInCT.Add(seSchemaItemTable);
