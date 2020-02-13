@@ -131,17 +131,17 @@
             // 
             // Button_Add
             // 
-            this.Button_Add.Location = new System.Drawing.Point(12, 669);
+            this.Button_Add.Location = new System.Drawing.Point(101, 669);
             this.Button_Add.Name = "Button_Add";
-            this.Button_Add.Size = new System.Drawing.Size(75, 23);
+            this.Button_Add.Size = new System.Drawing.Size(83, 23);
             this.Button_Add.TabIndex = 28;
-            this.Button_Add.Text = "Add";
+            this.Button_Add.Text = "Add Element";
             this.Button_Add.UseVisualStyleBackColor = true;
             this.Button_Add.Click += new System.EventHandler(this.Button_Add_Click);
             // 
             // Button_Remove
             // 
-            this.Button_Remove.Location = new System.Drawing.Point(93, 669);
+            this.Button_Remove.Location = new System.Drawing.Point(708, 669);
             this.Button_Remove.Name = "Button_Remove";
             this.Button_Remove.Size = new System.Drawing.Size(75, 23);
             this.Button_Remove.TabIndex = 29;

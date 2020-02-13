@@ -40,6 +40,11 @@ namespace XSDTypeCl
             Name = "Untitled";
             SchemaItems = new List<SeSchemaItem>();
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
         /// <summary>
         /// Запись в класс SeSchemaItem описания из Annotation в XSD
         /// </summary>
