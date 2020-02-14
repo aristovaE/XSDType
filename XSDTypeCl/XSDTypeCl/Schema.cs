@@ -96,7 +96,7 @@ namespace XSDTypeCl
                 schemaElement = sChemaItem as XmlSchemaElement;
                 Name = schemaElement.Name;
 
-                seSchemaItemTable = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name,null, true, schemaTypeInCT = new List<SeSchemaItem>());
+                seSchemaItemTable = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name,null,  schemaTypeInCT = new List<SeSchemaItem>());
 
             }
             else if (sChemaItem is XmlSchemaComplexType)
@@ -105,7 +105,7 @@ namespace XSDTypeCl
 
                 schemaType = sChemaItem as XmlSchemaComplexType;
 
-                seSchemaItemTable = new SeSchemaItem(schemaType.Name, GetAnnotation(schemaType), "",null,false,true, schemaTypeInCT = new List<SeSchemaItem>());
+                seSchemaItemTable = new SeSchemaItem(schemaType.Name, GetAnnotation(schemaType), "",null, schemaTypeInCT = new List<SeSchemaItem>());
                 XmlSchemaSequence sequence = schemaType.ContentTypeParticle as XmlSchemaSequence;
                 try
                 {
@@ -150,8 +150,7 @@ namespace XSDTypeCl
                 {
                     SeSchemaItem newSsi = (SeSchemaItem)eachTnn.Tag;
                     SeSchemaItem eachSsi = (SeSchemaItem)eachTn.Tag;
-                    if (newSsi.HasComplexType == true && eachSsi.HasComplexType == false)
-                    {
+                    
                         if (newSsi.Type == eachSsi.Name)
                         {
                             TreeNode clonedNode = (TreeNode)eachTn.Clone();
@@ -159,7 +158,7 @@ namespace XSDTypeCl
                         }
 
 
-                    }
+                    
                 }
             }
 
@@ -171,13 +170,14 @@ namespace XSDTypeCl
             foreach (TreeNode nodeTable in nodesList)
             {
                 SeSchemaItem ssiTable = (SeSchemaItem)nodeTable.Tag;
-                if (ssiTable.HasComplexType == false)
+                if (ssiTable.Type == "")
+                 
                     try
                     {
                         foreach (TreeNode nodeElement in nodeTable.Nodes[0].Nodes)
                         {
                             SeSchemaItem ssiElement = (SeSchemaItem)nodeElement.Tag;
-                            if (ssiElement.HasComplexType == true)
+                            if (ssiElement.Type != SeSchemaItem.SimpleType.Decimal.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.String.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.Integer.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.dateTime.ToString())
                             {
                                 foreach (TreeNode nodeTable2 in nodesList)
                                 {
@@ -207,11 +207,11 @@ namespace XSDTypeCl
             foreach (TreeNode nodeTable in nodesList)
             {
                 SeSchemaItem ssiTable = (SeSchemaItem)nodeTable.Tag;
-                if (ssiTable.HasComplexType == false)
+                if (ssiTable.Type == "")
                     foreach (TreeNode nodeElement in eachTnn.Nodes)
                     {
                         SeSchemaItem ssiElement = (SeSchemaItem)nodeElement.Tag;
-                        if (ssiElement.HasComplexType == true)
+                        if (ssiElement.Type != SeSchemaItem.SimpleType.Decimal.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.String.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.Integer.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.dateTime.ToString())
                         {
                             foreach (TreeNode nodeTable2 in nodesList)
                             {
@@ -252,7 +252,7 @@ namespace XSDTypeCl
                 XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
                 //newElement.SchemaType = newSchemaType;
 
-                if (newschemaItem.IsComplexType != true)
+                if (newschemaItem.Type != "")
                 {
                     newElement.Name = newschemaItem.Name;
                     newElement.SchemaTypeName = new XmlQualifiedName(newschemaItem.Type);
