@@ -72,15 +72,14 @@ namespace XSDTypeCl
                 seSchemaList = seSchemaList ?? new List<SeSchema>();
                 seSchemaList.Add(seSchema);
                 seSchema.ClassToTreeView(treeView1.Nodes);
-                
+              
+
             }
-            
             var bindingSource1 = new BindingSource();
             bindingSource1.DataSource = seSchemaList;
             comboBox1.DataSource = bindingSource1.DataSource;
             comboBox1.DisplayMember = "Name";
             comboBox1.ValueMember = "Name";
-
             BtnSave.Enabled = true;
             
             //MessageBox.Show("Все доступные схемы прочитаны и добавлены в ComboBox");
@@ -157,7 +156,7 @@ namespace XSDTypeCl
 
         private void Button_Refresh_Click(object sender, EventArgs e)
         {
-            UpdateTreeView(treeView1.SelectedNode.Nodes);
+            UpdateTreeView(treeView1.Nodes);
         }
         public void UpdateTreeView(TreeNodeCollection tnc) 
         {
@@ -167,6 +166,22 @@ namespace XSDTypeCl
                 SeSchema seSchema = (SeSchema)comboBox1.Items[i];
                 seSchema.ClassToTreeView(treeView1.Nodes);
             }
+        }
+
+        public void UpdateComboBox(SeSchema newSchema)
+        {
+            List<SeSchema> seSchemaList = new List<SeSchema>();
+            for(int i=0;i< comboBox1.Items.Count;i++)
+            {
+                seSchemaList.Add((SeSchema)comboBox1.Items[i]);
+            }
+            seSchemaList.Add(newSchema);
+            comboBox1.DataSource = null;
+            var bindingSource1 = new BindingSource();
+            bindingSource1.DataSource = seSchemaList;
+            comboBox1.DataSource = bindingSource1.DataSource;
+            comboBox1.DisplayMember = "Name";
+            comboBox1.ValueMember = "Name";
         }
         public void UpdateNode()
         {
@@ -250,6 +265,7 @@ namespace XSDTypeCl
         {
             SeSchema newSchema = new SeSchema();
             newSchema.ClassToTreeView(treeView1.Nodes);
+            UpdateComboBox(newSchema);
         }
     }
 }
