@@ -16,15 +16,15 @@ namespace XSDTypeCl
             InitializeComponent();
         }
 
-        public XmlSchemaSet ReadXSD()
+        public XmlSchemaSet ReadXSD(DirectoryInfo diXsd)
         {
             XmlSchemaSet xss = null;
             XmlSchema xs = null;
             XmlSchemas schemas = null;
             ValidationEventHandler ValidationErrorHandler = null;
 
-            DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\"));
-            //DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\new\")); //для проверки новых схем
+           //DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\"));
+           // DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\new\")); //для проверки новых схем
 
 
             treeView1.Nodes.Clear();
@@ -47,7 +47,10 @@ namespace XSDTypeCl
                 }
                 xss.Compile();
             }
-            catch { }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
             return xss;
         }
 
@@ -63,7 +66,8 @@ namespace XSDTypeCl
 
         private void BtnXSDToSeSChema_Click(object sender, EventArgs e)
         {
-            XmlSchemaSet xss = ReadXSD();
+            DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\"));
+            XmlSchemaSet xss = ReadXSD(diXsd);
             SeSchema seSchema;
             List<SeSchema> seSchemaList = null;
             foreach (XmlSchema schema in xss.Schemas())
@@ -75,6 +79,7 @@ namespace XSDTypeCl
               
 
             }
+            comboBox1.DataSource = null;
             var bindingSource1 = new BindingSource();
             bindingSource1.DataSource = seSchemaList;
             comboBox1.DataSource = bindingSource1.DataSource;
@@ -175,7 +180,8 @@ namespace XSDTypeCl
             {
                 seSchemaList.Add((SeSchema)comboBox1.Items[i]);
             }
-            seSchemaList.Add(newSchema);
+           if(newSchema!=null)
+                seSchemaList.Add(newSchema);
             comboBox1.DataSource = null;
             var bindingSource1 = new BindingSource();
             bindingSource1.DataSource = seSchemaList;
@@ -235,7 +241,9 @@ namespace XSDTypeCl
             {
                 if (treeView1.SelectedNode.Tag is SeSchema)
                 {
-                    //???
+                    //comboBox1.DataSource = null;
+                    //comboBox1.Items.Remove(comboBox1.SelectedItem);
+                    //UpdateComboBox(null);
                 }
                 else if (treeView1.SelectedNode.Tag is SeSchemaItem)
                 {
@@ -259,6 +267,7 @@ namespace XSDTypeCl
             {
 
             }
+
         }
 
         private void Button_Schema_Click(object sender, EventArgs e)
@@ -266,6 +275,30 @@ namespace XSDTypeCl
             SeSchema newSchema = new SeSchema();
             newSchema.ClassToTreeView(treeView1.Nodes);
             UpdateComboBox(newSchema);
+        }
+
+        private void Button_NewSchemas_Click(object sender, EventArgs e)
+        {
+            DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\new\"));
+            XmlSchemaSet xss = ReadXSD(diXsd);
+            SeSchema seSchema;
+            List<SeSchema> seSchemaList = null;
+            foreach (XmlSchema schema in xss.Schemas())
+            {
+                seSchema = new SeSchema(schema);
+                seSchemaList = seSchemaList ?? new List<SeSchema>();
+                seSchemaList.Add(seSchema);
+                seSchema.ClassToTreeView(treeView1.Nodes);
+
+
+            }
+            comboBox1.DataSource = null;
+            var bindingSource1 = new BindingSource();
+            bindingSource1.DataSource = seSchemaList;
+            comboBox1.DataSource = bindingSource1.DataSource;
+            comboBox1.DisplayMember = "Name";
+            comboBox1.ValueMember = "Name";
+            BtnSave.Enabled = true;
         }
     }
 }

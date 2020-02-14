@@ -132,7 +132,7 @@ namespace XSDTypeCl
         public SeSchemaItem()
         {
             Name = "Untitled";
-            Description = "None";
+            Description = null;
             Type = "string";
             HasComplexType = false;
             IsComplexType = false;

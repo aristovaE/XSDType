@@ -256,8 +256,10 @@ namespace XSDTypeCl
                 {
                     newElement.Name = newschemaItem.Name;
                     newElement.SchemaTypeName = new XmlQualifiedName(newschemaItem.Type);
-
-                    newElement.Annotation = SetAnnotation(newschemaItem);
+                    if (newschemaItem.Description != null && newschemaItem.Description != "")
+                    {
+                        newElement.Annotation = SetAnnotation(newschemaItem);
+                    }
                     xs1.Items.Add(newElement);
                 }
                 else
@@ -267,9 +269,9 @@ namespace XSDTypeCl
                     XmlSchemaSequence newSeq = new XmlSchemaSequence();
                     newSchemaType.Particle = newSeq;
                     XmlSchemaElement newElement1 = new XmlSchemaElement();
-
-                    newSchemaType.Annotation = SetAnnotation(newschemaItem);
-                    if (newschemaItem.SchemaItemsChildren[0].Description != null)
+                    if (newschemaItem.Description != null && newschemaItem.Description != "")
+                        newSchemaType.Annotation = SetAnnotation(newschemaItem);
+                    if (newschemaItem.SchemaItemsChildren[0].Description != null&& newschemaItem.SchemaItemsChildren[0].Description!="")
                     {
                         newElement1.Annotation = SetAnnotation(newschemaItem.SchemaItemsChildren[0]);
                     }

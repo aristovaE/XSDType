@@ -40,6 +40,7 @@
             this.Button_Add = new System.Windows.Forms.Button();
             this.Button_Remove = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.Button_NewSchemas = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -96,6 +97,7 @@
             // propertyGrid1
             // 
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGrid1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.propertyGrid1.Location = new System.Drawing.Point(771, 0);
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.Size = new System.Drawing.Size(608, 565);
@@ -160,11 +162,22 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button_Schema_Click);
             // 
+            // Button_NewSchemas
+            // 
+            this.Button_NewSchemas.Location = new System.Drawing.Point(684, 44);
+            this.Button_NewSchemas.Name = "Button_NewSchemas";
+            this.Button_NewSchemas.Size = new System.Drawing.Size(102, 38);
+            this.Button_NewSchemas.TabIndex = 31;
+            this.Button_NewSchemas.Text = "Open New Schemas";
+            this.Button_NewSchemas.UseVisualStyleBackColor = true;
+            this.Button_NewSchemas.Click += new System.EventHandler(this.Button_NewSchemas_Click);
+            // 
             // XSDEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1403, 721);
+            this.Controls.Add(this.Button_NewSchemas);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.Button_Remove);
             this.Controls.Add(this.Button_Add);
@@ -194,6 +207,7 @@
         private System.Windows.Forms.Button Button_Add;
         private System.Windows.Forms.Button Button_Remove;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button Button_NewSchemas;
     }
 }
 
