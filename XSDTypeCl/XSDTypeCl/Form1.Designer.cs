@@ -39,6 +39,7 @@
             this.Button_Refresh = new System.Windows.Forms.Button();
             this.Button_Add = new System.Windows.Forms.Button();
             this.Button_Remove = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -149,11 +150,22 @@
             this.Button_Remove.UseVisualStyleBackColor = true;
             this.Button_Remove.Click += new System.EventHandler(this.Button_Remove_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(12, 669);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(83, 23);
+            this.button1.TabIndex = 30;
+            this.button1.Text = "Add Schema";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Button_Schema_Click);
+            // 
             // XSDEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1403, 721);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.Button_Remove);
             this.Controls.Add(this.Button_Add);
             this.Controls.Add(this.Button_Refresh);
@@ -181,6 +193,7 @@
         private System.Windows.Forms.Button Button_Refresh;
         private System.Windows.Forms.Button Button_Add;
         private System.Windows.Forms.Button Button_Remove;
+        private System.Windows.Forms.Button button1;
     }
 }
 

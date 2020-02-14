@@ -42,7 +42,7 @@ namespace XSDTypeCl
             context)
             {
                 //true will limit to list. false will show the list, but allow free-form entry
-            return true;
+            return false;
             }
 
             public override
@@ -56,9 +56,13 @@ namespace XSDTypeCl
         [Browsable(false)]
         public SeSchemaItem Parent { get; set; } //тип object для указания на SeSchema?
 
-        [Browsable(false)]
+        [ReadOnly(false)]
+        [Category("Properties")]
+        [Description("SchemaItem has ComplexType? (true/false)")]
         public bool HasComplexType { get; set; }
-        [Browsable(false)]
+        [ReadOnly(false)]
+        [Category("Properties")]
+        [Description("SchemaItem is ComplexType? (true/false)")]
         public bool IsComplexType { get; set; }
         [ReadOnly(false)]
         [Category("Properties")]

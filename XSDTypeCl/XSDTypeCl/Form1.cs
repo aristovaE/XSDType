@@ -98,6 +98,7 @@ namespace XSDTypeCl
             {
                 comboBox1.Refresh();
                 propertyGrid1.SelectedObject = e.Node.Tag;
+                if (e.Node.Index< comboBox1.Items.Count)
                 comboBox1.SelectedIndex = e.Node.Index;
             }
             else { }
@@ -108,7 +109,15 @@ namespace XSDTypeCl
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
+            SeSchema seSchema = null;
+            if ((treeView1.SelectedNode!=null) && (treeView1.SelectedNode.Tag is SeSchema))
+            {
+                seSchema = (SeSchema)treeView1.SelectedNode.Tag;
+            }
+            else
+            {
+                seSchema = (SeSchema)comboBox1.SelectedItem;
+            }
             XmlSchema xs1=new XmlSchema();
             seSchema.SaveXSD(xs1);
             XmlSchemaSet xss = new XmlSchemaSet();

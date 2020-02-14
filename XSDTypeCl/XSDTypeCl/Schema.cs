@@ -252,7 +252,7 @@ namespace XSDTypeCl
                 XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
                 //newElement.SchemaType = newSchemaType;
 
-                if (newschemaItem.Type != "")
+                if (newschemaItem.IsComplexType != true)
                 {
                     newElement.Name = newschemaItem.Name;
                     newElement.SchemaTypeName = new XmlQualifiedName(newschemaItem.Type);
