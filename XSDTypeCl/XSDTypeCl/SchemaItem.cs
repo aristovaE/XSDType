@@ -59,16 +59,16 @@ namespace XSDTypeCl
                 {
                     ssi = (SeSchemaItem)ssi.Parent;
                 }
-               
-                    SeSchema ss = (SeSchema)ssi.Parent;
-                    foreach (SeSchemaItem ssiTable in ss.SchemaItems)
+
+                SeSchema ss = (SeSchema)ssi.Parent;
+                foreach (SeSchemaItem ssiTable in ss.SchemaItems)
+                {
+                    if (ssiTable.Type == "")
                     {
-                        if (ssiTable.Type == "")
-                        {
-                            str.Add(ssiTable.Name);
-                        }
+                        str.Add(ssiTable.Name);
                     }
-               
+                }
+
                 return new StandardValuesCollection(str);
             }
 
@@ -299,6 +299,10 @@ namespace XSDTypeCl
             //        return Name + " - " + Type;
             //}
             //else
+            if (Name == "DocumentId")
+            {
+
+            }
             if (Description != "" && Description != null)
                 return Name + " (" + Description + ")";
             else
@@ -346,8 +350,7 @@ namespace XSDTypeCl
         /// <param name="xs1">Новый экземпляр схемы</param>
         public void SaveXSD(XmlSchemaElement newElement1, XmlSchema xs1)
         {
-            var allowedSimpleType = SimpleType.String | SimpleType.integer | SimpleType.Decimal | SimpleType.dateTime;
-
+            // var allowedSimpleType = SimpleType.String | SimpleType.integer | SimpleType.Decimal | SimpleType.dateTime;
             SetProperties(newElement1);
             XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
             newElement1.SchemaType = newSchemaType;
@@ -430,6 +433,30 @@ namespace XSDTypeCl
         {
             XmlDocument doc = new XmlDocument();
             return new XmlNode[1] { doc.CreateTextNode(text) };
+        }
+
+        public SeSchema GetSchema(SeSchemaItem ssi)
+        {
+            while (ssi.Parent is SeSchemaItem)
+            {
+                ssi = (SeSchemaItem)ssi.Parent;
+            }
+            return (SeSchema)ssi.Parent;
+        }
+        public void ChangeNewComplexType(object oldValue, object newValue)
+        {
+            SeSchema ss = (SeSchema)Parent;
+            foreach (SeSchemaItem ssiTable in ss.SchemaItems)
+            {
+                //if (ssiTable.Type == "")
+                //{
+                //    if (ssiTable.Name == oldValue.ToString())
+                //    {
+                //        ssiTable.Name = newValue.ToString();
+                //    }
+                //}
+            }
+            //MessageBox.Show("");
         }
     }
 }

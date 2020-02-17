@@ -41,6 +41,7 @@
             this.Button_Remove = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.Button_NewSchemas = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -164,7 +165,7 @@
             // 
             // Button_NewSchemas
             // 
-            this.Button_NewSchemas.Location = new System.Drawing.Point(684, 44);
+            this.Button_NewSchemas.Location = new System.Drawing.Point(681, 36);
             this.Button_NewSchemas.Name = "Button_NewSchemas";
             this.Button_NewSchemas.Size = new System.Drawing.Size(102, 38);
             this.Button_NewSchemas.TabIndex = 31;
@@ -172,11 +173,22 @@
             this.Button_NewSchemas.UseVisualStyleBackColor = true;
             this.Button_NewSchemas.Click += new System.EventHandler(this.Button_NewSchemas_Click);
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(573, 36);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(102, 38);
+            this.button2.TabIndex = 32;
+            this.button2.Text = "Open ФТС schemas";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // XSDEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1403, 721);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.Button_NewSchemas);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.Button_Remove);
@@ -208,6 +220,7 @@
         private System.Windows.Forms.Button Button_Remove;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button Button_NewSchemas;
+        private System.Windows.Forms.Button button2;
     }
 }
 
