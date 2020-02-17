@@ -216,6 +216,7 @@ namespace XSDTypeCl
                 if (treeView1.SelectedNode.Tag is SeSchema)
                 {
                     SeSchema seSchema = (SeSchema)treeView1.SelectedNode.Tag;
+                    newssi.Parent = seSchema;
                     seSchema.SchemaItems.Add(newssi);
                    
                 }
@@ -224,7 +225,7 @@ namespace XSDTypeCl
                     SeSchemaItem ssi = (SeSchemaItem)treeView1.SelectedNode.Tag;
                     if (ssi.SchemaItemsChildren == null)
                         ssi.SchemaItemsChildren = new List<SeSchemaItem>();
-                 
+                 newssi.Parent=ssi;
                      ssi.SchemaItemsChildren.Add(newssi);
                 }
             }

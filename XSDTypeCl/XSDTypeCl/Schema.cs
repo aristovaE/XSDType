@@ -96,7 +96,7 @@ namespace XSDTypeCl
                 schemaElement = sChemaItem as XmlSchemaElement;
                 Name = schemaElement.Name;
 
-                seSchemaItemTable = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name,null,  schemaTypeInCT = new List<SeSchemaItem>());
+                seSchemaItemTable = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name,this,  schemaTypeInCT = new List<SeSchemaItem>());
 
             }
             else if (sChemaItem is XmlSchemaComplexType)
@@ -105,7 +105,7 @@ namespace XSDTypeCl
 
                 schemaType = sChemaItem as XmlSchemaComplexType;
 
-                seSchemaItemTable = new SeSchemaItem(schemaType.Name, GetAnnotation(schemaType), "",null, schemaTypeInCT = new List<SeSchemaItem>());
+                seSchemaItemTable = new SeSchemaItem(schemaType.Name, GetAnnotation(schemaType), "",this, schemaTypeInCT = new List<SeSchemaItem>());
                 XmlSchemaSequence sequence = schemaType.ContentTypeParticle as XmlSchemaSequence;
                 try
                 {
@@ -177,7 +177,7 @@ namespace XSDTypeCl
                         foreach (TreeNode nodeElement in nodeTable.Nodes[0].Nodes)
                         {
                             SeSchemaItem ssiElement = (SeSchemaItem)nodeElement.Tag;
-                            if (ssiElement.Type != SeSchemaItem.SimpleType.Decimal.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.String.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.Integer.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.dateTime.ToString())
+                            if (ssiElement.Type != SeSchemaItem.SimpleType.Decimal.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.String.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.integer.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.dateTime.ToString())
                             {
                                 foreach (TreeNode nodeTable2 in nodesList)
                                 {
@@ -211,7 +211,7 @@ namespace XSDTypeCl
                     foreach (TreeNode nodeElement in eachTnn.Nodes)
                     {
                         SeSchemaItem ssiElement = (SeSchemaItem)nodeElement.Tag;
-                        if (ssiElement.Type != SeSchemaItem.SimpleType.Decimal.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.String.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.Integer.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.dateTime.ToString())
+                        if (ssiElement.Type != SeSchemaItem.SimpleType.Decimal.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.String.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.integer.ToString() && ssiElement.Type != SeSchemaItem.SimpleType.dateTime.ToString())
                         {
                             foreach (TreeNode nodeTable2 in nodesList)
                             {

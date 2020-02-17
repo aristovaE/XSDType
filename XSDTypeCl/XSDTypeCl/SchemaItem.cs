@@ -42,29 +42,51 @@ namespace XSDTypeCl
             context)
             {
                 //true will limit to list. false will show the list, but allow free-form entry
-                return false;
+                return true;
             }
 
             public override
             StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
             {
-                return new StandardValuesCollection(
-                new string[] { "string", "integer", "decimal", "byte" });
+                List<string> str = new List<string>();
+                str.Add("");
+                foreach (SimpleType simpletype in Enum.GetValues(typeof(SimpleType)))
+                {
+                    str.Add(simpletype.ToString().ToLower());
+                }
+                SeSchemaItem ssi = (SeSchemaItem)context.Instance;
+                while (ssi.Parent is SeSchemaItem)
+                {
+                    ssi = (SeSchemaItem)ssi.Parent;
+                }
+               
+                    SeSchema ss = (SeSchema)ssi.Parent;
+                    foreach (SeSchemaItem ssiTable in ss.SchemaItems)
+                    {
+                        if (ssiTable.Type == "")
+                        {
+                            str.Add(ssiTable.Name);
+                        }
+                    }
+               
+                return new StandardValuesCollection(str);
             }
 
         }
-        [Browsable(false)]
-        public SeSchemaItem Parent { get; set; } //тип object для указания на SeSchema?
+        [ReadOnly(true)]
+        [Category("Properties")]
+        [Description("Parent of this SeSchemaItem")]
+        public object Parent { get; set; } //тип object для SeSchemaItem И SeSchema
 
         [Flags]
         public enum SimpleType
         {
             String = 1,
-            Integer = 2,
+            integer = 2,
             Decimal = 4, //SimpleType.Decimal.ToString().ToLower()
             dateTime = 8
         }
-       
+
         [ReadOnly(false)]
         [Category("Properties")]
         [Description("SchemaItems of SchemaItem")]
@@ -83,7 +105,7 @@ namespace XSDTypeCl
         /// <param name="HasComplexType">Имеет или не имеет ComplexType (Для корректного сохранения)</param>
         /// <param name="SchemaItemsChildren">Список дочерних элементов</param>
 
-        public SeSchemaItem(string Name, string Description, string Type, SeSchemaItem Parent, List<SeSchemaItem> SchemaItemsChildren)
+        public SeSchemaItem(string Name, string Description, string Type, object Parent, List<SeSchemaItem> SchemaItemsChildren)
         {
             this.Name = Name;
             this.Description = Description;
@@ -93,7 +115,7 @@ namespace XSDTypeCl
 
         }
 
-        public SeSchemaItem(string Name, string Description, string Type, SeSchemaItem Parent,  List<SeSchemaItem> SchemaItemsChildren, SeProperties Properties)
+        public SeSchemaItem(string Name, string Description, string Type, object Parent, List<SeSchemaItem> SchemaItemsChildren, SeProperties Properties)
         {
             this.Name = Name;
             this.Description = Description;
@@ -109,7 +131,7 @@ namespace XSDTypeCl
         /// <param name="Discription">Полное название ограничения</param>
         /// <param name="Type">Значение ограничения</param>  
         /// <param name="Parent">Класс-владелец Simple Type</param>  
-        public SeSchemaItem(string Name, string Description, string Type, SeSchemaItem Parent)
+        public SeSchemaItem(string Name, string Description, string Type, object Parent)
         {
             this.Name = Name;
             this.Description = Description;
@@ -221,7 +243,7 @@ namespace XSDTypeCl
             SeProperties seProp = new SeProperties(schemaElement);
             //<xsd:element name="..._ITEM">
 
-            SeSchemaItem schemaItem = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name, this,  schemaTypeInCT = new List<SeSchemaItem>(), seProp);
+            SeSchemaItem schemaItem = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name, this, schemaTypeInCT = new List<SeSchemaItem>(), seProp);
             SchemaItemsChildren.Add(schemaItem);
 
             XmlSchemaComplexType complexType = schemaElement.ElementSchemaType as XmlSchemaComplexType;
@@ -240,7 +262,7 @@ namespace XSDTypeCl
                         {
                             XmlSchemaComplexType schemaType = childElement2.ElementSchemaType as XmlSchemaComplexType;
                             //<xsd:element ... type=ComplexType>
-                            seSchemaItemTable = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(), this,  schemaTypeInCT2 = new List<SeSchemaItem>(), seProp2);
+                            seSchemaItemTable = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(), this, schemaTypeInCT2 = new List<SeSchemaItem>(), seProp2);
 
                             if (seSchemaItemTable != null)
                                 schemaTypeInCT.Add(seSchemaItemTable);
@@ -250,13 +272,13 @@ namespace XSDTypeCl
                             if (childElement2.SchemaTypeName.Name.ToString() != "")
                             {
                                 //<xsd:element
-                                schemaTypeInCT.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(), schemaItem,  null, seProp2));
+                                schemaTypeInCT.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(), schemaItem, null, seProp2));
                             }
                             else
                             {
                                 //<xsd:element ...<SimpleType>
                                 List<SeSchemaItem> schemaTypeInST = new List<SeSchemaItem>();
-                                SeSchemaItem ssi = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), GetSimpleType(schemaTypeInST, childElement2), schemaItem,  schemaTypeInST, seProp2);
+                                SeSchemaItem ssi = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), GetSimpleType(schemaTypeInST, childElement2), schemaItem, schemaTypeInST, seProp2);
                                 schemaTypeInCT.Add(ssi);
 
                             }
@@ -327,7 +349,7 @@ namespace XSDTypeCl
         /// <param name="xs1">Новый экземпляр схемы</param>
         public void SaveXSD(XmlSchemaElement newElement1, XmlSchema xs1)
         {
-            var allowedSimpleType = SimpleType.String | SimpleType.Integer | SimpleType.Decimal | SimpleType.dateTime;
+            var allowedSimpleType = SimpleType.String | SimpleType.integer | SimpleType.Decimal | SimpleType.dateTime;
 
             SetProperties(newElement1);
             XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
@@ -379,11 +401,10 @@ namespace XSDTypeCl
                     }
                 }
                 else
-                //<element ... type="xsd:...">
+
                 {
-                    
-                    if (ssi.Type == SimpleType.Decimal.ToString().ToLower()|| ssi.Type == SimpleType.String.ToString().ToLower()|| ssi.Type == SimpleType.Integer.ToString().ToLower()|| ssi.Type == SimpleType.dateTime.ToString())
-                   // if (ssi.HasComplexType == false)
+                    //<element ... type="xsd:...">
+                    if (ssi.Type == SimpleType.Decimal.ToString().ToLower() || ssi.Type == SimpleType.String.ToString().ToLower() || ssi.Type == SimpleType.integer.ToString() || ssi.Type == SimpleType.dateTime.ToString())
                         newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
                     else
                         //<element ... type="...">
