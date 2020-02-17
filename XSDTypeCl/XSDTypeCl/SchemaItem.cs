@@ -226,9 +226,6 @@ namespace XSDTypeCl
             return null;
         }
 
-
-
-
         /// <summary>
         ///Чтение дочерних элементов класса SeSchemaIyem и запись их в класс SeSchemaIyem
         /// </summary>
