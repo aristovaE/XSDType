@@ -42,6 +42,8 @@
             this.button1 = new System.Windows.Forms.Button();
             this.Button_NewSchemas = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.splitter2 = new System.Windows.Forms.Splitter();
+            this.listView1 = new System.Windows.Forms.ListView();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -97,25 +99,27 @@
             // 
             // propertyGrid1
             // 
-            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Top;
             this.propertyGrid1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.propertyGrid1.Location = new System.Drawing.Point(771, 0);
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.propertyGrid1.Size = new System.Drawing.Size(608, 565);
+            this.propertyGrid1.Size = new System.Drawing.Size(608, 349);
             this.propertyGrid1.TabIndex = 4;
             this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
             // 
             // splitter1
             // 
-            this.splitter1.Location = new System.Drawing.Point(771, 0);
+            this.splitter1.Location = new System.Drawing.Point(771, 349);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 565);
+            this.splitter1.Size = new System.Drawing.Size(3, 216);
             this.splitter1.TabIndex = 5;
             this.splitter1.TabStop = false;
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.listView1);
+            this.panel1.Controls.Add(this.splitter2);
             this.panel1.Controls.Add(this.splitter1);
             this.panel1.Controls.Add(this.propertyGrid1);
             this.panel1.Controls.Add(this.treeView1);
@@ -185,6 +189,27 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // splitter2
+            // 
+            this.splitter2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.splitter2.Location = new System.Drawing.Point(774, 349);
+            this.splitter2.Name = "splitter2";
+            this.splitter2.Size = new System.Drawing.Size(605, 3);
+            this.splitter2.TabIndex = 6;
+            this.splitter2.TabStop = false;
+            // 
+            // listView1
+            // 
+            this.listView1.Alignment = System.Windows.Forms.ListViewAlignment.Left;
+            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView1.Location = new System.Drawing.Point(774, 352);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(605, 213);
+            this.listView1.TabIndex = 7;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.List;
+            this.listView1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseClick);
+            // 
             // XSDEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -223,6 +248,8 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button Button_NewSchemas;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Splitter splitter2;
+        private System.Windows.Forms.ListView listView1;
     }
 }
 

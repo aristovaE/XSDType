@@ -94,7 +94,17 @@ namespace XSDTypeCl
             if (e.Node.Tag is SeSchemaItem)
             {
                 propertyGrid1.SelectedObject = e.Node.Tag;
-
+                SeSchemaItem ssi = (SeSchemaItem)e.Node.Tag;
+                if (ssi.Type == "")
+                {
+                    List<SeSchemaItem> ls = ssi.FindAllTypes();
+                    foreach (SeSchemaItem element in ls)
+                    {
+                        listView1.Items.Add(element.Name);
+                        listView1.Items[listView1.Items.Count - 1].Tag = element;
+                    }
+                        
+                }
             }
             else if (e.Node.Tag is SeSchema)
             {
@@ -329,6 +339,11 @@ namespace XSDTypeCl
             comboBox1.ValueMember = "Name";
             BtnSave.Enabled = true;
 
+        }
+
+        private void listView1_MouseClick(object sender, MouseEventArgs e)
+        {
+            //listview1.selecteditems[0].tag
         }
     }
 }

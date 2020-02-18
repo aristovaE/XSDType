@@ -471,5 +471,32 @@ namespace XSDTypeCl
             }
             //MessageBox.Show("type у "+ namessi + " = "+ newValue.ToString());
         }
+
+        public List<SeSchemaItem> FindAllTypes()
+        {
+            List < SeSchemaItem > elementsOfType= new List<SeSchemaItem>();
+               SeSchema first = GetSchema(this);
+            foreach (SeSchemaItem ssiElement in first.SchemaItems)
+            {
+                if (ssiElement.Type == Name)
+                {
+                    elementsOfType.Add(ssiElement);
+                }
+                //if (ssiElement.SchemaItemsChildren != null)
+                //    foreach (SeSchemaItem ssiElemen2t in ssiElement.SchemaItemsChildren[0].SchemaItemsChildren)
+                //    {
+                //        if (ssiElemen2t.Type == oldValue.ToString())
+                //        {
+                //            ssiElemen2t.Type = newValue.ToString();
+                //            namessi = ssiElemen2t.Name;
+                //            break;
+                //        }
+
+                //    }
+                //if (namessi != null) break;
+            }
+            return elementsOfType;
+        }
+
     }
 }
