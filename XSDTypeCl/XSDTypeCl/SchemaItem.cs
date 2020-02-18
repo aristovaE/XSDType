@@ -239,7 +239,10 @@ namespace XSDTypeCl
             schemaElement = childElement as XmlSchemaElement;
             SeProperties seProp = new SeProperties(schemaElement);
             //<xsd:element name="..._ITEM">
+            if (schemaElement.Name == "DocumentID")
+            {
 
+            }
             SeSchemaItem schemaItem = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name, this, schemaTypeInCT = new List<SeSchemaItem>(), seProp);
             SchemaItemsChildren.Add(schemaItem);
 
@@ -252,6 +255,7 @@ namespace XSDTypeCl
                     seProp.MinOccursAll = all.MinOccursString;
                     foreach (XmlSchemaElement childElement2 in all.Items)
                     {
+                       
                         //if ((childElement2.SchemaTypeName.Name == SimpleType.Decimal.ToString().ToLower()) || (childElement2.SchemaTypeName.Name == SimpleType.String.ToString().ToLower()) || (childElement2.SchemaTypeName.Name == SimpleType.Integer.ToString().ToLower()))
                         //{ MessageBox.Show(childElement2.SchemaTypeName.Name.ToString()); }
                         SeProperties seProp2 = new SeProperties(childElement2);
@@ -299,10 +303,7 @@ namespace XSDTypeCl
             //        return Name + " - " + Type;
             //}
             //else
-            if (Name == "DocumentId")
-            {
-
-            }
+            
             if (Description != "" && Description != null)
                 return Name + " (" + Description + ")";
             else
@@ -445,18 +446,29 @@ namespace XSDTypeCl
         }
         public void ChangeNewComplexType(object oldValue, object newValue)
         {
+            string namessi=null;
             SeSchema ss = (SeSchema)Parent;
-            foreach (SeSchemaItem ssiTable in ss.SchemaItems)
-            {
-                //if (ssiTable.Type == "")
-                //{
-                //    if (ssiTable.Name == oldValue.ToString())
-                //    {
-                //        ssiTable.Name = newValue.ToString();
-                //    }
-                //}
-            }
-            //MessageBox.Show("");
+             foreach (SeSchemaItem ssiElement in ss.SchemaItems)
+                {
+                    if (ssiElement.Type == oldValue.ToString())
+                    {
+                        ssiElement.Type = newValue.ToString();
+                        namessi = ssiElement.Name;
+                        break;
+                    }
+                    foreach (SeSchemaItem ssiElemen2t in ssiElement.SchemaItemsChildren[0].SchemaItemsChildren)
+                    {
+                        if (ssiElemen2t.Type == oldValue.ToString())
+                        {
+                            ssiElemen2t.Type = newValue.ToString();
+                            namessi = ssiElemen2t.Name;
+                            break;
+                        }
+
+                    }
+                    if (namessi != null) break;
+                }
+            MessageBox.Show("type у "+ namessi + " = "+ newValue.ToString());
         }
     }
 }
