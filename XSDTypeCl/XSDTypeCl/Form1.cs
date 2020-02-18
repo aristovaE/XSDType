@@ -158,7 +158,7 @@ namespace XSDTypeCl
             if (propertyGrid1.SelectedObject is SeSchemaItem)
             {
                 SeSchemaItem ssi = (SeSchemaItem)propertyGrid1.SelectedObject;
-                if (ssi.Parent is SeSchema && ((ContainerControl)s).ActiveControl.AccessibleName=="Name" && ssi.Type=="")
+                if (ssi.Parent is SeSchema && ((ContainerControl)s).ActiveControl.AccessibleName == "Name" && ssi.Type == "")
                     ssi.ChangeNewComplexType(e.OldValue, e.ChangedItem.Value);
             }
         }

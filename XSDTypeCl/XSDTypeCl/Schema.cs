@@ -17,7 +17,7 @@ namespace XSDTypeCl
         /// <summary>
         /// Класс SeSchema 
         /// </summary>
-        
+
         [ReadOnly(false)]
         [Category("Properties")]
         [Description("Name of XSD")]
@@ -96,7 +96,7 @@ namespace XSDTypeCl
                 schemaElement = sChemaItem as XmlSchemaElement;
                 Name = schemaElement.Name;
 
-                seSchemaItemTable = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name,this,  schemaTypeInCT = new List<SeSchemaItem>());
+                seSchemaItemTable = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name, this, schemaTypeInCT = new List<SeSchemaItem>());
 
             }
             else if (sChemaItem is XmlSchemaComplexType)
@@ -105,7 +105,7 @@ namespace XSDTypeCl
 
                 schemaType = sChemaItem as XmlSchemaComplexType;
 
-                seSchemaItemTable = new SeSchemaItem(schemaType.Name, GetAnnotation(schemaType), "",this, schemaTypeInCT = new List<SeSchemaItem>());
+                seSchemaItemTable = new SeSchemaItem(schemaType.Name, GetAnnotation(schemaType), "", this, schemaTypeInCT = new List<SeSchemaItem>());
                 XmlSchemaSequence sequence = schemaType.ContentTypeParticle as XmlSchemaSequence;
                 try
                 {
@@ -133,7 +133,7 @@ namespace XSDTypeCl
         {
             List<TreeNode> nodesList = new List<TreeNode>();
             TreeNode newTreeNode = treeNodes.Add(Name);
-            
+
             newTreeNode.Tag = this;
             foreach (SeSchemaItem schemaItem in SchemaItems)
             {
@@ -150,15 +150,15 @@ namespace XSDTypeCl
                 {
                     SeSchemaItem newSsi = (SeSchemaItem)eachTnn.Tag;
                     SeSchemaItem eachSsi = (SeSchemaItem)eachTn.Tag;
-                    
-                        if (newSsi.Type == eachSsi.Name)
-                        {
-                            TreeNode clonedNode = (TreeNode)eachTn.Clone();
-                            eachTnn.Nodes.Insert(0, clonedNode);
-                        }
+
+                    if (newSsi.Type == eachSsi.Name)
+                    {
+                        TreeNode clonedNode = (TreeNode)eachTn.Clone();
+                        eachTnn.Nodes.Insert(0, clonedNode);
+                    }
 
 
-                    
+
                 }
             }
 
@@ -171,34 +171,31 @@ namespace XSDTypeCl
             {
                 SeSchemaItem ssiTable = (SeSchemaItem)nodeTable.Tag;
                 if (ssiTable.Type == "")
-                 
-                    try
+
+                    foreach (TreeNode nodeElement in nodeTable.Nodes[0].Nodes)
                     {
-                        foreach (TreeNode nodeElement in nodeTable.Nodes[0].Nodes)
+                        SeSchemaItem ssiElement = (SeSchemaItem)nodeElement.Tag;
+                        if (ssiElement.Type != SeSchemaItem.SimpleType.Decimal.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.String.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.integer.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.dateTime.ToString())
                         {
-                            SeSchemaItem ssiElement = (SeSchemaItem)nodeElement.Tag;
-                            if (ssiElement.Type != SeSchemaItem.SimpleType.Decimal.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.String.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.integer.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.dateTime.ToString())
+                            foreach (TreeNode nodeTable2 in nodesList)
                             {
-                                foreach (TreeNode nodeTable2 in nodesList)
+                                SeSchemaItem ssiTable2 = (SeSchemaItem)nodeTable2.Tag;
+                                if (ssiElement.Type == ssiTable2.Name)
                                 {
-                                    SeSchemaItem ssiTable2 = (SeSchemaItem)nodeTable2.Tag;
-                                    if (ssiElement.Type == ssiTable2.Name)
+                                    if (nodeElement.Nodes.Count == 0)
                                     {
-                                        if (nodeElement.Nodes.Count == 0)
-                                        {
-                                            CloneEachNodeChild(nodeTable2.Nodes[0], nodesList);
-                                            TreeNode clonedNode = (TreeNode)nodeTable2.Clone();
-                                            nodeElement.Nodes.Insert(0, clonedNode);
-                                            break;
-                                        }
-
+                                        CloneEachNodeChild(nodeTable2.Nodes[0], nodesList);
+                                        TreeNode clonedNode = (TreeNode)nodeTable2.Clone();
+                                        nodeElement.Nodes.Insert(0, clonedNode);
+                                        break;
                                     }
-                                }
 
+                                }
                             }
+
                         }
                     }
-                    catch { }
+
             }
         }
 
@@ -233,7 +230,7 @@ namespace XSDTypeCl
                         }
                     }
             }
-            
+
         }
         /// <summary>
         /// Запись в новый XSD файл содержимого класса SeSchema
@@ -271,7 +268,7 @@ namespace XSDTypeCl
                     XmlSchemaElement newElement1 = new XmlSchemaElement();
                     if (newschemaItem.Description != null && newschemaItem.Description != "")
                         newSchemaType.Annotation = SetAnnotation(newschemaItem);
-                    if (newschemaItem.SchemaItemsChildren[0].Description != null&& newschemaItem.SchemaItemsChildren[0].Description!="")
+                    if (newschemaItem.SchemaItemsChildren[0].Description != null && newschemaItem.SchemaItemsChildren[0].Description != "")
                     {
                         newElement1.Annotation = SetAnnotation(newschemaItem.SchemaItemsChildren[0]);
                     }

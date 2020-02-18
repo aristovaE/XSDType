@@ -255,7 +255,7 @@ namespace XSDTypeCl
                     seProp.MinOccursAll = all.MinOccursString;
                     foreach (XmlSchemaElement childElement2 in all.Items)
                     {
-                       
+
                         //if ((childElement2.SchemaTypeName.Name == SimpleType.Decimal.ToString().ToLower()) || (childElement2.SchemaTypeName.Name == SimpleType.String.ToString().ToLower()) || (childElement2.SchemaTypeName.Name == SimpleType.Integer.ToString().ToLower()))
                         //{ MessageBox.Show(childElement2.SchemaTypeName.Name.ToString()); }
                         SeProperties seProp2 = new SeProperties(childElement2);
@@ -303,7 +303,7 @@ namespace XSDTypeCl
             //        return Name + " - " + Type;
             //}
             //else
-            
+
             if (Description != "" && Description != null)
                 return Name + " (" + Description + ")";
             else
@@ -446,16 +446,17 @@ namespace XSDTypeCl
         }
         public void ChangeNewComplexType(object oldValue, object newValue)
         {
-            string namessi=null;
+            string namessi = null;
             SeSchema ss = (SeSchema)Parent;
-             foreach (SeSchemaItem ssiElement in ss.SchemaItems)
+            foreach (SeSchemaItem ssiElement in ss.SchemaItems)
+            {
+                if (ssiElement.Type == oldValue.ToString())
                 {
-                    if (ssiElement.Type == oldValue.ToString())
-                    {
-                        ssiElement.Type = newValue.ToString();
-                        namessi = ssiElement.Name;
-                        break;
-                    }
+                    ssiElement.Type = newValue.ToString();
+                    namessi = ssiElement.Name;
+                    break;
+                }
+                if (ssiElement.SchemaItemsChildren != null)
                     foreach (SeSchemaItem ssiElemen2t in ssiElement.SchemaItemsChildren[0].SchemaItemsChildren)
                     {
                         if (ssiElemen2t.Type == oldValue.ToString())
@@ -466,9 +467,9 @@ namespace XSDTypeCl
                         }
 
                     }
-                    if (namessi != null) break;
-                }
-            MessageBox.Show("type у "+ namessi + " = "+ newValue.ToString());
+                if (namessi != null) break;
+            }
+            //MessageBox.Show("type у "+ namessi + " = "+ newValue.ToString());
         }
     }
 }
