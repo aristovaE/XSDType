@@ -350,6 +350,7 @@ namespace XSDTypeCl
                 listView1.Items[listView1.Items.Count - 1].Tag = element;
             }
         }
+        
     }
 }
 

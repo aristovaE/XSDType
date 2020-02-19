@@ -36,6 +36,7 @@
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.listView1 = new System.Windows.Forms.ListView();
             this.splitter2 = new System.Windows.Forms.Splitter();
             this.Button_Refresh = new System.Windows.Forms.Button();
@@ -44,7 +45,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.Button_NewSchemas = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.Button_Search = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
@@ -96,7 +96,7 @@
             this.treeView1.ItemHeight = 20;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(771, 565);
+            this.treeView1.Size = new System.Drawing.Size(739, 565);
             this.treeView1.TabIndex = 3;
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
             // 
@@ -104,18 +104,18 @@
             // 
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Top;
             this.propertyGrid1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.propertyGrid1.Location = new System.Drawing.Point(771, 0);
+            this.propertyGrid1.Location = new System.Drawing.Point(739, 0);
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.propertyGrid1.Size = new System.Drawing.Size(608, 349);
+            this.propertyGrid1.Size = new System.Drawing.Size(640, 349);
             this.propertyGrid1.TabIndex = 4;
             this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
             // 
             // splitter1
             // 
-            this.splitter1.Location = new System.Drawing.Point(771, 349);
+            this.splitter1.Location = new System.Drawing.Point(739, 349);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 216);
+            this.splitter1.Size = new System.Drawing.Size(10, 216);
             this.splitter1.TabIndex = 5;
             this.splitter1.TabStop = false;
             // 
@@ -132,13 +132,23 @@
             this.panel1.Size = new System.Drawing.Size(1379, 565);
             this.panel1.TabIndex = 26;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(749, 373);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 13);
+            this.label1.TabIndex = 8;
+            // 
             // listView1
             // 
             this.listView1.Alignment = System.Windows.Forms.ListViewAlignment.Left;
             this.listView1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.listView1.Location = new System.Drawing.Point(774, 375);
+            this.listView1.Location = new System.Drawing.Point(749, 386);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(605, 190);
+            this.listView1.Size = new System.Drawing.Size(630, 179);
             this.listView1.TabIndex = 7;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.List;
@@ -147,9 +157,9 @@
             // splitter2
             // 
             this.splitter2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.splitter2.Location = new System.Drawing.Point(774, 349);
+            this.splitter2.Location = new System.Drawing.Point(749, 349);
             this.splitter2.Name = "splitter2";
-            this.splitter2.Size = new System.Drawing.Size(605, 3);
+            this.splitter2.Size = new System.Drawing.Size(630, 3);
             this.splitter2.TabIndex = 6;
             this.splitter2.TabStop = false;
             // 
@@ -214,25 +224,16 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label1.Location = new System.Drawing.Point(774, 362);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 13);
-            this.label1.TabIndex = 8;
-            // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(1175, 10);
+            this.textBox1.Location = new System.Drawing.Point(1200, 10);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.Size = new System.Drawing.Size(110, 20);
             this.textBox1.TabIndex = 33;
             // 
             // Button_Search
             // 
-            this.Button_Search.Location = new System.Drawing.Point(1281, 7);
+            this.Button_Search.Location = new System.Drawing.Point(1316, 8);
             this.Button_Search.Name = "Button_Search";
             this.Button_Search.Size = new System.Drawing.Size(75, 23);
             this.Button_Search.TabIndex = 34;
