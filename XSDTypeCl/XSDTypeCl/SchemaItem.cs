@@ -320,7 +320,7 @@ namespace XSDTypeCl
 
             newTreeNode = treeNodes.Add(ToString());
             newTreeNode.Tag = this;
-
+            newTreeNode.Name = ToString();
             //рекурсия (в случае, если у текущего элемента есть дочерние)
             if (SchemaItemsChildren != null)
             {
@@ -482,18 +482,15 @@ namespace XSDTypeCl
                 {
                     elementsOfType.Add(ssiElement);
                 }
-                //if (ssiElement.SchemaItemsChildren != null)
-                //    foreach (SeSchemaItem ssiElemen2t in ssiElement.SchemaItemsChildren[0].SchemaItemsChildren)
-                //    {
-                //        if (ssiElemen2t.Type == oldValue.ToString())
-                //        {
-                //            ssiElemen2t.Type = newValue.ToString();
-                //            namessi = ssiElemen2t.Name;
-                //            break;
-                //        }
+                if (ssiElement.SchemaItemsChildren.Count != 0)
+                    foreach (SeSchemaItem ssiElemen2t in ssiElement.SchemaItemsChildren[0].SchemaItemsChildren)
+                    {
+                        if (ssiElemen2t.Type == Name)
+                        {
+                            elementsOfType.Add(ssiElemen2t);
+                        }
 
-                //    }
-                //if (namessi != null) break;
+                    }
             }
             return elementsOfType;
         }

@@ -133,7 +133,7 @@ namespace XSDTypeCl
         {
             List<TreeNode> nodesList = new List<TreeNode>();
             TreeNode newTreeNode = treeNodes.Add(Name);
-
+            newTreeNode.Name = ToString();
             newTreeNode.Tag = this;
             foreach (SeSchemaItem schemaItem in SchemaItems)
             {

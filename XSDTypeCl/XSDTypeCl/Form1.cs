@@ -90,7 +90,7 @@ namespace XSDTypeCl
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-
+            listView1.Clear();
             if (e.Node.Tag is SeSchemaItem)
             {
                 propertyGrid1.SelectedObject = e.Node.Tag;
@@ -98,6 +98,7 @@ namespace XSDTypeCl
                 if (ssi.Type == "")
                 {
                     List<SeSchemaItem> ls = ssi.FindAllTypes();
+                    label1.Text = "Used in:";
                     foreach (SeSchemaItem element in ls)
                     {
                         listView1.Items.Add(element.Name);
@@ -343,7 +344,8 @@ namespace XSDTypeCl
 
         private void listView1_MouseClick(object sender, MouseEventArgs e)
         {
-            //listview1.selecteditems[0].tag
+            SeSchemaItem ssi=(SeSchemaItem)listView1.SelectedItems[0].Tag;
+            propertyGrid1.SelectedObject = ssi;
         }
     }
 }
