@@ -189,7 +189,7 @@ namespace XSDTypeCl
         /// <param name="facet">Ограничение</param>
         public void GetFacet(List<SeSchemaItem> schemaTypeInST, XmlSchemaFacet facet)
         {
-            schemaTypeInST.Add(new SeSchemaItem("SimpleType", facet.ToString().Split('.')[3], facet.Value, this));
+            schemaTypeInST.Add(new SeSchemaItem("SimpleType", facet.ToString().Split('.')[3] + "-" + facet.Value, "", this));
 
         }
         /// <summary>
@@ -204,7 +204,7 @@ namespace XSDTypeCl
             XmlSchemaSimpleType simpleType = childElement.ElementSchemaType as XmlSchemaSimpleType;
             if (simpleType != null)
             {
-                XmlSchemaSimpleTypeRestriction restriction = simpleType.Content as XmlSchemaSimpleTypeRestriction; // <xsd:all>
+                XmlSchemaSimpleTypeRestriction restriction = simpleType.Content as XmlSchemaSimpleTypeRestriction; 
                 if (restriction != null)
                 {
                     type = restriction.BaseTypeName.Name;
@@ -378,24 +378,25 @@ namespace XSDTypeCl
                         restriction.BaseTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
                         foreach (SeSchemaItem sstc in ssi.SchemaItemsChildren)
                         {
-
-                            if (sstc.Description == "XmlSchemaMaxLengthFacet")
+                            string facetName = sstc.Description.Split('-')[0];
+                            string facetValue = sstc.Description.Split('-')[1];
+                            if (facetName == "XmlSchemaMaxLengthFacet")
                             {
                                 XmlSchemaMaxLengthFacet ml = new XmlSchemaMaxLengthFacet();
                                 restriction.Facets.Add(ml);
-                                ml.Value = sstc.Type;
+                                ml.Value = facetValue;
                             }
-                            if (sstc.Description == "XmlSchemaTotalDigitsFacet")
+                            if (facetName == "XmlSchemaTotalDigitsFacet")
                             {
                                 XmlSchemaTotalDigitsFacet ml = new XmlSchemaTotalDigitsFacet();
                                 restriction.Facets.Add(ml);
-                                ml.Value = sstc.Type;
+                                ml.Value = facetValue;
                             }
-                            if (sstc.Description == "XmlSchemaFractionDigitsFacet")
+                            if (facetName == "XmlSchemaFractionDigitsFacet")
                             {
                                 XmlSchemaFractionDigitsFacet ml = new XmlSchemaFractionDigitsFacet();
                                 restriction.Facets.Add(ml);
-                                ml.Value = sstc.Type;
+                                ml.Value = facetValue;
                             }
                         }
 
