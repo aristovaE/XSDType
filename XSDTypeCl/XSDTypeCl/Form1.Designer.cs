@@ -45,6 +45,8 @@
             this.Button_NewSchemas = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.Button_Search = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -221,11 +223,30 @@
             this.label1.Size = new System.Drawing.Size(0, 13);
             this.label1.TabIndex = 8;
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(1175, 10);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 33;
+            // 
+            // Button_Search
+            // 
+            this.Button_Search.Location = new System.Drawing.Point(1281, 7);
+            this.Button_Search.Name = "Button_Search";
+            this.Button_Search.Size = new System.Drawing.Size(75, 23);
+            this.Button_Search.TabIndex = 34;
+            this.Button_Search.Text = "Search";
+            this.Button_Search.UseVisualStyleBackColor = true;
+            this.Button_Search.Click += new System.EventHandler(this.Button_Search_Click);
+            // 
             // XSDEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1403, 721);
+            this.Controls.Add(this.Button_Search);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.Button_NewSchemas);
             this.Controls.Add(this.button1);
@@ -242,6 +263,7 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -263,6 +285,8 @@
         private System.Windows.Forms.Splitter splitter2;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button Button_Search;
     }
 }
 

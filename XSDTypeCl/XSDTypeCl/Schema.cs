@@ -308,6 +308,27 @@ namespace XSDTypeCl
             return new XmlNode[1] { doc.CreateTextNode(text) };
         }
 
+        public List<SeSchemaItem> FindElements(string search)
+        {
+            List<SeSchemaItem> ssiList = new List<SeSchemaItem>();
+            foreach (SeSchemaItem ssiElement in SchemaItems)
+            {
+                if (ssiElement.Name.ToLower().Contains(search)==true)
+                {
+                    ssiList.Add(ssiElement);
+                }
+                if (ssiElement.SchemaItemsChildren.Count != 0)
+                    foreach (SeSchemaItem ssiElement2 in ssiElement.SchemaItemsChildren[0].SchemaItemsChildren)
+                    {
+                        if (ssiElement2.Name.ToLower().Contains(search) == true)
+                        {
+                            ssiList.Add(ssiElement2);
+                        }
+
+                    }
+            }
+            return ssiList;
+        }
     }
 
 }

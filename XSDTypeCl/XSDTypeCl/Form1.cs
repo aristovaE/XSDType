@@ -22,11 +22,7 @@ namespace XSDTypeCl
             XmlSchema xs = null;
             XmlSchemas schemas = null;
             ValidationEventHandler ValidationErrorHandler = null;
-
-            //DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\"));
-            // DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\new\")); //для проверки новых схем
-
-
+            
             treeView1.Nodes.Clear();
             xss = new XmlSchemaSet();
             xss.ValidationEventHandler += ValidationErrorHandler;
@@ -91,6 +87,7 @@ namespace XSDTypeCl
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             listView1.Clear();
+            label1.Text = "";
             if (e.Node.Tag is SeSchemaItem)
             {
                 propertyGrid1.SelectedObject = e.Node.Tag;
@@ -197,12 +194,7 @@ namespace XSDTypeCl
             }
             if (newSchema != null)
                 seSchemaList.Add(newSchema);
-            comboBox1.DataSource = null;
-            var bindingSource1 = new BindingSource();
-            bindingSource1.DataSource = seSchemaList;
-            comboBox1.DataSource = bindingSource1.DataSource;
-            comboBox1.DisplayMember = "Name";
-            comboBox1.ValueMember = "Name";
+            ComboBoxBind(seSchemaList);
         }
         public void UpdateNode()
         {
@@ -308,6 +300,10 @@ namespace XSDTypeCl
 
 
             }
+            ComboBoxBind(seSchemaList);
+        }
+        public void ComboBoxBind(List<SeSchema> seSchemaList)
+        {
             comboBox1.DataSource = null;
             var bindingSource1 = new BindingSource();
             bindingSource1.DataSource = seSchemaList;
@@ -316,7 +312,6 @@ namespace XSDTypeCl
             comboBox1.ValueMember = "Name";
             BtnSave.Enabled = true;
         }
-
         private void button2_Click(object sender, EventArgs e)
         {
             DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\фтс\"));
@@ -332,13 +327,7 @@ namespace XSDTypeCl
 
 
             }
-            comboBox1.DataSource = null;
-            var bindingSource1 = new BindingSource();
-            bindingSource1.DataSource = seSchemaList;
-            comboBox1.DataSource = bindingSource1.DataSource;
-            comboBox1.DisplayMember = "Name";
-            comboBox1.ValueMember = "Name";
-            BtnSave.Enabled = true;
+            ComboBoxBind(seSchemaList);
 
         }
 
@@ -346,6 +335,20 @@ namespace XSDTypeCl
         {
             SeSchemaItem ssi=(SeSchemaItem)listView1.SelectedItems[0].Tag;
             propertyGrid1.SelectedObject = ssi;
+        }
+
+        private void Button_Search_Click(object sender, EventArgs e)
+        {
+            string search = textBox1.Text.ToLower();
+            SeSchema schemaToSearch = (SeSchema)comboBox1.SelectedItem;
+            List<SeSchemaItem> ssiList = schemaToSearch.FindElements(search);
+            listView1.Clear();
+            label1.Text = "Results:";
+            foreach (SeSchemaItem element in ssiList)
+            {
+                listView1.Items.Add(element.Name);
+                listView1.Items[listView1.Items.Count - 1].Tag = element;
+            }
         }
     }
 }
