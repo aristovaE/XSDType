@@ -445,6 +445,7 @@ namespace XSDTypeCl
             }
             return (SeSchema)ssi.Parent;
         }
+
         public void ChangeNewComplexType(object oldValue, object newValue)
         {
             string namessi = null;
