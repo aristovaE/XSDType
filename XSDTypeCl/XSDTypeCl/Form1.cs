@@ -91,7 +91,7 @@ namespace XSDTypeCl
             comboBox1.DataSource = bindingSource1.DataSource;
             comboBox1.DisplayMember = "Name";
             comboBox1.ValueMember = "Name";
-            BtnSave.Enabled = true;
+            сохранитьТекущуюСхемуToolStripMenuItem.Enabled = true;
         }
 
         private void BtnXSDToSeSChema_Click(object sender, EventArgs e)
@@ -281,7 +281,7 @@ namespace XSDTypeCl
             SeSchema schemaToSearch = (SeSchema)comboBox1.SelectedItem;
             List<SeSchemaItem> ssiList = schemaToSearch.FindElements(search);
             listView1.Clear();
-            label1.Text = "Results:";
+            label1.Text = "Результаты поиска:";
             foreach (SeSchemaItem element in ssiList)
             {
                 listView1.Items.Add(element.Name);
@@ -300,11 +300,14 @@ namespace XSDTypeCl
                 if (ssi.Type == "")
                 {
                     List<SeSchemaItem> ls = ssi.FindAllTypes();
-                    label1.Text = "Used in:";
-                    foreach (SeSchemaItem element in ls)
+                    if (ls.Count != 0)
                     {
-                        listView1.Items.Add(element.Name);
-                        listView1.Items[listView1.Items.Count - 1].Tag = element;
+                        label1.Text = "Упоминания:";
+                        foreach (SeSchemaItem element in ls)
+                        {
+                            listView1.Items.Add(element.Name);
+                            listView1.Items[listView1.Items.Count - 1].Tag = element;
+                        }
                     }
                         
                 }
@@ -340,6 +343,176 @@ namespace XSDTypeCl
         {
             SeSchemaItem ssi=(SeSchemaItem)listView1.SelectedItems[0].Tag;
             propertyGrid1.SelectedObject = ssi;
+        }
+
+        private void открытьВсеСхемыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\"));
+            XmlSchemaSet xss = ReadXSD(diXsd);
+            SeSchema seSchema;
+            List<SeSchema> seSchemaList = null;
+            foreach (XmlSchema schema in xss.Schemas())
+            {
+                seSchema = new SeSchema(schema);
+                seSchemaList = seSchemaList ?? new List<SeSchema>();
+                seSchemaList.Add(seSchema);
+                seSchema.ClassToTreeView(treeView1.Nodes);
+            }
+
+            ComboBoxBind(seSchemaList);
+        }
+
+        private void открытьНовыеСхемыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\new\"));
+            XmlSchemaSet xss = ReadXSD(diXsd);
+            SeSchema seSchema;
+            List<SeSchema> seSchemaList = null;
+            foreach (XmlSchema schema in xss.Schemas())
+            {
+                seSchema = new SeSchema(schema);
+                seSchemaList = seSchemaList ?? new List<SeSchema>();
+                seSchemaList.Add(seSchema);
+                seSchema.ClassToTreeView(treeView1.Nodes);
+
+
+            }
+            ComboBoxBind(seSchemaList);
+        }
+
+        private void открытьСхемыФТСToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\фтс\"));
+            XmlSchemaSet xss = ReadXSD(diXsd);
+            SeSchema seSchema;
+            List<SeSchema> seSchemaList = null;
+            foreach (XmlSchema schema in xss.Schemas())
+            {
+                seSchema = new SeSchema(schema);
+                seSchemaList = seSchemaList ?? new List<SeSchema>();
+                seSchemaList.Add(seSchema);
+                seSchema.ClassToTreeView(treeView1.Nodes);
+
+
+            }
+            ComboBoxBind(seSchemaList);
+        }
+
+        private void сохранитьТекущуюСхемуToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SeSchema seSchema = null;
+            if ((treeView1.SelectedNode != null) && (treeView1.SelectedNode.Tag is SeSchema))
+            {
+                seSchema = (SeSchema)treeView1.SelectedNode.Tag;
+            }
+            else
+            {
+                seSchema = (SeSchema)comboBox1.SelectedItem;
+            }
+            XmlSchema xs1 = new XmlSchema();
+            seSchema.SaveXSD(xs1);
+            XmlSchemaSet xss = new XmlSchemaSet();
+            ValidationEventHandler ValidationErrorHandler = null;
+            xss.ValidationEventHandler += ValidationErrorHandler;
+            xss.XmlResolver = new XmlUrlResolver();
+            DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\new\")); //?? работает и при "...\xsd\"
+            xss.Add(xs1);
+            try
+            {
+                foreach (var fi in diXsd.GetFiles())
+                {
+                    using (var sr = new StreamReader(fi.FullName))
+                    {
+                        xss.Add(xs1);
+                    }
+                }
+                //для записи в readonly ElementSchemaType 
+                xss.Compile();
+            }
+            catch { }
+            using (FileStream fs = new FileStream(@"..\..\..\..\xsd\new\" + seSchema.Name + "NEW.xsd", FileMode.Create, FileAccess.ReadWrite))
+            {
+                using (XmlTextWriter tw = new XmlTextWriter(fs, new UTF8Encoding()))
+                {
+                    tw.Formatting = Formatting.Indented;
+                    xs1.Write(tw);
+                }
+                fs.Close();
+            }
+        }
+
+        private void обновитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UpdateTreeView(treeView1.Nodes);
+        }
+
+        private void схемуToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SeSchema newSchema = new SeSchema();
+            newSchema.ClassToTreeView(treeView1.Nodes);
+            UpdateComboBox(newSchema);
+        }
+
+        private void элементToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (treeView1.SelectedNode != null)
+            {
+                SeSchemaItem newssi = new SeSchemaItem();
+                TreeNode newTreeNode = new TreeNode();
+                newTreeNode.Text = newssi.ToString();
+                newTreeNode.Tag = newssi;
+
+                treeView1.SelectedNode.Nodes.Add(newTreeNode);
+                if (treeView1.SelectedNode.Tag is SeSchema)
+                {
+                    SeSchema seSchema = (SeSchema)treeView1.SelectedNode.Tag;
+                    newssi.Parent = seSchema;
+                    seSchema.SchemaItems.Add(newssi);
+
+                }
+                else if (treeView1.SelectedNode.Tag is SeSchemaItem)
+                {
+                    SeSchemaItem ssi = (SeSchemaItem)treeView1.SelectedNode.Tag;
+                    if (ssi.SchemaItemsChildren == null)
+                        ssi.SchemaItemsChildren = new List<SeSchemaItem>();
+                    newssi.Parent = ssi;
+                    ssi.SchemaItemsChildren.Add(newssi);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Для добавления нового элемента или схемы нажмите на ветку TreeView");//?
+            }
+        }
+
+        private void treeView1_MouseDown(object sender, MouseEventArgs e)
+        {
+            contextMenuStrip1.Items.Clear();
+            // Убедитесь, что это правая кнопка.
+            if (e.Button != MouseButtons.Right) return;
+
+            // Выберите этот узел.
+            TreeNode node_here = treeView1.GetNodeAt(e.X, e.Y);
+            treeView1.SelectedNode = node_here;
+
+            // Посмотрим, есть ли у нас узел.
+            if (node_here == null)
+            {
+                ToolStripMenuItem addSchema= new ToolStripMenuItem("Добавить схему");
+                contextMenuStrip1.Items.AddRange(new[] { addSchema });
+                addSchema.Click += схемуToolStripMenuItem_Click;
+                return;
+            }
+            // Посмотрим, что это за объект и
+            // отобразим соответствующее всплывающее меню.
+            if (node_here.Tag is SeSchema || node_here.Tag is SeSchemaItem)
+            {
+                ToolStripMenuItem addElement = new ToolStripMenuItem("Добавить элемент");
+                ToolStripMenuItem delElement = new ToolStripMenuItem("Удалить элемент");
+                contextMenuStrip1.Items.AddRange(new[] { addElement, delElement });
+                addElement.Click += элементToolStripMenuItem_Click;
+                delElement.Click += Button_Remove_Click;
+            }
         }
         
     }
