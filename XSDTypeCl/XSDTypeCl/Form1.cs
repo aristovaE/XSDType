@@ -94,59 +94,6 @@ namespace XSDTypeCl
             сохранитьТекущуюСхемуToolStripMenuItem.Enabled = true;
         }
 
-        private void BtnXSDToSeSChema_Click(object sender, EventArgs e)
-        {
-            DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\"));
-            XmlSchemaSet xss = ReadXSD(diXsd);
-            SeSchema seSchema;
-            List<SeSchema> seSchemaList = null;
-            foreach (XmlSchema schema in xss.Schemas())
-            {
-                seSchema = new SeSchema(schema);
-                seSchemaList = seSchemaList ?? new List<SeSchema>();
-                seSchemaList.Add(seSchema);
-                seSchema.ClassToTreeView(treeView1.Nodes);
-            }
-
-            ComboBoxBind(seSchemaList);
-
-            //MessageBox.Show("Все доступные схемы прочитаны и добавлены в ComboBox");
-        }
-        private void Button_NewSchemas_Click(object sender, EventArgs e)
-        {
-            DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\new\"));
-            XmlSchemaSet xss = ReadXSD(diXsd);
-            SeSchema seSchema;
-            List<SeSchema> seSchemaList = null;
-            foreach (XmlSchema schema in xss.Schemas())
-            {
-                seSchema = new SeSchema(schema);
-                seSchemaList = seSchemaList ?? new List<SeSchema>();
-                seSchemaList.Add(seSchema);
-                seSchema.ClassToTreeView(treeView1.Nodes);
-
-
-            }
-            ComboBoxBind(seSchemaList);
-        }
-        private void button2_Click(object sender, EventArgs e)
-        {
-            DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\фтс\"));
-            XmlSchemaSet xss = ReadXSD(diXsd);
-            SeSchema seSchema;
-            List<SeSchema> seSchemaList = null;
-            foreach (XmlSchema schema in xss.Schemas())
-            {
-                seSchema = new SeSchema(schema);
-                seSchemaList = seSchemaList ?? new List<SeSchema>();
-                seSchemaList.Add(seSchema);
-                seSchema.ClassToTreeView(treeView1.Nodes);
-
-
-            }
-            ComboBoxBind(seSchemaList);
-
-        }
         private void BtnToTV_Click(object sender, EventArgs e)
         {
             SeSchema seSchema = (SeSchema)comboBox1.SelectedItem;
@@ -155,54 +102,7 @@ namespace XSDTypeCl
             if (seSchema != null)
                 seSchema.ClassToTreeView(treeView1.Nodes);
         }
-        private void BtnSave_Click(object sender, EventArgs e)
-        {
-            SeSchema seSchema = null;
-            if ((treeView1.SelectedNode != null) && (treeView1.SelectedNode.Tag is SeSchema))
-            {
-                seSchema = (SeSchema)treeView1.SelectedNode.Tag;
-            }
-            else
-            {
-                seSchema = (SeSchema)comboBox1.SelectedItem;
-            }
-            XmlSchema xs1 = new XmlSchema();
-            seSchema.SaveXSD(xs1);
-            XmlSchemaSet xss = new XmlSchemaSet();
-            ValidationEventHandler ValidationErrorHandler = null;
-            xss.ValidationEventHandler += ValidationErrorHandler;
-            xss.XmlResolver = new XmlUrlResolver();
-            DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\new\")); //?? работает и при "...\xsd\"
-            xss.Add(xs1);
-            try
-            {
-                foreach (var fi in diXsd.GetFiles())
-                {
-                    using (var sr = new StreamReader(fi.FullName))
-                    {
-                        xss.Add(xs1);
-                    }
-                }
-                //для записи в readonly ElementSchemaType 
-                xss.Compile();
-            }
-            catch { }
-            using (FileStream fs = new FileStream(@"..\..\..\..\xsd\new\" + seSchema.Name + "NEW.xsd", FileMode.Create, FileAccess.ReadWrite))
-            {
-                using (XmlTextWriter tw = new XmlTextWriter(fs, new UTF8Encoding()))
-                {
-                    tw.Formatting = Formatting.Indented;
-                    xs1.Write(tw);
-                }
-                fs.Close();
-            }
-        }
-
-
-        private void Button_Refresh_Click(object sender, EventArgs e)
-        {
-            UpdateTreeView(treeView1.Nodes);
-        }
+        
         private void Button_Add_Click(object sender, EventArgs e)
         {
             if (treeView1.SelectedNode != null)
@@ -343,6 +243,19 @@ namespace XSDTypeCl
         {
             SeSchemaItem ssi=(SeSchemaItem)listView1.SelectedItems[0].Tag;
             propertyGrid1.SelectedObject = ssi;
+            TreeNode[] treenodesParent = treeView1.Nodes.Find(ssi.GetSchema(ssi).ToString(), false);
+            TreeNode[] treenodes = treenodesParent[0].Nodes.Find(ssi.ToString(), true);
+            foreach (TreeNode tn in treenodes) //некорректно
+            {
+                TreeNode eachtn = tn;
+                eachtn.Parent.Expand();
+                while (eachtn.Parent.Tag is SeSchemaItem)
+                {
+                    eachtn.Parent.Expand();
+                    eachtn = eachtn.Parent;
+                }
+            }
+
         }
 
         private void открытьВсеСхемыToolStripMenuItem_Click(object sender, EventArgs e)
@@ -514,7 +427,23 @@ namespace XSDTypeCl
                 delElement.Click += Button_Remove_Click;
             }
         }
-        
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\"));
+            XmlSchemaSet xss = ReadXSD(diXsd);
+            SeSchema seSchema;
+            List<SeSchema> seSchemaList = null;
+            foreach (XmlSchema schema in xss.Schemas())
+            {
+                seSchema = new SeSchema(schema);
+                seSchemaList = seSchemaList ?? new List<SeSchema>();
+                seSchemaList.Add(seSchema);
+                seSchema.ClassToTreeView(treeView1.Nodes);
+            }
+
+            ComboBoxBind(seSchemaList);
+        }
     }
 }
 
