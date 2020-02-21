@@ -21,7 +21,7 @@ namespace XSDTypeCl
             XmlSchema xs = null;
             XmlSchemas schemas = null;
             ValidationEventHandler ValidationErrorHandler = null;
-            
+
             treeView1.Nodes.Clear();
             xss = new XmlSchemaSet();
             xss.ValidationEventHandler += ValidationErrorHandler;
@@ -102,7 +102,7 @@ namespace XSDTypeCl
             if (seSchema != null)
                 seSchema.ClassToTreeView(treeView1.Nodes);
         }
-        
+
         private void Button_Add_Click(object sender, EventArgs e)
         {
             if (treeView1.SelectedNode != null)
@@ -211,7 +211,7 @@ namespace XSDTypeCl
                             listView1.Items[listView1.Items.Count - 1].Tag = element;
                         }
                     }
-                        
+
                 }
                 //изменение ComboBox при нажатии на разные схемы
                 TreeNode tn = e.Node;
@@ -221,11 +221,11 @@ namespace XSDTypeCl
                 }
                 if (tn.Parent.Tag is SeSchema && tn.Parent.Index < comboBox1.Items.Count)
                     comboBox1.SelectedIndex = tn.Parent.Index;
-               
+
                 //обновление каждой дочерней ветки
                 if (e.Node.Nodes != null)
                 {
-                    foreach(TreeNode treenode in e.Node.Nodes)
+                    foreach (TreeNode treenode in e.Node.Nodes)
                     {
                         SeSchemaItem ssichild = (SeSchemaItem)treenode.Tag;
                         treenode.Text = ssichild.ToString();
@@ -248,6 +248,7 @@ namespace XSDTypeCl
             UpdateNode();
             if (propertyGrid1.SelectedObject is SeSchemaItem)
             {
+                //изменение типа у элементов с измененным ComplexType
                 SeSchemaItem ssi = (SeSchemaItem)propertyGrid1.SelectedObject;
                 if (ssi.Parent is SeSchema && ((ContainerControl)s).ActiveControl.AccessibleName == "Name" && ssi.Type == "")
                     ssi.ChangeNewComplexType(e.OldValue, e.ChangedItem.Value);
@@ -261,7 +262,7 @@ namespace XSDTypeCl
                 propertyGrid1.SelectedObject = ssi;
                 TreeNode[] treenodesParent = treeView1.Nodes.Find(ssi.GetSchema(ssi).ToString(), false);
                 TreeNode[] treenodes = treenodesParent[0].Nodes.Find(ssi.ToString(), true);
-                
+
                 TreeNode eachTn = treenodes[0];
                 while (eachTn.Parent.Tag is SeSchemaItem)
                 {
@@ -431,16 +432,14 @@ namespace XSDTypeCl
             TreeNode node_here = treeView1.GetNodeAt(e.X, e.Y);
             treeView1.SelectedNode = node_here;
 
-            // Посмотрим, есть ли у нас узел.
+            // Если treenode в данном месте нет
             if (node_here == null)
             {
-                ToolStripMenuItem addSchema= new ToolStripMenuItem("Добавить схему");
+                ToolStripMenuItem addSchema = new ToolStripMenuItem("Добавить схему");
                 contextMenuStrip1.Items.AddRange(new[] { addSchema });
                 addSchema.Click += схемуToolStripMenuItem_Click;
                 return;
             }
-            // Посмотрим, что это за объект и
-            // отобразим соответствующее всплывающее меню.
             if (node_here.Tag is SeSchema || node_here.Tag is SeSchemaItem)
             {
                 ToolStripMenuItem addElement = new ToolStripMenuItem("Добавить элемент");

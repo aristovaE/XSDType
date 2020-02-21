@@ -171,31 +171,32 @@ namespace XSDTypeCl
             {
                 SeSchemaItem ssiTable = (SeSchemaItem)nodeTable.Tag;
                 if (ssiTable.Type == "")
-
-                    foreach (TreeNode nodeElement in nodeTable.Nodes[0].Nodes)
+                    foreach (TreeNode nodeElementItem in nodeTable.Nodes)
                     {
-                        SeSchemaItem ssiElement = (SeSchemaItem)nodeElement.Tag;
-                        if (ssiElement.Type != SeSchemaItem.SimpleType.Decimal.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.String.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.integer.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.dateTime.ToString())
+                        foreach (TreeNode nodeElement in nodeElementItem.Nodes)
                         {
-                            foreach (TreeNode nodeTable2 in nodesList)
+                            SeSchemaItem ssiElement = (SeSchemaItem)nodeElement.Tag;
+                            if (ssiElement.Type != SeSchemaItem.SimpleType.Decimal.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.String.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.integer.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.dateTime.ToString())
                             {
-                                SeSchemaItem ssiTable2 = (SeSchemaItem)nodeTable2.Tag;
-                                if (ssiElement.Type == ssiTable2.Name)
+                                foreach (TreeNode nodeTable2 in nodesList)
                                 {
-                                    if (nodeElement.Nodes.Count == 0)
+                                    SeSchemaItem ssiTable2 = (SeSchemaItem)nodeTable2.Tag;
+                                    if (ssiElement.Type == ssiTable2.Name)
                                     {
-                                        CloneEachNodeChild(nodeTable2.Nodes[0], nodesList);
-                                        TreeNode clonedNode = (TreeNode)nodeTable2.Clone();
-                                        nodeElement.Nodes.Insert(0, clonedNode);
-                                        break;
+                                        if (nodeElement.Nodes.Count == 0)
+                                        {
+                                            CloneEachNodeChild(nodeTable2.Nodes[0], nodesList);
+                                            TreeNode clonedNode = (TreeNode)nodeTable2.Clone();
+                                            nodeElement.Nodes.Insert(0, clonedNode);
+                                            break;
+                                        }
+
                                     }
-
                                 }
-                            }
 
+                            }
                         }
                     }
-
             }
         }
 
@@ -313,7 +314,7 @@ namespace XSDTypeCl
             List<SeSchemaItem> ssiList = new List<SeSchemaItem>();
             foreach (SeSchemaItem ssiElement in SchemaItems)
             {
-                if (ssiElement.Name.ToLower().Contains(search)==true)
+                if (ssiElement.Name.ToLower().Contains(search) == true)
                 {
                     ssiList.Add(ssiElement);
                 }

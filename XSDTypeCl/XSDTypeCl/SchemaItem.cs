@@ -204,7 +204,7 @@ namespace XSDTypeCl
             XmlSchemaSimpleType simpleType = childElement.ElementSchemaType as XmlSchemaSimpleType;
             if (simpleType != null)
             {
-                XmlSchemaSimpleTypeRestriction restriction = simpleType.Content as XmlSchemaSimpleTypeRestriction; 
+                XmlSchemaSimpleTypeRestriction restriction = simpleType.Content as XmlSchemaSimpleTypeRestriction;
                 if (restriction != null)
                 {
                     type = restriction.BaseTypeName.Name;
@@ -332,7 +332,10 @@ namespace XSDTypeCl
 
 
         }
-
+        /// <summary>
+        /// Запись в новую схему свойств из класса
+        /// </summary>
+        /// <param name="newElement">Элемент, свойства которого записываются</param>
         public void SetProperties(XmlSchemaElement newElement)
         {
             if (Properties != null)
@@ -437,6 +440,11 @@ namespace XSDTypeCl
             return new XmlNode[1] { doc.CreateTextNode(text) };
         }
 
+        /// <summary>
+        /// Получение родительского класса SeSchema
+        /// </summary>
+        /// <param name="ssi">Элемент, родительский класс SeSchema которого нужно найти</param>
+        /// <returns>Родительский клас SeSchema</returns>
         public SeSchema GetSchema(SeSchemaItem ssi)
         {
             while (ssi.Parent is SeSchemaItem)
@@ -445,39 +453,43 @@ namespace XSDTypeCl
             }
             return (SeSchema)ssi.Parent;
         }
-
+        /// <summary>
+        /// Изменение элементов при изменении имени ComplexType
+        /// </summary>
+        /// <param name="oldValue">Старое значение поля Name</param>
+        /// <param name="newValue">Новое значение поля Name</param>
         public void ChangeNewComplexType(object oldValue, object newValue)
         {
-            string namessi = null;
             SeSchema ss = (SeSchema)Parent;
             foreach (SeSchemaItem ssiElement in ss.SchemaItems)
             {
                 if (ssiElement.Type == oldValue.ToString())
                 {
                     ssiElement.Type = newValue.ToString();
-                    namessi = ssiElement.Name;
-                    break;
                 }
                 if (ssiElement.SchemaItemsChildren != null)
-                    foreach (SeSchemaItem ssiElemen2t in ssiElement.SchemaItemsChildren[0].SchemaItemsChildren)
+                    foreach (SeSchemaItem ssiElementEach in ssiElement.SchemaItemsChildren)
                     {
-                        if (ssiElemen2t.Type == oldValue.ToString())
+                        if (ssiElementEach.Type == oldValue.ToString())
                         {
-                            ssiElemen2t.Type = newValue.ToString();
-                            namessi = ssiElemen2t.Name;
-                            break;
+                            ssiElementEach.Type = newValue.ToString();
                         }
+                        foreach (SeSchemaItem ssiElementEach2 in ssiElementEach.SchemaItemsChildren)
+                        {
+                            if (ssiElementEach2.Type == oldValue.ToString())
+                            {
+                                ssiElementEach2.Type = newValue.ToString();
+                            }
 
+                        }
                     }
-                if (namessi != null) break;
             }
-            //MessageBox.Show("type у "+ namessi + " = "+ newValue.ToString());
         }
 
         public List<SeSchemaItem> FindAllTypes()
         {
-            List < SeSchemaItem > elementsOfType= new List<SeSchemaItem>();
-               SeSchema first = GetSchema(this);
+            List<SeSchemaItem> elementsOfType = new List<SeSchemaItem>();
+            SeSchema first = GetSchema(this);
             foreach (SeSchemaItem ssiElement in first.SchemaItems)
             {
                 if (ssiElement.Type == Name)
