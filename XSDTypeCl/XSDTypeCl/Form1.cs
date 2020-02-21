@@ -195,7 +195,9 @@ namespace XSDTypeCl
             label1.Text = "";
             if (e.Node.Tag is SeSchemaItem)
             {
+                //заполнение propertyGrid
                 propertyGrid1.SelectedObject = e.Node.Tag;
+                //заполнение listView
                 SeSchemaItem ssi = (SeSchemaItem)e.Node.Tag;
                 if (ssi.Type == "")
                 {
@@ -211,6 +213,7 @@ namespace XSDTypeCl
                     }
                         
                 }
+                //изменение ComboBox при нажатии на разные схемы
                 TreeNode tn = e.Node;
                 while (tn.Parent.Tag is SeSchemaItem)
                 {
@@ -218,6 +221,17 @@ namespace XSDTypeCl
                 }
                 if (tn.Parent.Tag is SeSchema && tn.Parent.Index < comboBox1.Items.Count)
                     comboBox1.SelectedIndex = tn.Parent.Index;
+               
+                //обновление каждой дочерней ветки
+                if (e.Node.Nodes != null)
+                {
+                    foreach(TreeNode treenode in e.Node.Nodes)
+                    {
+                        SeSchemaItem ssichild = (SeSchemaItem)treenode.Tag;
+                        treenode.Text = ssichild.ToString();
+
+                    }
+                }
             }
             else if (e.Node.Tag is SeSchema)
             {
@@ -241,21 +255,23 @@ namespace XSDTypeCl
         }
         private void listView1_MouseClick(object sender, MouseEventArgs e)
         {
-            SeSchemaItem ssi=(SeSchemaItem)listView1.SelectedItems[0].Tag;
-            propertyGrid1.SelectedObject = ssi;
-            TreeNode[] treenodesParent = treeView1.Nodes.Find(ssi.GetSchema(ssi).ToString(), false);
-            TreeNode[] treenodes = treenodesParent[0].Nodes.Find(ssi.ToString(), true);
-            foreach (TreeNode tn in treenodes) //некорректно
+            if (listView1.SelectedItems.Count != 0)
             {
-                TreeNode eachtn = tn;
-                eachtn.Parent.Expand();
-                while (eachtn.Parent.Tag is SeSchemaItem)
+                SeSchemaItem ssi = (SeSchemaItem)listView1.SelectedItems[0].Tag;
+                propertyGrid1.SelectedObject = ssi;
+                TreeNode[] treenodesParent = treeView1.Nodes.Find(ssi.GetSchema(ssi).ToString(), false);
+                TreeNode[] treenodes = treenodesParent[0].Nodes.Find(ssi.ToString(), true);
+                
+                TreeNode eachTn = treenodes[0];
+                while (eachTn.Parent.Tag is SeSchemaItem)
                 {
-                    eachtn.Parent.Expand();
-                    eachtn = eachtn.Parent;
-                }
-            }
+                    eachTn.Parent.Expand();
+                    eachTn = eachTn.Parent;
 
+                }
+                treeView1.Focus();
+                treeView1.SelectedNode = treenodes[0];
+            }
         }
 
         private void открытьВсеСхемыToolStripMenuItem_Click(object sender, EventArgs e)
@@ -273,6 +289,9 @@ namespace XSDTypeCl
             }
 
             ComboBoxBind(seSchemaList);
+            BtnToTV.Enabled = true;
+            button2.Enabled = true;
+
         }
 
         private void открытьНовыеСхемыToolStripMenuItem_Click(object sender, EventArgs e)
@@ -291,6 +310,8 @@ namespace XSDTypeCl
 
             }
             ComboBoxBind(seSchemaList);
+            BtnToTV.Enabled = true;
+            button2.Enabled = true;
         }
 
         private void открытьСхемыФТСToolStripMenuItem_Click(object sender, EventArgs e)
@@ -309,6 +330,8 @@ namespace XSDTypeCl
 
             }
             ComboBoxBind(seSchemaList);
+            BtnToTV.Enabled = true;
+            button2.Enabled = true;
         }
 
         private void сохранитьТекущуюСхемуToolStripMenuItem_Click(object sender, EventArgs e)
@@ -443,6 +466,7 @@ namespace XSDTypeCl
             }
 
             ComboBoxBind(seSchemaList);
+
         }
     }
 }
