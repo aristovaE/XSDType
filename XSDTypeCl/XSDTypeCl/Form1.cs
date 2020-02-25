@@ -58,15 +58,14 @@ namespace XSDTypeCl
                 seSchema.ClassToTreeView(treeView1.Nodes);
             }
         }
-        public void UpdateComboBox(SeSchema newSchema)
+        public void UpdateComboBox()
         {
             List<SeSchema> seSchemaList = new List<SeSchema>();
-            for (int i = 0; i < comboBox1.Items.Count; i++)
+            for (int i = 0; i < treeView1.Nodes.Count; i++)
             {
-                seSchemaList.Add((SeSchema)comboBox1.Items[i]);
+                seSchemaList.Add((SeSchema)treeView1.Nodes[i].Tag);
             }
-            if (newSchema != null)
-                seSchemaList.Add(newSchema);
+           
             ComboBoxBind(seSchemaList);
         }
         public void UpdateNode()
@@ -139,11 +138,10 @@ namespace XSDTypeCl
         {
             if (treeView1.SelectedNode.Tag != null)
             {
+                treeView1.SelectedNode.Remove();
                 if (treeView1.SelectedNode.Tag is SeSchema)
                 {
-                    //comboBox1.DataSource = null;
-                    //comboBox1.Items.Remove(comboBox1.SelectedItem);
-                    //UpdateComboBox(null);
+                    UpdateComboBox();
                 }
                 else if (treeView1.SelectedNode.Tag is SeSchemaItem)
                 {
@@ -161,7 +159,7 @@ namespace XSDTypeCl
                     }
 
                 }
-                treeView1.SelectedNode.Remove();
+                
             }
             else
             {
@@ -173,7 +171,7 @@ namespace XSDTypeCl
         {
             SeSchema newSchema = new SeSchema();
             newSchema.ClassToTreeView(treeView1.Nodes);
-            UpdateComboBox(newSchema);
+            UpdateComboBox();
         }
         private void Button_Search_Click(object sender, EventArgs e)
         {
@@ -260,21 +258,21 @@ namespace XSDTypeCl
             {
                 SeSchemaItem ssi = (SeSchemaItem)listView1.SelectedItems[0].Tag;
                 propertyGrid1.SelectedObject = ssi;
-               
-                        TreeNode[] treenodesParent = treeView1.Nodes.Find(ssi.GetSchema(ssi).ToString(), false);
 
-                        TreeNode[] treenodes = treenodesParent[0].Nodes.Find(ssi.ToString()+ssi.Parent.ToString(), true);
+                TreeNode[] treenodesParent = treeView1.Nodes.Find(ssi.GetSchema(ssi).ToString(), false);
 
-                        TreeNode eachTn = treenodes[0];
-                        while (eachTn.Parent.Tag is SeSchemaItem)
-                        {
-                            eachTn.Parent.Expand();
-                            eachTn = eachTn.Parent;
+                TreeNode[] treenodes = treenodesParent[0].Nodes.Find(ssi.ToString() + ssi.Parent.ToString(), true);
 
-                        }
-                        treeView1.Focus();
-                        treeView1.SelectedNode = treenodes[0];
-                   
+                TreeNode eachTn = treenodes[0];
+                while (eachTn.Parent.Tag is SeSchemaItem)
+                {
+                    eachTn.Parent.Expand();
+                    eachTn = eachTn.Parent;
+
+                }
+                treeView1.Focus();
+                treeView1.SelectedNode = treenodes[0];
+
             }
         }
 
@@ -390,7 +388,7 @@ namespace XSDTypeCl
         {
             SeSchema newSchema = new SeSchema();
             newSchema.ClassToTreeView(treeView1.Nodes);
-            UpdateComboBox(newSchema);
+            UpdateComboBox();
         }
 
         private void элементToolStripMenuItem_Click(object sender, EventArgs e)

@@ -320,7 +320,7 @@ namespace XSDTypeCl
 
             newTreeNode = treeNodes.Add(ToString());
             newTreeNode.Tag = this;
-            newTreeNode.Name = ToString()+Parent.ToString();
+            newTreeNode.Name = ToString() + Parent.ToString();
             //рекурсия (в случае, если у текущего элемента есть дочерние)
             if (SchemaItemsChildren != null)
             {
@@ -356,70 +356,75 @@ namespace XSDTypeCl
         {
             // var allowedSimpleType = SimpleType.String | SimpleType.integer | SimpleType.Decimal | SimpleType.dateTime;
             SetProperties(newElement1);
-            XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
-            newElement1.SchemaType = newSchemaType;
-            XmlSchemaAll newAll = new XmlSchemaAll();
-            Properties.SetPropAll(newAll);
-            newSchemaType.Particle = newAll;
-            foreach (SeSchemaItem ssi in SchemaItemsChildren)
+            if (Type == "")
             {
-                XmlSchemaElement newElement = new XmlSchemaElement();
-                newElement.Name = ssi.Name;
-                ssi.SetProperties(newElement);
-                if (ssi.Description != null && ssi.Description != "")
+                XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
+                newElement1.SchemaType = newSchemaType;
+                XmlSchemaAll newAll = new XmlSchemaAll();
+                Properties.SetPropAll(newAll);
+                newSchemaType.Particle = newAll;
+                foreach (SeSchemaItem ssi in SchemaItemsChildren)
                 {
-                    newElement.Annotation = SetAnnotation(ssi);
-                }
-                if (ssi.SchemaItemsChildren != null && ssi.SchemaItemsChildren.Count != 0)
-                {
-                    if (ssi.SchemaItemsChildren[0].Name == "SimpleType")
+                    XmlSchemaElement newElement = new XmlSchemaElement();
+                    newElement.Name = ssi.Name;
+                    ssi.SetProperties(newElement);
+                    if (ssi.Description != null && ssi.Description != "")
                     {
-                        XmlSchemaSimpleType simpleType = new XmlSchemaSimpleType();
-                        newElement.SchemaType = simpleType;
-                        XmlSchemaSimpleTypeRestriction restriction = new XmlSchemaSimpleTypeRestriction();
-                        simpleType.Content = restriction;
-                        restriction.BaseTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
-                        foreach (SeSchemaItem sstc in ssi.SchemaItemsChildren)
-                        {
-                            string facetName = sstc.Description.Split('-')[0];
-                            string facetValue = sstc.Description.Split('-')[1];
-                            if (facetName == "XmlSchemaMaxLengthFacet")
-                            {
-                                XmlSchemaMaxLengthFacet ml = new XmlSchemaMaxLengthFacet();
-                                restriction.Facets.Add(ml);
-                                ml.Value = facetValue;
-                            }
-                            if (facetName == "XmlSchemaTotalDigitsFacet")
-                            {
-                                XmlSchemaTotalDigitsFacet ml = new XmlSchemaTotalDigitsFacet();
-                                restriction.Facets.Add(ml);
-                                ml.Value = facetValue;
-                            }
-                            if (facetName == "XmlSchemaFractionDigitsFacet")
-                            {
-                                XmlSchemaFractionDigitsFacet ml = new XmlSchemaFractionDigitsFacet();
-                                restriction.Facets.Add(ml);
-                                ml.Value = facetValue;
-                            }
-                        }
-
+                        newElement.Annotation = SetAnnotation(ssi);
                     }
-                }
-                else
+                    if (ssi.SchemaItemsChildren != null && ssi.SchemaItemsChildren.Count != 0)
+                    {
+                        if (ssi.SchemaItemsChildren[0].Name == "SimpleType")
+                        {
+                            XmlSchemaSimpleType simpleType = new XmlSchemaSimpleType();
+                            newElement.SchemaType = simpleType;
+                            XmlSchemaSimpleTypeRestriction restriction = new XmlSchemaSimpleTypeRestriction();
+                            simpleType.Content = restriction;
+                            restriction.BaseTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
+                            foreach (SeSchemaItem sstc in ssi.SchemaItemsChildren)
+                            {
+                                string facetName = sstc.Description.Split('-')[0];
+                                string facetValue = sstc.Description.Split('-')[1];
+                                if (facetName == "XmlSchemaMaxLengthFacet")
+                                {
+                                    XmlSchemaMaxLengthFacet ml = new XmlSchemaMaxLengthFacet();
+                                    restriction.Facets.Add(ml);
+                                    ml.Value = facetValue;
+                                }
+                                if (facetName == "XmlSchemaTotalDigitsFacet")
+                                {
+                                    XmlSchemaTotalDigitsFacet ml = new XmlSchemaTotalDigitsFacet();
+                                    restriction.Facets.Add(ml);
+                                    ml.Value = facetValue;
+                                }
+                                if (facetName == "XmlSchemaFractionDigitsFacet")
+                                {
+                                    XmlSchemaFractionDigitsFacet ml = new XmlSchemaFractionDigitsFacet();
+                                    restriction.Facets.Add(ml);
+                                    ml.Value = facetValue;
+                                }
+                            }
 
-                {
-                    //<element ... type="xsd:...">
-                    if (ssi.Type == SimpleType.Decimal.ToString().ToLower() || ssi.Type == SimpleType.String.ToString().ToLower() || ssi.Type == SimpleType.integer.ToString() || ssi.Type == SimpleType.dateTime.ToString())
-                        newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
+                        }
+                    }
                     else
-                        //<element ... type="...">
-                        newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type);
+
+                    {
+                        //<element ... type="xsd:...">
+                        if (ssi.Type == SimpleType.Decimal.ToString().ToLower() || ssi.Type == SimpleType.String.ToString().ToLower() || ssi.Type == SimpleType.integer.ToString() || ssi.Type == SimpleType.dateTime.ToString())
+                            newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
+                        else
+                            //<element ... type="...">
+                            newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type);
+                    }
+                    newAll.Items.Add(newElement);
                 }
-                newAll.Items.Add(newElement);
             }
+            else newElement1.SchemaTypeName = new XmlQualifiedName(Type, "http://www.w3.org/2001/XMLSchema");
+
 
         }
-        
+
         /// <summary>
         /// Запись Annotation в новый файл XSD
         /// </summary>
