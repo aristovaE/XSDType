@@ -30,6 +30,14 @@ namespace XSDTypeCl
         [Description("Type of SchemaItem")]
         [TypeConverter(typeof(MyConverter))]
         public string Type { get; set; }
+        [Flags]
+        public enum SimpleType
+        {
+            String = 1,
+            integer = 2,
+            Decimal = 4, //SimpleType.Decimal.ToString().ToLower()
+            dateTime = 8
+        }
         public class MyConverter : StringConverter
         {
             public override bool GetStandardValuesSupported(ITypeDescriptorContext
@@ -78,14 +86,7 @@ namespace XSDTypeCl
         [Description("Parent of this SeSchemaItem")]
         public object Parent { get; set; } //тип object для SeSchemaItem И SeSchema
 
-        [Flags]
-        public enum SimpleType
-        {
-            String = 1,
-            integer = 2,
-            Decimal = 4, //SimpleType.Decimal.ToString().ToLower()
-            dateTime = 8
-        }
+        
 
         [ReadOnly(false)]
         [Category("Properties")]

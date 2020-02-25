@@ -441,7 +441,17 @@ namespace XSDTypeCl
                 addSchema.Click += схемуToolStripMenuItem_Click;
                 return;
             }
-            if (node_here.Tag is SeSchema || node_here.Tag is SeSchemaItem)
+            else if (node_here.Tag is SeSchema )
+            {
+                ToolStripMenuItem addElement = new ToolStripMenuItem("Добавить элемент");
+                ToolStripMenuItem delElement = new ToolStripMenuItem("Удалить cхему");
+                ToolStripMenuItem saveSchema = new ToolStripMenuItem("Сохранить cхему");
+                contextMenuStrip1.Items.AddRange(new[] { addElement, delElement, saveSchema });
+                addElement.Click += элементToolStripMenuItem_Click;
+                delElement.Click += Button_Remove_Click;
+                saveSchema.Click += сохранитьТекущуюСхемуToolStripMenuItem_Click;
+            }
+           else  if (node_here.Tag is SeSchemaItem)
             {
                 ToolStripMenuItem addElement = new ToolStripMenuItem("Добавить элемент");
                 ToolStripMenuItem delElement = new ToolStripMenuItem("Удалить элемент");

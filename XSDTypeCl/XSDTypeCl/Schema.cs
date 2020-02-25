@@ -253,7 +253,10 @@ namespace XSDTypeCl
                 if (newschemaItem.Type != "")
                 {
                     newElement.Name = newschemaItem.Name;
-                    newElement.SchemaTypeName = new XmlQualifiedName(newschemaItem.Type);
+                    if (newschemaItem.Type == SeSchemaItem.SimpleType.Decimal.ToString().ToLower() || newschemaItem.Type == SeSchemaItem.SimpleType.String.ToString().ToLower() || newschemaItem.Type == SeSchemaItem.SimpleType.integer.ToString() || newschemaItem.Type == SeSchemaItem.SimpleType.dateTime.ToString())
+                        newElement.SchemaTypeName = new XmlQualifiedName(newschemaItem.Type, "http://www.w3.org/2001/XMLSchema"); 
+                    else
+                        newElement.SchemaTypeName = new XmlQualifiedName(newschemaItem.Type);
                     if (newschemaItem.Description != null && newschemaItem.Description != "")
                     {
                         newElement.Annotation = SetAnnotation(newschemaItem);
