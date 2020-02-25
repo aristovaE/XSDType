@@ -320,7 +320,7 @@ namespace XSDTypeCl
 
             newTreeNode = treeNodes.Add(ToString());
             newTreeNode.Tag = this;
-            newTreeNode.Name = ToString();
+            newTreeNode.Name = ToString()+Parent.ToString();
             //рекурсия (в случае, если у текущего элемента есть дочерние)
             if (SchemaItemsChildren != null)
             {
@@ -419,7 +419,7 @@ namespace XSDTypeCl
             }
 
         }
-
+        
         /// <summary>
         /// Запись Annotation в новый файл XSD
         /// </summary>

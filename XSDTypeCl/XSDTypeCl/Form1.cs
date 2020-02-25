@@ -260,18 +260,21 @@ namespace XSDTypeCl
             {
                 SeSchemaItem ssi = (SeSchemaItem)listView1.SelectedItems[0].Tag;
                 propertyGrid1.SelectedObject = ssi;
-                TreeNode[] treenodesParent = treeView1.Nodes.Find(ssi.GetSchema(ssi).ToString(), false);
-                TreeNode[] treenodes = treenodesParent[0].Nodes.Find(ssi.ToString(), true);
+               
+                        TreeNode[] treenodesParent = treeView1.Nodes.Find(ssi.GetSchema(ssi).ToString(), false);
 
-                TreeNode eachTn = treenodes[0];
-                while (eachTn.Parent.Tag is SeSchemaItem)
-                {
-                    eachTn.Parent.Expand();
-                    eachTn = eachTn.Parent;
+                        TreeNode[] treenodes = treenodesParent[0].Nodes.Find(ssi.ToString()+ssi.Parent.ToString(), true);
 
-                }
-                treeView1.Focus();
-                treeView1.SelectedNode = treenodes[0];
+                        TreeNode eachTn = treenodes[0];
+                        while (eachTn.Parent.Tag is SeSchemaItem)
+                        {
+                            eachTn.Parent.Expand();
+                            eachTn = eachTn.Parent;
+
+                        }
+                        treeView1.Focus();
+                        treeView1.SelectedNode = treenodes[0];
+                   
             }
         }
 
