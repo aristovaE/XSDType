@@ -89,7 +89,7 @@ namespace XSDTypeCl
             XmlSchemaElement schemaElement = null;
             XmlSchemaComplexType schemaType = null;
             SeSchemaItem seSchemaItemTable = null;
-
+            
             if (sChemaItem is XmlSchemaElement)
             {
                 List<SeSchemaItem> schemaTypeInCT;
@@ -106,19 +106,25 @@ namespace XSDTypeCl
                 schemaType = sChemaItem as XmlSchemaComplexType;
 
                 seSchemaItemTable = new SeSchemaItem(schemaType.Name, GetAnnotation(schemaType), "", this, schemaTypeInCT = new List<SeSchemaItem>());
-                XmlSchemaSequence sequence = schemaType.ContentTypeParticle as XmlSchemaSequence;
-                try
+                if (schemaType.ContentTypeParticle is XmlSchemaSequence)
                 {
-                    foreach (XmlSchemaElement childElement in sequence.Items)
+                    XmlSchemaSequence sequence = schemaType.ContentTypeParticle as XmlSchemaSequence;
+                    try
                     {
-                        seSchemaItemTable.ReadXSD(childElement);
+                        foreach (var childElement in sequence.Items)
+                        {
+                            seSchemaItemTable.ReadXSD(childElement);
+                        }
+
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.ToString());
                     }
                 }
-                catch
-                { }
 
             }
-
+           
             if (seSchemaItemTable != null)
             {
                 SchemaItems.Add(seSchemaItemTable);
@@ -272,20 +278,22 @@ namespace XSDTypeCl
                     XmlSchemaElement newElement1 = new XmlSchemaElement();
                     if (newschemaItem.Description != null && newschemaItem.Description != "")
                         newSchemaType.Annotation = SetAnnotation(newschemaItem);
-                    if (newschemaItem.SchemaItemsChildren[0].Description != null && newschemaItem.SchemaItemsChildren[0].Description != "")
+                    if (newschemaItem.SchemaItemsChildren.Count != 0)
                     {
-                        newElement1.Annotation = SetAnnotation(newschemaItem.SchemaItemsChildren[0]);
+                        if (newschemaItem.SchemaItemsChildren[0].Description != null && newschemaItem.SchemaItemsChildren[0].Description != "")
+                        {
+                            newElement1.Annotation = SetAnnotation(newschemaItem.SchemaItemsChildren[0]);
+                        }
+
+                        foreach (SeSchemaItem seqItem in newschemaItem.SchemaItemsChildren)
+                        {
+                            newElement1.Name = seqItem.Name;
+                            newSeq.Items.Add(newElement1);
+                            seqItem.SaveXSD(newElement1, xs1);
+                        }
                     }
-
-                    foreach (SeSchemaItem seqItem in newschemaItem.SchemaItemsChildren)
-                    {
-
-                        newElement1.Name = seqItem.Name;
-                        newSeq.Items.Add(newElement1);
-
-                        seqItem.SaveXSD(newElement1, xs1);
-                    }
-                    xs1.Items.Add(newSchemaType);
+                        xs1.Items.Add(newSchemaType);
+                    
                 }
             }
         }

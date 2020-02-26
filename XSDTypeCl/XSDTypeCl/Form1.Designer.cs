@@ -44,10 +44,8 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.Button_Search = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
             this.splitter4 = new System.Windows.Forms.Splitter();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.splitter3 = new System.Windows.Forms.Splitter();
             this.button2 = new System.Windows.Forms.Button();
             this.схемаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.открытьВсеСхемыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -61,10 +59,14 @@
             this.схемуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.элементToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.splitter3 = new System.Windows.Forms.Splitter();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.panel4.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // comboBox1
@@ -89,12 +91,12 @@
             // treeView1
             // 
             this.treeView1.ContextMenuStrip = this.contextMenuStrip1;
-            this.treeView1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.treeView1.Dock = System.Windows.Forms.DockStyle.Top;
             this.treeView1.Indent = 30;
             this.treeView1.ItemHeight = 20;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(576, 393);
+            this.treeView1.Size = new System.Drawing.Size(503, 331);
             this.treeView1.TabIndex = 3;
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
             this.treeView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseDown);
@@ -111,7 +113,7 @@
             this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.propertyGrid1.Size = new System.Drawing.Size(503, 393);
+            this.propertyGrid1.Size = new System.Drawing.Size(493, 393);
             this.propertyGrid1.TabIndex = 4;
             this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
             // 
@@ -155,7 +157,7 @@
             // 
             // Button_Add
             // 
-            this.Button_Add.Location = new System.Drawing.Point(109, 456);
+            this.Button_Add.Location = new System.Drawing.Point(84, 337);
             this.Button_Add.Name = "Button_Add";
             this.Button_Add.Size = new System.Drawing.Size(75, 44);
             this.Button_Add.TabIndex = 28;
@@ -165,7 +167,7 @@
             // 
             // Button_Remove
             // 
-            this.Button_Remove.Location = new System.Drawing.Point(521, 456);
+            this.Button_Remove.Location = new System.Drawing.Point(422, 337);
             this.Button_Remove.Name = "Button_Remove";
             this.Button_Remove.Size = new System.Drawing.Size(75, 44);
             this.Button_Remove.TabIndex = 29;
@@ -175,7 +177,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(20, 456);
+            this.button1.Location = new System.Drawing.Point(3, 337);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 44);
             this.button1.TabIndex = 30;
@@ -202,29 +204,20 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.panel3);
+            this.panel2.Controls.Add(this.panel5);
+            this.panel2.Controls.Add(this.splitter3);
+            this.panel2.Controls.Add(this.panel4);
             this.panel2.Controls.Add(this.splitter4);
             this.panel2.Controls.Add(this.panel1);
-            this.panel2.Controls.Add(this.splitter3);
-            this.panel2.Controls.Add(this.treeView1);
             this.panel2.Location = new System.Drawing.Point(20, 57);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1300, 393);
+            this.panel2.Size = new System.Drawing.Size(1217, 393);
             this.panel2.TabIndex = 35;
-            // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.propertyGrid1);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(579, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(503, 393);
-            this.panel3.TabIndex = 43;
             // 
             // splitter4
             // 
             this.splitter4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.splitter4.Location = new System.Drawing.Point(1082, 0);
+            this.splitter4.Location = new System.Drawing.Point(999, 0);
             this.splitter4.Name = "splitter4";
             this.splitter4.Size = new System.Drawing.Size(3, 393);
             this.splitter4.TabIndex = 42;
@@ -237,19 +230,11 @@
             this.panel1.Controls.Add(this.textBox1);
             this.panel1.Controls.Add(this.Button_Search);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(1085, 0);
+            this.panel1.Location = new System.Drawing.Point(1002, 0);
             this.panel1.MinimumSize = new System.Drawing.Size(215, 393);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(215, 393);
             this.panel1.TabIndex = 37;
-            // 
-            // splitter3
-            // 
-            this.splitter3.Location = new System.Drawing.Point(576, 0);
-            this.splitter3.Name = "splitter3";
-            this.splitter3.Size = new System.Drawing.Size(3, 393);
-            this.splitter3.TabIndex = 41;
-            this.splitter3.TabStop = false;
             // 
             // button2
             // 
@@ -351,20 +336,47 @@
             this.добавитьToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1331, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1261, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.button1);
+            this.panel4.Controls.Add(this.treeView1);
+            this.panel4.Controls.Add(this.Button_Remove);
+            this.panel4.Controls.Add(this.Button_Add);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel4.Location = new System.Drawing.Point(0, 0);
+            this.panel4.MinimumSize = new System.Drawing.Size(503, 393);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(503, 393);
+            this.panel4.TabIndex = 44;
+            // 
+            // splitter3
+            // 
+            this.splitter3.Location = new System.Drawing.Point(503, 0);
+            this.splitter3.Name = "splitter3";
+            this.splitter3.Size = new System.Drawing.Size(3, 393);
+            this.splitter3.TabIndex = 45;
+            this.splitter3.TabStop = false;
+            // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.propertyGrid1);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel5.Location = new System.Drawing.Point(506, 0);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(493, 393);
+            this.panel5.TabIndex = 46;
             // 
             // XSDEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1331, 512);
+            this.ClientSize = new System.Drawing.Size(1261, 512);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.Button_Remove);
-            this.Controls.Add(this.Button_Add);
             this.Controls.Add(this.BtnToTV);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.menuStrip1);
@@ -372,11 +384,12 @@
             this.Name = "XSDEditor";
             this.Text = "XSDEditor";
             this.panel2.ResumeLayout(false);
-            this.panel3.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -412,9 +425,10 @@
         private System.Windows.Forms.ToolStripMenuItem элементToolStripMenuItem;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Splitter splitter3;
         private System.Windows.Forms.Splitter splitter4;
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Splitter splitter3;
+        private System.Windows.Forms.Panel panel4;
     }
 }
 

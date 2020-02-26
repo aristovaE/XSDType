@@ -367,7 +367,10 @@ namespace XSDTypeCl
                 //для записи в readonly ElementSchemaType 
                 xss.Compile();
             }
-            catch { }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
             using (FileStream fs = new FileStream(@"..\..\..\..\xsd\new\" + seSchema.Name + "NEW.xsd", FileMode.Create, FileAccess.ReadWrite))
             {
                 using (XmlTextWriter tw = new XmlTextWriter(fs, new UTF8Encoding()))
