@@ -191,10 +191,13 @@ namespace XSDTypeCl
                                     {
                                         if (nodeElement.Nodes.Count == 0)
                                         {
-                                            CloneEachNodeChild(nodeTable2.Nodes[0], nodesList);
-                                            TreeNode clonedNode = (TreeNode)nodeTable2.Clone();
-                                            nodeElement.Nodes.Insert(0, clonedNode);
-                                            break;
+                                            if (nodeTable2.Nodes.Count != 0)
+                                            {
+                                                CloneEachNodeChild(nodeTable2.Nodes[0], nodesList);
+                                                TreeNode clonedNode = (TreeNode)nodeTable2.Clone();
+                                                nodeElement.Nodes.Insert(0, clonedNode);
+                                                break;
+                                            }
                                         }
 
                                     }
@@ -251,11 +254,8 @@ namespace XSDTypeCl
             foreach (SeSchemaItem newschemaItem in SchemaItems)
             {
                 XmlSchemaElement newElement = new XmlSchemaElement();
-
-
                 XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
                 //newElement.SchemaType = newSchemaType;
-
                 if (newschemaItem.Type != "")
                 {
                     newElement.Name = newschemaItem.Name;
@@ -280,19 +280,19 @@ namespace XSDTypeCl
                         newSchemaType.Annotation = SetAnnotation(newschemaItem);
                     if (newschemaItem.SchemaItemsChildren.Count != 0)
                     {
-                        if (newschemaItem.SchemaItemsChildren[0].Description != null && newschemaItem.SchemaItemsChildren[0].Description != "")
-                        {
-                            newElement1.Annotation = SetAnnotation(newschemaItem.SchemaItemsChildren[0]);
-                        }
-
                         foreach (SeSchemaItem seqItem in newschemaItem.SchemaItemsChildren)
                         {
-                            newElement1.Name = seqItem.Name;
-                            newSeq.Items.Add(newElement1);
-                            seqItem.SaveXSD(newElement1, xs1);
+                            XmlSchemaElement newElementSeq = new XmlSchemaElement();
+                            newElementSeq.Name = seqItem.Name;
+                            newSeq.Items.Add(newElementSeq);
+                            seqItem.SaveXSD(newElementSeq, xs1);
+                            if (newschemaItem.SchemaItemsChildren[0].Description != null && newschemaItem.SchemaItemsChildren[0].Description != "")
+                            {
+                                newElementSeq.Annotation = SetAnnotation(newschemaItem.SchemaItemsChildren[0]);
+                            }
                         }
-                    }
                         xs1.Items.Add(newSchemaType);
+                    }
                     
                 }
             }

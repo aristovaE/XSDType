@@ -235,11 +235,13 @@ namespace XSDTypeCl
         {
             List<SeSchemaItem> schemaTypeInCT;
             List<SeSchemaItem> schemaTypeInCT2;
+            List<SeSchemaItem> schemaTypeInChoice;
             XmlSchemaElement schemaElement = null;
             SeSchemaItem seSchemaItemTable = null;
             XmlSchemaSequence seq = null;
             if (childElement is XmlSchemaChoice)
             {
+                SchemaItemsChildren.Add(new SeSchemaItem("CHOICE", "", "", this, schemaTypeInChoice = new List<SeSchemaItem>(), null));
                 var choice = (XmlSchemaChoice)childElement;
                 if(choice.Items[0] is XmlSchemaSequence)
                 {
@@ -247,15 +249,28 @@ namespace XSDTypeCl
                     foreach (XmlSchemaElement childElement2 in seq.Items)
                     {
                         SeProperties seProp2 = new SeProperties(childElement2);
-                        SchemaItemsChildren.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name, this, schemaTypeInCT = new List<SeSchemaItem>(), seProp2));
+                        schemaTypeInChoice.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name, this, schemaTypeInCT = new List<SeSchemaItem>(), seProp2));
                     }
                 }
                 if (seq == null)
                 {
-                    foreach (XmlSchemaElement childElement2 in choice.Items)
+                    foreach (XmlSchemaObject childElement2 in choice.Items)
                     {
-                        SeProperties seProp2 = new SeProperties(childElement2);
-                        SchemaItemsChildren.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name, this, schemaTypeInCT = new List<SeSchemaItem>(), seProp2));
+                        if (childElement2 is XmlSchemaElement)
+                        {
+                            schemaElement = childElement2 as XmlSchemaElement;
+                            SeProperties seProp2 = new SeProperties(schemaElement);
+                            schemaTypeInChoice.Add(new SeSchemaItem(schemaElement.Name, GetAnnotation(childElement2), schemaElement.SchemaTypeName.Name, this, schemaTypeInCT = new List<SeSchemaItem>(), seProp2));
+                        }
+                        else
+                        {
+                            seq =(XmlSchemaSequence) childElement2;
+                            foreach (XmlSchemaElement childElementSeq in seq.Items)
+                            {
+                                SeProperties seProp2 = new SeProperties(childElementSeq);
+                                schemaTypeInChoice.Add(new SeSchemaItem(childElementSeq.Name, GetAnnotation(childElementSeq), childElementSeq.SchemaTypeName.Name, this, schemaTypeInCT = new List<SeSchemaItem>(), seProp2));
+                            }
+                        }
                     }
                 }
 
