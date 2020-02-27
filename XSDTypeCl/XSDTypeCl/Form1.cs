@@ -51,12 +51,14 @@ namespace XSDTypeCl
 
         public void UpdateTreeView(TreeNodeCollection tnc)
         {
+            treeView1.BeginUpdate();
             treeView1.Nodes.Clear();
             for (int i = 0; i < comboBox1.Items.Count; i++)
             {
                 SeSchema seSchema = (SeSchema)comboBox1.Items[i];
                 seSchema.ClassToTreeView(treeView1.Nodes);
             }
+            treeView1.EndUpdate();
         }
         public void UpdateComboBox()
         {
@@ -70,6 +72,7 @@ namespace XSDTypeCl
         }
         public void UpdateNode()
         {
+            treeView1.BeginUpdate();
             if (treeView1.SelectedNode.Tag is SeSchemaItem)
             {
                 SeSchemaItem ssi = (SeSchemaItem)treeView1.SelectedNode.Tag;
@@ -80,6 +83,7 @@ namespace XSDTypeCl
                 SeSchema ss = (SeSchema)treeView1.SelectedNode.Tag;
                 treeView1.SelectedNode.Text = ss.ToString();
             }
+
 
         }
         public void ComboBoxBind(List<SeSchema> seSchemaList)
@@ -189,6 +193,8 @@ namespace XSDTypeCl
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            this.SuspendLayout();
+            treeView1.BeginUpdate();
             listView1.Clear();
             label1.Text = "";
             if (e.Node.Tag is SeSchemaItem)
@@ -239,7 +245,8 @@ namespace XSDTypeCl
                     comboBox1.SelectedIndex = e.Node.Index;
             }
             else { }
-
+            treeView1.EndUpdate();
+            this.ResumeLayout();
         }
         private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
@@ -282,6 +289,7 @@ namespace XSDTypeCl
             XmlSchemaSet xss = ReadXSD(diXsd);
             SeSchema seSchema;
             List<SeSchema> seSchemaList = null;
+            treeView1.BeginUpdate();
             foreach (XmlSchema schema in xss.Schemas())
             {
                 seSchema = new SeSchema(schema);
@@ -289,6 +297,7 @@ namespace XSDTypeCl
                 seSchemaList.Add(seSchema);
                 seSchema.ClassToTreeView(treeView1.Nodes);
             }
+            treeView1.EndUpdate();
 
             ComboBoxBind(seSchemaList);
             BtnToTV.Enabled = true;
@@ -302,15 +311,15 @@ namespace XSDTypeCl
             XmlSchemaSet xss = ReadXSD(diXsd);
             SeSchema seSchema;
             List<SeSchema> seSchemaList = null;
+            treeView1.BeginUpdate();
             foreach (XmlSchema schema in xss.Schemas())
             {
                 seSchema = new SeSchema(schema);
                 seSchemaList = seSchemaList ?? new List<SeSchema>();
                 seSchemaList.Add(seSchema);
                 seSchema.ClassToTreeView(treeView1.Nodes);
-
-
             }
+            treeView1.EndUpdate();
             ComboBoxBind(seSchemaList);
             BtnToTV.Enabled = true;
             button2.Enabled = true;
@@ -322,6 +331,7 @@ namespace XSDTypeCl
             XmlSchemaSet xss = ReadXSD(diXsd);
             SeSchema seSchema;
             List<SeSchema> seSchemaList = null;
+            treeView1.BeginUpdate();
             foreach (XmlSchema schema in xss.Schemas())
             {
                 seSchema = new SeSchema(schema);
@@ -329,6 +339,7 @@ namespace XSDTypeCl
                 seSchemaList.Add(seSchema);
                 seSchema.ClassToTreeView(treeView1.Nodes);
             }
+            treeView1.EndUpdate();
             ComboBoxBind(seSchemaList);
             BtnToTV.Enabled = true;
             button2.Enabled = true;
@@ -353,7 +364,14 @@ namespace XSDTypeCl
             seSchema.SaveXSD(xs1);
             xss.Add(xs1);
             //для записи в readonly ElementSchemaType 
-            xss.Compile();
+            try
+            {
+                xss.Compile();
+            }
+            catch(Exception em)
+            {
+                MessageBox.Show(em.ToString());
+            }
             using (FileStream fs = new FileStream(@"..\..\..\..\xsd\new\" + seSchema.Name + "NEW.xsd", FileMode.Create, FileAccess.ReadWrite))
             {
                 using (XmlTextWriter tw = new XmlTextWriter(fs, new UTF8Encoding()))

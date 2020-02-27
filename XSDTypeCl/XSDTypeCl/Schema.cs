@@ -119,7 +119,7 @@ namespace XSDTypeCl
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.ToString());
+                       //MessageBox.Show(e.ToString());
                     }
                 }
 
@@ -248,6 +248,10 @@ namespace XSDTypeCl
         /// <param name="xs1">Новый экземпляр схемы</param>
         public void SaveXSD(XmlSchema xs1)
         {
+            //XmlSchemaImport import = new XmlSchemaImport();
+            //import.Namespace = "urn:customs.ru:CommonLeafTypes:5.10.0";
+            //import.SchemaLocation = @"..\фтс\CommonLeafTypesCust.xsd";
+            //xs1.Includes.Add(import);
             xs1.AttributeFormDefault = XmlSchemaForm.Unqualified;
             xs1.ElementFormDefault = XmlSchemaForm.Qualified;
             xs1.Namespaces.Add("xsd", "http://www.w3.org/2001/XMLSchema");

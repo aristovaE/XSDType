@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,14 +10,18 @@ namespace XSDTypeCl
 {
     public class SeProperties
     {
+        [Browsable(false)]  //?
         public bool HasMinOccurs { get; set; }
+        [Browsable(false)]  //?
         public bool HasMaxOccurs { get; set; }
+        [Browsable(false)]  //?
         public bool HasNillable { get; set; }
 
         public string MinOccurs { get; set; }
         public string MaxOccurs { get; set; }
         public bool IsNillable { get; set; }
 
+        [Browsable(false)]  //?
         public string MinOccursAll { get; set; }
 
         public SeProperties()

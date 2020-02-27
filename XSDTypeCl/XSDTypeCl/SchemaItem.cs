@@ -86,14 +86,14 @@ namespace XSDTypeCl
         [Description("Parent of this SeSchemaItem")]
         public object Parent { get; set; } //тип object для SeSchemaItem И SeSchema
 
-        
+
 
         [ReadOnly(false)]
         [Category("Properties")]
         [Description("SchemaItems of SchemaItem")]
         public List<SeSchemaItem> SchemaItemsChildren { get; set; }
 
-        [Browsable(false)]  //?
+        [Browsable(false)]
         public SeProperties Properties { get; set; }
 
         /// <summary>
@@ -234,28 +234,26 @@ namespace XSDTypeCl
         public void ReadXSD(XmlSchemaObject childElement)
         {
             List<SeSchemaItem> schemaTypeInCT;
-            List<SeSchemaItem> schemaTypeInCT2;
             List<SeSchemaItem> schemaTypeInChoice;
             XmlSchemaElement schemaElement = null;
-            SeSchemaItem seSchemaItemTable = null;
             XmlSchemaSequence seq = null;
             if (childElement is XmlSchemaChoice)
             {
                 SchemaItemsChildren.Add(new SeSchemaItem("CHOICE", "", "", this, schemaTypeInChoice = new List<SeSchemaItem>(), null));
                 var choice = (XmlSchemaChoice)childElement;
-                if(choice.Items[0] is XmlSchemaSequence)
+                if (choice.Items[0] is XmlSchemaSequence)
                 {
                     seq = (XmlSchemaSequence)choice.Items[0];
                     foreach (XmlSchemaElement childElement2 in seq.Items)
                     {
-                        SeProperties seProp2 = new SeProperties(childElement2);
-                        schemaTypeInChoice.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name, this, schemaTypeInCT = new List<SeSchemaItem>(), seProp2));
+                        ReadXSD(childElement2);
                     }
                 }
                 if (seq == null)
                 {
                     foreach (XmlSchemaObject childElement2 in choice.Items)
                     {
+                      
                         if (childElement2 is XmlSchemaElement)
                         {
                             schemaElement = childElement2 as XmlSchemaElement;
@@ -264,7 +262,7 @@ namespace XSDTypeCl
                         }
                         else
                         {
-                            seq =(XmlSchemaSequence) childElement2;
+                            seq = (XmlSchemaSequence)childElement2;
                             foreach (XmlSchemaElement childElementSeq in seq.Items)
                             {
                                 SeProperties seProp2 = new SeProperties(childElementSeq);
@@ -282,46 +280,71 @@ namespace XSDTypeCl
                 //<xsd:element name="..._ITEM">
                 SeSchemaItem schemaItem = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name, this, schemaTypeInCT = new List<SeSchemaItem>(), seProp);
                 SchemaItemsChildren.Add(schemaItem);
-
-                XmlSchemaComplexType complexType = schemaElement.ElementSchemaType as XmlSchemaComplexType;
-                if (complexType != null)
+                schemaItem.ReadXSDParticle(schemaElement);
+            }
+        }
+        public void ReadXSDParticle(XmlSchemaElement childElement)
+        {
+            List<SeSchemaItem> schemaTypeInCT2;
+            XmlSchemaElement schemaElement = null;
+            SeSchemaItem seSchemaItemTable = null;
+            if (childElement.ElementSchemaType is XmlSchemaSimpleType)
+            {
+                SeProperties sePropSimpleType = new SeProperties(childElement);
+                List<SeSchemaItem> schemaTypeInST = new List<SeSchemaItem>();
+                SeSchemaItem ssi = new SeSchemaItem(childElement.Name, GetAnnotation(childElement), GetSimpleType(schemaTypeInST, childElement), childElement, schemaTypeInST, sePropSimpleType);
+                SchemaItemsChildren.Add(ssi);
+            }
+            if (childElement.ElementSchemaType is XmlSchemaComplexType)
+            {
+                XmlSchemaComplexType complexType = childElement.ElementSchemaType as XmlSchemaComplexType;
+                if (complexType.Particle is XmlSchemaAll)
                 {
                     XmlSchemaAll all = complexType.Particle as XmlSchemaAll; // <xsd:all>
-                    if (all != null)
+                    
+                    foreach (XmlSchemaElement childElement2 in all.Items)
                     {
-                        seProp.MinOccursAll = all.MinOccursString;
-                        foreach (XmlSchemaElement childElement2 in all.Items)
+                        SeProperties seProp2 = new SeProperties(childElement2);
+                        if (childElement2.ElementSchemaType is XmlSchemaComplexType)
                         {
-                            SeProperties seProp2 = new SeProperties(childElement2);
-                            if (childElement2.ElementSchemaType is XmlSchemaComplexType)
-                            {
-                                XmlSchemaComplexType schemaType = childElement2.ElementSchemaType as XmlSchemaComplexType;
-                                //<xsd:element ... type=ComplexType>
-                                seSchemaItemTable = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(), this, schemaTypeInCT2 = new List<SeSchemaItem>(), seProp2);
+                            XmlSchemaComplexType schemaType = childElement2.ElementSchemaType as XmlSchemaComplexType;
+                            //<xsd:element ... type=ComplexType
+                            seSchemaItemTable = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(), this, schemaTypeInCT2 = new List<SeSchemaItem>(), seProp2);
 
-                                if (seSchemaItemTable != null)
-                                    schemaTypeInCT.Add(seSchemaItemTable);
+                            if (seSchemaItemTable != null)
+                                SchemaItemsChildren.Add(seSchemaItemTable);
+                        }
+                        else
+                        {
+                            if (childElement2.SchemaTypeName.Name.ToString() != "")
+                            {
+                                //<xsd:element
+                                SchemaItemsChildren.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(), this, null, seProp2));
                             }
                             else
                             {
-                                if (childElement2.SchemaTypeName.Name.ToString() != "")
-                                {
-                                    //<xsd:element
-                                    schemaTypeInCT.Add(new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), childElement2.SchemaTypeName.Name.ToString(), schemaItem, null, seProp2));
-                                }
-                                else
-                                {
-                                    //<xsd:element ...<SimpleType>
-                                    List<SeSchemaItem> schemaTypeInST = new List<SeSchemaItem>();
-                                    SeSchemaItem ssi = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), GetSimpleType(schemaTypeInST, childElement2), schemaItem, schemaTypeInST, seProp2);
-                                    schemaTypeInCT.Add(ssi);
+                                //<xsd:element ...<SimpleType>
+                                List<SeSchemaItem> schemaTypeInST = new List<SeSchemaItem>();
+                                SeSchemaItem ssi = new SeSchemaItem(childElement2.Name, GetAnnotation(childElement2), GetSimpleType(schemaTypeInST, childElement2), this, schemaTypeInST, seProp2);
+                                SchemaItemsChildren.Add(ssi);
 
-                                }
                             }
                         }
                     }
                 }
+                if (complexType.Particle is XmlSchemaSequence)
+                {
+                    XmlSchemaSequence seq2 = complexType.Particle as XmlSchemaSequence; // <xsd:all>
+
+                    foreach (XmlSchemaObject childElement3 in seq2.Items)
+                    {
+                        ReadXSD(childElement3);
+                    }
+                }
+
+
             }
+          
         }
 
         /// <summary>
