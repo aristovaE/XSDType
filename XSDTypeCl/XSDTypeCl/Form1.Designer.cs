@@ -44,29 +44,32 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.Button_Search = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.splitter3 = new System.Windows.Forms.Splitter();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.splitter4 = new System.Windows.Forms.Splitter();
             this.panel1 = new System.Windows.Forms.Panel();
             this.button2 = new System.Windows.Forms.Button();
             this.схемаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.открытьВсеСхемыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.открытьНовыеСхемыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.открытьСхемыФТСToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.сохранитьТекущуюСхемуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.обновитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.добавитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.схемуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.элементToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.splitter3 = new System.Windows.Forms.Splitter();
-            this.panel5 = new System.Windows.Forms.Panel();
+            this.открытьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.всеСхемыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.новыеСхемыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.схемыФТСToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.сохранитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.текущуюСхемуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.всеОткрытыеСхемыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel2.SuspendLayout();
+            this.panel5.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            this.panel4.SuspendLayout();
-            this.panel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // comboBox1
@@ -214,6 +217,36 @@
             this.panel2.Size = new System.Drawing.Size(1217, 393);
             this.panel2.TabIndex = 35;
             // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.propertyGrid1);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel5.Location = new System.Drawing.Point(506, 0);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(493, 393);
+            this.panel5.TabIndex = 46;
+            // 
+            // splitter3
+            // 
+            this.splitter3.Location = new System.Drawing.Point(503, 0);
+            this.splitter3.Name = "splitter3";
+            this.splitter3.Size = new System.Drawing.Size(3, 393);
+            this.splitter3.TabIndex = 45;
+            this.splitter3.TabStop = false;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.button1);
+            this.panel4.Controls.Add(this.treeView1);
+            this.panel4.Controls.Add(this.Button_Remove);
+            this.panel4.Controls.Add(this.Button_Add);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel4.Location = new System.Drawing.Point(0, 0);
+            this.panel4.MinimumSize = new System.Drawing.Size(503, 393);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(503, 393);
+            this.panel4.TabIndex = 44;
+            // 
             // splitter4
             // 
             this.splitter4.Dock = System.Windows.Forms.DockStyle.Right;
@@ -250,59 +283,29 @@
             // схемаToolStripMenuItem
             // 
             this.схемаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.открытьВсеСхемыToolStripMenuItem,
-            this.открытьНовыеСхемыToolStripMenuItem,
-            this.открытьСхемыФТСToolStripMenuItem,
+            this.открытьToolStripMenuItem,
             this.toolStripSeparator1,
-            this.сохранитьТекущуюСхемуToolStripMenuItem,
+            this.сохранитьToolStripMenuItem,
             this.toolStripSeparator2,
             this.обновитьToolStripMenuItem});
             this.схемаToolStripMenuItem.Name = "схемаToolStripMenuItem";
             this.схемаToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.схемаToolStripMenuItem.Text = "Схема";
             // 
-            // открытьВсеСхемыToolStripMenuItem
-            // 
-            this.открытьВсеСхемыToolStripMenuItem.Name = "открытьВсеСхемыToolStripMenuItem";
-            this.открытьВсеСхемыToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.открытьВсеСхемыToolStripMenuItem.Text = "Открыть все схемы";
-            this.открытьВсеСхемыToolStripMenuItem.Click += new System.EventHandler(this.открытьВсеСхемыToolStripMenuItem_Click);
-            // 
-            // открытьНовыеСхемыToolStripMenuItem
-            // 
-            this.открытьНовыеСхемыToolStripMenuItem.Name = "открытьНовыеСхемыToolStripMenuItem";
-            this.открытьНовыеСхемыToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.открытьНовыеСхемыToolStripMenuItem.Text = "Открыть новые схемы";
-            this.открытьНовыеСхемыToolStripMenuItem.Click += new System.EventHandler(this.открытьНовыеСхемыToolStripMenuItem_Click);
-            // 
-            // открытьСхемыФТСToolStripMenuItem
-            // 
-            this.открытьСхемыФТСToolStripMenuItem.Name = "открытьСхемыФТСToolStripMenuItem";
-            this.открытьСхемыФТСToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.открытьСхемыФТСToolStripMenuItem.Text = "Открыть схемы ФТС";
-            this.открытьСхемыФТСToolStripMenuItem.Click += new System.EventHandler(this.открытьСхемыФТСToolStripMenuItem_Click);
-            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(217, 6);
-            // 
-            // сохранитьТекущуюСхемуToolStripMenuItem
-            // 
-            this.сохранитьТекущуюСхемуToolStripMenuItem.Name = "сохранитьТекущуюСхемуToolStripMenuItem";
-            this.сохранитьТекущуюСхемуToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.сохранитьТекущуюСхемуToolStripMenuItem.Text = "Сохранить текущую схему";
-            this.сохранитьТекущуюСхемуToolStripMenuItem.Click += new System.EventHandler(this.сохранитьТекущуюСхемуToolStripMenuItem_Click);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(217, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
             // 
             // обновитьToolStripMenuItem
             // 
             this.обновитьToolStripMenuItem.Name = "обновитьToolStripMenuItem";
-            this.обновитьToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.обновитьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.обновитьToolStripMenuItem.Text = "Обновить";
             this.обновитьToolStripMenuItem.Click += new System.EventHandler(this.обновитьToolStripMenuItem_Click);
             // 
@@ -312,20 +315,20 @@
             this.схемуToolStripMenuItem,
             this.элементToolStripMenuItem});
             this.добавитьToolStripMenuItem.Name = "добавитьToolStripMenuItem";
-            this.добавитьToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
-            this.добавитьToolStripMenuItem.Text = "Новая";
+            this.добавитьToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
+            this.добавитьToolStripMenuItem.Text = "Добавить";
             // 
             // схемуToolStripMenuItem
             // 
             this.схемуToolStripMenuItem.Name = "схемуToolStripMenuItem";
-            this.схемуToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.схемуToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.схемуToolStripMenuItem.Text = "Схема";
             this.схемуToolStripMenuItem.Click += new System.EventHandler(this.схемуToolStripMenuItem_Click);
             // 
             // элементToolStripMenuItem
             // 
             this.элементToolStripMenuItem.Name = "элементToolStripMenuItem";
-            this.элементToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.элементToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.элементToolStripMenuItem.Text = "Элемент";
             this.элементToolStripMenuItem.Click += new System.EventHandler(this.элементToolStripMenuItem_Click);
             // 
@@ -340,41 +343,65 @@
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // panel4
+            // открытьToolStripMenuItem
             // 
-            this.panel4.Controls.Add(this.button1);
-            this.panel4.Controls.Add(this.treeView1);
-            this.panel4.Controls.Add(this.Button_Remove);
-            this.panel4.Controls.Add(this.Button_Add);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel4.Location = new System.Drawing.Point(0, 0);
-            this.panel4.MinimumSize = new System.Drawing.Size(503, 393);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(503, 393);
-            this.panel4.TabIndex = 44;
+            this.открытьToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.всеСхемыToolStripMenuItem,
+            this.новыеСхемыToolStripMenuItem,
+            this.схемыФТСToolStripMenuItem});
+            this.открытьToolStripMenuItem.Name = "открытьToolStripMenuItem";
+            this.открытьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.открытьToolStripMenuItem.Text = "Открыть";
             // 
-            // splitter3
+            // всеСхемыToolStripMenuItem
             // 
-            this.splitter3.Location = new System.Drawing.Point(503, 0);
-            this.splitter3.Name = "splitter3";
-            this.splitter3.Size = new System.Drawing.Size(3, 393);
-            this.splitter3.TabIndex = 45;
-            this.splitter3.TabStop = false;
+            this.всеСхемыToolStripMenuItem.Name = "всеСхемыToolStripMenuItem";
+            this.всеСхемыToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.всеСхемыToolStripMenuItem.Text = "Все схемы";
+            this.всеСхемыToolStripMenuItem.Click += new System.EventHandler(this.открытьВсеСхемыToolStripMenuItem_Click);
             // 
-            // panel5
+            // новыеСхемыToolStripMenuItem
             // 
-            this.panel5.Controls.Add(this.propertyGrid1);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(506, 0);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(493, 393);
-            this.panel5.TabIndex = 46;
+            this.новыеСхемыToolStripMenuItem.Name = "новыеСхемыToolStripMenuItem";
+            this.новыеСхемыToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.новыеСхемыToolStripMenuItem.Text = "Новые схемы";
+            this.новыеСхемыToolStripMenuItem.Click += new System.EventHandler(this.открытьНовыеСхемыToolStripMenuItem_Click);
+            // 
+            // схемыФТСToolStripMenuItem
+            // 
+            this.схемыФТСToolStripMenuItem.Name = "схемыФТСToolStripMenuItem";
+            this.схемыФТСToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.схемыФТСToolStripMenuItem.Text = "Схемы ФТС";
+            this.схемыФТСToolStripMenuItem.Click += new System.EventHandler(this.открытьСхемыФТСToolStripMenuItem_Click);
+            // 
+            // сохранитьToolStripMenuItem
+            // 
+            this.сохранитьToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.текущуюСхемуToolStripMenuItem,
+            this.всеОткрытыеСхемыToolStripMenuItem});
+            this.сохранитьToolStripMenuItem.Name = "сохранитьToolStripMenuItem";
+            this.сохранитьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.сохранитьToolStripMenuItem.Text = "Сохранить";
+            // 
+            // текущуюСхемуToolStripMenuItem
+            // 
+            this.текущуюСхемуToolStripMenuItem.Name = "текущуюСхемуToolStripMenuItem";
+            this.текущуюСхемуToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.текущуюСхемуToolStripMenuItem.Text = "Текущую схему";
+            this.текущуюСхемуToolStripMenuItem.Click += new System.EventHandler(this.сохранитьТекущуюСхемуToolStripMenuItem_Click);
+            // 
+            // всеОткрытыеСхемыToolStripMenuItem
+            // 
+            this.всеОткрытыеСхемыToolStripMenuItem.Name = "всеОткрытыеСхемыToolStripMenuItem";
+            this.всеОткрытыеСхемыToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.всеОткрытыеСхемыToolStripMenuItem.Text = "Все открытые схемы";
+            this.всеОткрытыеСхемыToolStripMenuItem.Click += new System.EventHandler(this.всеОткрытыеСхемыToolStripMenuItem_Click);
             // 
             // XSDEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1261, 512);
+            this.ClientSize = new System.Drawing.Size(1261, 465);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.BtnToTV);
@@ -384,12 +411,12 @@
             this.Name = "XSDEditor";
             this.Text = "XSDEditor";
             this.panel2.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.panel4.ResumeLayout(false);
-            this.panel5.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -413,11 +440,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ToolStripMenuItem схемаToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem открытьВсеСхемыToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem открытьНовыеСхемыToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem открытьСхемыФТСToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem сохранитьТекущуюСхемуToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem обновитьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem добавитьToolStripMenuItem;
@@ -429,6 +452,13 @@
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Splitter splitter3;
         private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.ToolStripMenuItem открытьToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem всеСхемыToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem новыеСхемыToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem схемыФТСToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem сохранитьToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem текущуюСхемуToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem всеОткрытыеСхемыToolStripMenuItem;
     }
 }
 

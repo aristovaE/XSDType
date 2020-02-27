@@ -90,7 +90,7 @@ namespace XSDTypeCl
             comboBox1.DataSource = bindingSource1.DataSource;
             comboBox1.DisplayMember = "Name";
             comboBox1.ValueMember = "Name";
-            сохранитьТекущуюСхемуToolStripMenuItem.Enabled = true;
+            текущуюСхемуToolStripMenuItem.Enabled = true;
         }
 
         private void BtnToTV_Click(object sender, EventArgs e)
@@ -328,8 +328,6 @@ namespace XSDTypeCl
                 seSchemaList = seSchemaList ?? new List<SeSchema>();
                 seSchemaList.Add(seSchema);
                 seSchema.ClassToTreeView(treeView1.Nodes);
-
-
             }
             ComboBoxBind(seSchemaList);
             BtnToTV.Enabled = true;
@@ -338,7 +336,12 @@ namespace XSDTypeCl
 
         private void сохранитьТекущуюСхемуToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            XmlSchema xs1 = new XmlSchema();
             SeSchema seSchema = null;
+            XmlSchemaSet xss = new XmlSchemaSet();
+            ValidationEventHandler ValidationErrorHandler = null;
+            xss.ValidationEventHandler += ValidationErrorHandler;
+            xss.XmlResolver = new XmlUrlResolver();
             if ((treeView1.SelectedNode != null) && (treeView1.SelectedNode.Tag is SeSchema))
             {
                 seSchema = (SeSchema)treeView1.SelectedNode.Tag;
@@ -347,30 +350,10 @@ namespace XSDTypeCl
             {
                 seSchema = (SeSchema)comboBox1.SelectedItem;
             }
-            XmlSchema xs1 = new XmlSchema();
             seSchema.SaveXSD(xs1);
-            XmlSchemaSet xss = new XmlSchemaSet();
-            ValidationEventHandler ValidationErrorHandler = null;
-            xss.ValidationEventHandler += ValidationErrorHandler;
-            xss.XmlResolver = new XmlUrlResolver();
-            DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\new\")); //?? работает и при "...\xsd\"
             xss.Add(xs1);
-            try
-            {
-                foreach (var fi in diXsd.GetFiles())
-                {
-                    using (var sr = new StreamReader(fi.FullName))
-                    {
-                        xss.Add(xs1);
-                    }
-                }
-                //для записи в readonly ElementSchemaType 
-                xss.Compile();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
+            //для записи в readonly ElementSchemaType 
+            xss.Compile();
             using (FileStream fs = new FileStream(@"..\..\..\..\xsd\new\" + seSchema.Name + "NEW.xsd", FileMode.Create, FileAccess.ReadWrite))
             {
                 using (XmlTextWriter tw = new XmlTextWriter(fs, new UTF8Encoding()))
@@ -480,6 +463,45 @@ namespace XSDTypeCl
 
             ComboBoxBind(seSchemaList);
 
+        }
+
+        private void всеОткрытыеСхемыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            XmlSchemaSet xss = new XmlSchemaSet();
+            ValidationEventHandler ValidationErrorHandler = null;
+            xss.ValidationEventHandler += ValidationErrorHandler;
+            xss.XmlResolver = new XmlUrlResolver();
+
+            foreach (SeSchema seSchema in comboBox1.Items)
+            {
+                XmlSchema xs1 = new XmlSchema();
+                seSchema.SaveXSD(xs1);
+                xss.Add(xs1);
+            }
+            //для записи в readonly ElementSchemaType 
+            xss.Compile();
+            string schemaName = "";
+            foreach (XmlSchema xs in xss.Schemas())
+
+            {
+                foreach (XmlSchemaObject xObject in xs.Items)
+                {
+                    if (xObject is XmlSchemaElement)
+                    {
+                        XmlSchemaElement xElement = (XmlSchemaElement)xObject;
+                        schemaName = xElement.Name;
+                    }
+                }
+             using (FileStream fs = new FileStream(@"..\..\..\..\xsd\new\" + schemaName + "NEW.xsd", FileMode.Create, FileAccess.ReadWrite))
+             {
+                using (XmlTextWriter tw = new XmlTextWriter(fs, new UTF8Encoding()))
+                {
+                    tw.Formatting = Formatting.Indented;
+                    xs.Write(tw);
+                }
+                fs.Close();
+            }
+            }
         }
     }
 }
