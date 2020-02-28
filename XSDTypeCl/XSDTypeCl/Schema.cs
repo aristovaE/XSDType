@@ -29,6 +29,7 @@ namespace XSDTypeCl
         public List<SeSchemaItem> SchemaItems { get; set; }
         public SeSchema(XmlSchema schema)
         {
+
             SchemaItems = new List<SeSchemaItem>();
             if (schema.Elements.Count == 0)
             {

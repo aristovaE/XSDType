@@ -183,6 +183,10 @@ namespace XSDTypeCl
             List<SeSchemaItem> ssiList = schemaToSearch.FindElements(search);
             listView1.Clear();
             label1.Text = "Результаты поиска:";
+            if (ssiList.Count == 0)
+            {
+                listView1.Items.Add("отсутсвуют!");
+            }
             foreach (SeSchemaItem element in ssiList)
             {
                 listView1.Items.Add(element.Name);
@@ -232,7 +236,6 @@ namespace XSDTypeCl
                     {
                         SeSchemaItem ssichild = (SeSchemaItem)treenode.Tag;
                         treenode.Text = ssichild.ToString();
-
                     }
                 }
             }
@@ -267,9 +270,7 @@ namespace XSDTypeCl
                 propertyGrid1.SelectedObject = ssi;
 
                 TreeNode[] treenodesParent = treeView1.Nodes.Find(ssi.GetSchema(ssi).ToString(), false);
-
                 TreeNode[] treenodes = treenodesParent[0].Nodes.Find(ssi.ToString() + ssi.Parent.ToString(), true);
-
                 TreeNode eachTn = treenodes[0];
                 while (eachTn.Parent.Tag is SeSchemaItem)
                 {
@@ -528,15 +529,15 @@ namespace XSDTypeCl
         private void treeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
-            treeView1.BeginUpdate();//долгая загрузка
-            //this.SuspendLayout();//белый экран
+            //treeView1.BeginUpdate();//долгая загрузка
+            this.SuspendLayout();//белый экран
         }
 
 
         private void treeView1_AfterExpand(object sender, TreeViewEventArgs e)
         {
-            //this.ResumeLayout();
-            treeView1.EndUpdate();
+            this.ResumeLayout();
+            //treeView1.EndUpdate();
 
             this.Cursor = Cursors.Default;
         }
