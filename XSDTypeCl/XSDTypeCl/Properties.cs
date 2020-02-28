@@ -40,8 +40,7 @@ namespace XSDTypeCl
                 HasMinOccurs = true;
                 MinOccurs = element.MinOccursString;
             }
-
-
+            
             if (element.MaxOccursString == null)
                 HasMaxOccurs = false;
             else

@@ -33,7 +33,7 @@ namespace XSDTypeCl
             if (schema.Elements.Count == 0)
             {
                 List<string> name = schema.TargetNamespace.Split(new char[] { ':' }).ToList();
-                Name = name[name.Count-2];
+                Name = name[name.Count - 2];
             }
             foreach (var sChemaItem in schema.Items)
             {
@@ -94,7 +94,7 @@ namespace XSDTypeCl
             XmlSchemaElement schemaElement = null;
             XmlSchemaComplexType schemaType = null;
             SeSchemaItem seSchemaItemTable = null;
-            
+
             if (sChemaItem is XmlSchemaElement)
             {
                 List<SeSchemaItem> schemaTypeInCT;
@@ -124,12 +124,12 @@ namespace XSDTypeCl
                     }
                     catch (Exception e)
                     {
-                       //MessageBox.Show(e.ToString());
+                        //MessageBox.Show(e.ToString());
                     }
                 }
 
             }
-           
+
             if (seSchemaItemTable != null)
             {
                 SchemaItems.Add(seSchemaItemTable);
@@ -269,7 +269,7 @@ namespace XSDTypeCl
                 {
                     newElement.Name = newschemaItem.Name;
                     if (newschemaItem.Type == SeSchemaItem.SimpleType.Decimal.ToString().ToLower() || newschemaItem.Type == SeSchemaItem.SimpleType.String.ToString().ToLower() || newschemaItem.Type == SeSchemaItem.SimpleType.integer.ToString() || newschemaItem.Type == SeSchemaItem.SimpleType.dateTime.ToString())
-                        newElement.SchemaTypeName = new XmlQualifiedName(newschemaItem.Type, "http://www.w3.org/2001/XMLSchema"); 
+                        newElement.SchemaTypeName = new XmlQualifiedName(newschemaItem.Type, "http://www.w3.org/2001/XMLSchema");
                     else
                         newElement.SchemaTypeName = new XmlQualifiedName(newschemaItem.Type);
                     if (newschemaItem.Description != null && newschemaItem.Description != "")
@@ -302,7 +302,7 @@ namespace XSDTypeCl
                         }
                         xs1.Items.Add(newSchemaType);
                     }
-                    
+
                 }
             }
         }

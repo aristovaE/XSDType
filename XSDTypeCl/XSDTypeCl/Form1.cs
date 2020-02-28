@@ -335,7 +335,7 @@ namespace XSDTypeCl
             this.Cursor = Cursors.WaitCursor;
 
             treeView1.BeginUpdate();
-            
+
             foreach (XmlSchema schema in xss.Schemas())
             {
                 seSchema = new SeSchema(schema);
