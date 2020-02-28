@@ -30,6 +30,11 @@ namespace XSDTypeCl
         public SeSchema(XmlSchema schema)
         {
             SchemaItems = new List<SeSchemaItem>();
+            if (schema.Elements.Count == 0)
+            {
+                string[] name = schema.TargetNamespace.Split(':');
+                Name = name[3];
+            }
             foreach (var sChemaItem in schema.Items)
             {
                 ReadXSD(sChemaItem);

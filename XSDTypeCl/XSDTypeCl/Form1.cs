@@ -73,7 +73,6 @@ namespace XSDTypeCl
         public void UpdateNode()
         {
             //treeView1.BeginUpdate();
-            this.SuspendLayout();
             if (treeView1.SelectedNode.Tag is SeSchemaItem)
             {
                 SeSchemaItem ssi = (SeSchemaItem)treeView1.SelectedNode.Tag;
@@ -84,7 +83,6 @@ namespace XSDTypeCl
                 SeSchema ss = (SeSchema)treeView1.SelectedNode.Tag;
                 treeView1.SelectedNode.Text = ss.ToString();
             }
-            this.ResumeLayout();
             //treeView1.EndUpdate();
         }
         public void ComboBoxBind(List<SeSchema> seSchemaList)
@@ -194,7 +192,8 @@ namespace XSDTypeCl
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            //treeView1.BeginUpdate();
+            this.Cursor = Cursors.WaitCursor;
+            treeView1.BeginUpdate();
             listView1.Clear();
             label1.Text = "";
             if (e.Node.Tag is SeSchemaItem)
@@ -245,7 +244,9 @@ namespace XSDTypeCl
                     comboBox1.SelectedIndex = e.Node.Index;
             }
             else { }
-            //treeView1.EndUpdate();
+            treeView1.EndUpdate();
+
+            this.Cursor = Cursors.Default;
         }
         private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
@@ -528,8 +529,7 @@ namespace XSDTypeCl
         {
             this.Cursor = Cursors.WaitCursor;
             treeView1.BeginUpdate();//долгая загрузка
-             //this.SuspendLayout();//белый экран
-           
+            //this.SuspendLayout();//белый экран
         }
 
 
@@ -539,7 +539,6 @@ namespace XSDTypeCl
             treeView1.EndUpdate();
 
             this.Cursor = Cursors.Default;
-
         }
     }
 }
