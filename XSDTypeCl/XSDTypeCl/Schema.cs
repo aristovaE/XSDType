@@ -32,8 +32,8 @@ namespace XSDTypeCl
             SchemaItems = new List<SeSchemaItem>();
             if (schema.Elements.Count == 0)
             {
-                string[] name = schema.TargetNamespace.Split(':');
-                Name = name[3];
+                List<string> name = schema.TargetNamespace.Split(new char[] { ':' }).ToList();
+                Name = name[name.Count-2];
             }
             foreach (var sChemaItem in schema.Items)
             {
