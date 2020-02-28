@@ -51,14 +51,14 @@ namespace XSDTypeCl
 
         public void UpdateTreeView(TreeNodeCollection tnc)
         {
-            treeView1.BeginUpdate();
+            //treeView1.BeginUpdate();
             treeView1.Nodes.Clear();
             for (int i = 0; i < comboBox1.Items.Count; i++)
             {
                 SeSchema seSchema = (SeSchema)comboBox1.Items[i];
                 seSchema.ClassToTreeView(treeView1.Nodes);
             }
-            treeView1.EndUpdate();
+            //treeView1.EndUpdate();
         }
         public void UpdateComboBox()
         {
@@ -67,12 +67,13 @@ namespace XSDTypeCl
             {
                 seSchemaList.Add((SeSchema)treeView1.Nodes[i].Tag);
             }
-           
+
             ComboBoxBind(seSchemaList);
         }
         public void UpdateNode()
         {
-            treeView1.BeginUpdate();
+            //treeView1.BeginUpdate();
+            this.SuspendLayout();
             if (treeView1.SelectedNode.Tag is SeSchemaItem)
             {
                 SeSchemaItem ssi = (SeSchemaItem)treeView1.SelectedNode.Tag;
@@ -83,8 +84,8 @@ namespace XSDTypeCl
                 SeSchema ss = (SeSchema)treeView1.SelectedNode.Tag;
                 treeView1.SelectedNode.Text = ss.ToString();
             }
-
-
+            this.ResumeLayout();
+            //treeView1.EndUpdate();
         }
         public void ComboBoxBind(List<SeSchema> seSchemaList)
         {
@@ -163,7 +164,7 @@ namespace XSDTypeCl
                     }
 
                 }
-                
+
             }
             else
             {
@@ -193,8 +194,7 @@ namespace XSDTypeCl
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            this.SuspendLayout();
-            treeView1.BeginUpdate();
+            //treeView1.BeginUpdate();
             listView1.Clear();
             label1.Text = "";
             if (e.Node.Tag is SeSchemaItem)
@@ -245,8 +245,7 @@ namespace XSDTypeCl
                     comboBox1.SelectedIndex = e.Node.Index;
             }
             else { }
-            treeView1.EndUpdate();
-            this.ResumeLayout();
+            //treeView1.EndUpdate();
         }
         private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
@@ -289,7 +288,7 @@ namespace XSDTypeCl
             XmlSchemaSet xss = ReadXSD(diXsd);
             SeSchema seSchema;
             List<SeSchema> seSchemaList = null;
-            treeView1.BeginUpdate();
+            //treeView1.BeginUpdate();
             foreach (XmlSchema schema in xss.Schemas())
             {
                 seSchema = new SeSchema(schema);
@@ -297,7 +296,7 @@ namespace XSDTypeCl
                 seSchemaList.Add(seSchema);
                 seSchema.ClassToTreeView(treeView1.Nodes);
             }
-            treeView1.EndUpdate();
+            //treeView1.EndUpdate();
 
             ComboBoxBind(seSchemaList);
             BtnToTV.Enabled = true;
@@ -311,7 +310,7 @@ namespace XSDTypeCl
             XmlSchemaSet xss = ReadXSD(diXsd);
             SeSchema seSchema;
             List<SeSchema> seSchemaList = null;
-            treeView1.BeginUpdate();
+            //treeView1.BeginUpdate();
             foreach (XmlSchema schema in xss.Schemas())
             {
                 seSchema = new SeSchema(schema);
@@ -319,7 +318,7 @@ namespace XSDTypeCl
                 seSchemaList.Add(seSchema);
                 seSchema.ClassToTreeView(treeView1.Nodes);
             }
-            treeView1.EndUpdate();
+            //treeView1.EndUpdate();
             ComboBoxBind(seSchemaList);
             BtnToTV.Enabled = true;
             button2.Enabled = true;
@@ -327,11 +326,15 @@ namespace XSDTypeCl
 
         private void открытьСхемыФТСToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            treeView1.SelectedNode = null;
             DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\фтс\"));
             XmlSchemaSet xss = ReadXSD(diXsd);
             SeSchema seSchema;
             List<SeSchema> seSchemaList = null;
+            this.Cursor = Cursors.WaitCursor;
+
             treeView1.BeginUpdate();
+            
             foreach (XmlSchema schema in xss.Schemas())
             {
                 seSchema = new SeSchema(schema);
@@ -340,6 +343,7 @@ namespace XSDTypeCl
                 seSchema.ClassToTreeView(treeView1.Nodes);
             }
             treeView1.EndUpdate();
+            this.Cursor = Cursors.Default;
             ComboBoxBind(seSchemaList);
             BtnToTV.Enabled = true;
             button2.Enabled = true;
@@ -368,7 +372,7 @@ namespace XSDTypeCl
             {
                 xss.Compile();
             }
-            catch(Exception em)
+            catch (Exception em)
             {
                 MessageBox.Show(em.ToString());
             }
@@ -445,7 +449,7 @@ namespace XSDTypeCl
                 addSchema.Click += схемуToolStripMenuItem_Click;
                 return;
             }
-            else if (node_here.Tag is SeSchema )
+            else if (node_here.Tag is SeSchema)
             {
                 ToolStripMenuItem addElement = new ToolStripMenuItem("Добавить элемент");
                 ToolStripMenuItem delElement = new ToolStripMenuItem("Удалить cхему");
@@ -455,7 +459,7 @@ namespace XSDTypeCl
                 delElement.Click += Button_Remove_Click;
                 saveSchema.Click += сохранитьТекущуюСхемуToolStripMenuItem_Click;
             }
-           else  if (node_here.Tag is SeSchemaItem)
+            else if (node_here.Tag is SeSchemaItem)
             {
                 ToolStripMenuItem addElement = new ToolStripMenuItem("Добавить элемент");
                 ToolStripMenuItem delElement = new ToolStripMenuItem("Удалить элемент");
@@ -478,9 +482,7 @@ namespace XSDTypeCl
                 seSchemaList.Add(seSchema);
                 seSchema.ClassToTreeView(treeView1.Nodes);
             }
-
             ComboBoxBind(seSchemaList);
-
         }
 
         private void всеОткрытыеСхемыToolStripMenuItem_Click(object sender, EventArgs e)
@@ -510,16 +512,34 @@ namespace XSDTypeCl
                         schemaName = xElement.Name;
                     }
                 }
-             using (FileStream fs = new FileStream(@"..\..\..\..\xsd\new\" + schemaName + "NEW.xsd", FileMode.Create, FileAccess.ReadWrite))
-             {
-                using (XmlTextWriter tw = new XmlTextWriter(fs, new UTF8Encoding()))
+                using (FileStream fs = new FileStream(@"..\..\..\..\xsd\new\" + schemaName + "NEW.xsd", FileMode.Create, FileAccess.ReadWrite))
                 {
-                    tw.Formatting = Formatting.Indented;
-                    xs.Write(tw);
+                    using (XmlTextWriter tw = new XmlTextWriter(fs, new UTF8Encoding()))
+                    {
+                        tw.Formatting = Formatting.Indented;
+                        xs.Write(tw);
+                    }
+                    fs.Close();
                 }
-                fs.Close();
             }
-            }
+        }
+
+        private void treeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+            treeView1.BeginUpdate();//долгая загрузка
+             //this.SuspendLayout();//белый экран
+           
+        }
+
+
+        private void treeView1_AfterExpand(object sender, TreeViewEventArgs e)
+        {
+            //this.ResumeLayout();
+            treeView1.EndUpdate();
+
+            this.Cursor = Cursors.Default;
+
         }
     }
 }
