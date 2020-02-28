@@ -168,15 +168,15 @@ namespace XSDTypeCl
                         TreeNode clonedNode = (TreeNode)eachTn.Clone();
                         eachTnn.Nodes.Insert(0, clonedNode);
                     }
-
-
-
                 }
             }
-
-
-
+            
         }
+        /// <summary>
+        /// Копирование веток от complexType к ветке, у которой этот ComplexType
+        /// </summary>
+        /// <param name="eachTnn">Текущая ветка</param>
+        /// <param name="nodesList">Список родительских веток</param>
         public void CloneEachNode(TreeNode eachTnn, List<TreeNode> nodesList)
         {
             foreach (TreeNode nodeTable in nodesList)
@@ -330,6 +330,11 @@ namespace XSDTypeCl
             return new XmlNode[1] { doc.CreateTextNode(text) };
         }
 
+        /// <summary>
+        /// Поиск элементов, имя которого содержит слово из поисковой строки
+        /// </summary>
+        /// <param name="search">Искомое слово</param>
+        /// <returns></returns>
         public List<SeSchemaItem> FindElements(string search)
         {
             List<SeSchemaItem> ssiList = new List<SeSchemaItem>();

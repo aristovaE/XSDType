@@ -281,9 +281,8 @@ namespace XSDTypeCl
 
                 if (schemaElement.ElementType is XmlSchemaSimpleType)
                 {
-                    SeProperties sePropSimpleType = new SeProperties(schemaElement);
                     List<SeSchemaItem> schemaTypeInST = new List<SeSchemaItem>();
-                    SeSchemaItem ssi = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), GetSimpleType(schemaTypeInST, schemaElement), this, schemaTypeInST, sePropSimpleType);
+                    SeSchemaItem ssi = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), GetSimpleType(schemaTypeInST, schemaElement), this, schemaTypeInST, seProp);
                     SchemaItemsChildren.Add(ssi);
                 }
                 else
@@ -294,6 +293,10 @@ namespace XSDTypeCl
             }
 
         }
+        /// <summary>
+        /// Чтение содержимого внутри элемента
+        /// </summary>
+        /// <param name="childElement">Считываемый элемент</param>
         public void ReadXSDParticle(XmlSchemaElement childElement)
         {
 
@@ -536,7 +539,10 @@ namespace XSDTypeCl
                     }
             }
         }
-
+        /// <summary>
+        /// Поиск элементов, ComplexType которого - текущий элемент
+        /// </summary>
+        /// <returns>Список элементов с искомым ComplexType</returns>
         public List<SeSchemaItem> FindAllTypes()
         {
             List<SeSchemaItem> elementsOfType = new List<SeSchemaItem>();
