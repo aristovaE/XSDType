@@ -359,6 +359,7 @@ namespace XSDTypeCl
             newTreeNode = treeNodes.Add(ToString());
             newTreeNode.Tag = this;
             newTreeNode.Name = ToString() + Parent.ToString();
+            newTreeNode.ImageIndex = 1;
             //рекурсия (в случае, если у текущего элемента есть дочерние)
             if (SchemaItemsChildren != null)
             {

@@ -14,6 +14,7 @@ namespace XSDTypeCl
         public XSDEditor()
         {
             InitializeComponent();
+            treeView1.ImageList = imageList1;
         }
         public XmlSchemaSet ReadXSD(DirectoryInfo diXsd)
         {
@@ -200,6 +201,9 @@ namespace XSDTypeCl
             treeView1.BeginUpdate();
             listView1.Clear();
             label1.Text = "";
+
+            if (e.Node.IsExpanded == true)
+                e.Node.SelectedImageIndex = 1;
             if (e.Node.Tag is SeSchemaItem)
             {
                 //заполнение propertyGrid
@@ -300,7 +304,6 @@ namespace XSDTypeCl
                 seSchema.ClassToTreeView(treeView1.Nodes);
             }
             //treeView1.EndUpdate();
-
             ComboBoxBind(seSchemaList);
             BtnToTV.Enabled = true;
             button2.Enabled = true;

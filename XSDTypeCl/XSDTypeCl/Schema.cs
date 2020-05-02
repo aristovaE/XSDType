@@ -147,6 +147,7 @@ namespace XSDTypeCl
             TreeNode newTreeNode = treeNodes.Add(Name);
             newTreeNode.Name = ToString();
             newTreeNode.Tag = this;
+            newTreeNode.ImageIndex = 0;
             foreach (SeSchemaItem schemaItem in SchemaItems)
             {
                 schemaItem.ClassToTreeView(newTreeNode.Nodes);
@@ -167,6 +168,7 @@ namespace XSDTypeCl
                     {
                         TreeNode clonedNode = (TreeNode)eachTn.Clone();
                         eachTnn.Nodes.Insert(0, clonedNode);
+                        
                     }
                 }
             }
