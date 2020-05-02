@@ -253,6 +253,7 @@ namespace XSDTypeCl
         }
         private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
+            //ПОДСВЕТКА ИЗМЕННЫХ ВЕТОК
             UpdateNode();
             if (propertyGrid1.SelectedObject is SeSchemaItem)
             {
@@ -540,6 +541,11 @@ namespace XSDTypeCl
             //treeView1.EndUpdate();
 
             this.Cursor = Cursors.Default;
+        }
+
+        private void справкаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Help.ShowHelp(this, @"htmltags.chm", HelpNavigator.TableOfContents);
         }
     }
 }
