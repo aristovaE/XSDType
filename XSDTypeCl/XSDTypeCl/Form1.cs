@@ -202,8 +202,7 @@ namespace XSDTypeCl
             listView1.Clear();
             label1.Text = "";
 
-            if (e.Node.IsExpanded == true)
-                e.Node.SelectedImageIndex = 1;
+            
             if (e.Node.Tag is SeSchemaItem)
             {
                 //заполнение propertyGrid
@@ -542,13 +541,27 @@ namespace XSDTypeCl
         {
             this.ResumeLayout();
             //treeView1.EndUpdate();
-
             this.Cursor = Cursors.Default;
         }
 
+        /// <summary>
+        /// Справка
+        /// </summary>
         private void справкаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Help.ShowHelp(this, @"htmltags.chm", HelpNavigator.TableOfContents);
+        }
+
+        /// <summary>
+        /// Метод, отменяющий замену иконки ветки при ее раскрытии
+        /// </summary>
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+                if (treeView1.SelectedNode != null)
+                {
+                    treeView1.SelectedImageIndex = treeView1.SelectedNode.ImageIndex;
+                }
+            
         }
     }
 }

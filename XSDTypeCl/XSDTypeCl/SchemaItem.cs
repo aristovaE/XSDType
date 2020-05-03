@@ -359,7 +359,7 @@ namespace XSDTypeCl
             newTreeNode = treeNodes.Add(ToString());
             newTreeNode.Tag = this;
             newTreeNode.Name = ToString() + Parent.ToString();
-            newTreeNode.ImageIndex = 1;
+           
             //рекурсия (в случае, если у текущего элемента есть дочерние)
             if (SchemaItemsChildren != null)
             {
@@ -368,6 +368,9 @@ namespace XSDTypeCl
                     schemaElement.ClassToTreeView(newTreeNode.Nodes);
                 }
             }
+
+            if(Name=="SimpleType") newTreeNode.ImageIndex = 3;
+            else newTreeNode.ImageIndex = 1;
 
 
         }
