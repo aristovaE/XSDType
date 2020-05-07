@@ -86,15 +86,13 @@ namespace XSDTypeCl
         [Description("Parent of this SeSchemaItem")]
         public object Parent { get; set; } //тип object для SeSchemaItem И SeSchema
 
-
-
         [ReadOnly(false)]
         [Category("Properties")]
         [Description("SchemaItems of SchemaItem")]
         public List<SeSchemaItem> SchemaItemsChildren { get; set; }
 
         [Browsable(false)]
-        public SeProperties Properties { get; set; }
+        private SeProperties Properties { get; set; }
 
         /// <summary>
         /// Конструктор класса SeSchemaItem
@@ -116,7 +114,7 @@ namespace XSDTypeCl
 
         }
 
-        public SeSchemaItem(string Name, string Description, string Type, object Parent, List<SeSchemaItem> SchemaItemsChildren, SeProperties Properties)
+        private SeSchemaItem(string Name, string Description, string Type, object Parent, List<SeSchemaItem> SchemaItemsChildren, SeProperties Properties)
         {
             this.Name = Name;
             this.Description = Description;
@@ -132,7 +130,7 @@ namespace XSDTypeCl
         /// <param name="Discription">Полное название ограничения</param>
         /// <param name="Type">Значение ограничения</param>  
         /// <param name="Parent">Класс-владелец Simple Type</param>  
-        public SeSchemaItem(string Name, string Description, string Type, object Parent)
+        private SeSchemaItem(string Name, string Description, string Type, object Parent)
         {
             this.Name = Name;
             this.Description = Description;
@@ -188,7 +186,7 @@ namespace XSDTypeCl
         /// </summary>
         /// <param name="schemaTypeInST">Список, куда добавится facet</param>
         /// <param name="facet">Ограничение</param>
-        public void GetFacet(List<SeSchemaItem> schemaTypeInST, XmlSchemaFacet facet)
+        private void GetFacet(List<SeSchemaItem> schemaTypeInST, XmlSchemaFacet facet)
         {
             schemaTypeInST.Add(new SeSchemaItem("SimpleType", facet.ToString().Split('.')[3] + "-" + facet.Value, "", this));
 
@@ -199,7 +197,7 @@ namespace XSDTypeCl
         /// <param name="schemaTypeInST">Список facetов внутри SimpleType</param>
         /// <param name="childElement">Читаемый element</param>
         /// <returns>Тип считываемого элемента</returns>
-        public string GetSimpleType(List<SeSchemaItem> schemaTypeInST, XmlSchemaElement childElement)
+        private string GetSimpleType(List<SeSchemaItem> schemaTypeInST, XmlSchemaElement childElement)
         {
             string type;
             XmlSchemaSimpleType simpleType = childElement.ElementSchemaType as XmlSchemaSimpleType;
@@ -297,7 +295,7 @@ namespace XSDTypeCl
         /// Чтение содержимого внутри элемента
         /// </summary>
         /// <param name="childElement">Считываемый элемент</param>
-        public void ReadXSDParticle(XmlSchemaElement childElement)
+        private void ReadXSDParticle(XmlSchemaElement childElement)
         {
 
             if (childElement.ElementSchemaType is XmlSchemaComplexType)
@@ -369,8 +367,9 @@ namespace XSDTypeCl
                 }
             }
 
-            if(Name=="SimpleType") newTreeNode.ImageIndex = 3;
-            else newTreeNode.ImageIndex = 1;
+            if (Name == "SimpleType") newTreeNode.ImageIndex = 3;
+            else if (Name == "CHOICE") newTreeNode.ImageIndex = 4;
+                else newTreeNode.ImageIndex = 1;
 
 
         }
@@ -378,7 +377,7 @@ namespace XSDTypeCl
         /// Запись в новую схему свойств из класса
         /// </summary>
         /// <param name="newElement">Элемент, свойства которого записываются</param>
-        public void SetProperties(XmlSchemaElement newElement)
+        private void SetProperties(XmlSchemaElement newElement)
         {
             if (Properties != null)
             {
@@ -492,7 +491,7 @@ namespace XSDTypeCl
             discriptionDoc.Markup = TextToNodeArray(newschemaItem.Description);
             return discriptionAnn;
         }
-        public static XmlNode[] TextToNodeArray(string text)
+        private static XmlNode[] TextToNodeArray(string text)
         {
             XmlDocument doc = new XmlDocument();
             return new XmlNode[1] { doc.CreateTextNode(text) };

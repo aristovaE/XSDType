@@ -188,7 +188,7 @@ namespace XSDTypeCl
         /// </summary>
         /// <param name="eachTnn">Текущая ветка</param>
         /// <param name="nodesList">Список родительских веток</param>
-        public void CloneEachNode(TreeNode eachTnn, List<TreeNode> nodesList)
+        private void CloneEachNode(TreeNode eachTnn, List<TreeNode> nodesList)
         {
             foreach (TreeNode nodeTable in nodesList)
             {
@@ -323,9 +323,7 @@ namespace XSDTypeCl
                 }
             }
         }
-
-
-
+        
         /// <summary>
         /// Запись Annotation в новый файл XSD
         /// </summary>
