@@ -6,6 +6,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using System.Xml.Linq;
 
 namespace XSDTypeCl
 {
@@ -571,8 +572,47 @@ namespace XSDTypeCl
         {
             //открытие нового окна ? с выбором схемы? и кнопкой опенфайлдиалог для выбора хмл файла
             //или сразу открыть опенфайлдиалог для выбора и взять ранее выбранную схему
+
+            XmlReaderSettings xsdSetting = new XmlReaderSettings();
+            XmlSchema xs1 = new XmlSchema();
+            SeSchema seSchema = null;
+            XmlSchemaSet xss = new XmlSchemaSet();
+            ValidationEventHandler ValidationErrorHandler = null;
+            xss.ValidationEventHandler += ValidationErrorHandler;
+            xss.XmlResolver = new XmlUrlResolver();
+            if ((treeView.SelectedNode != null) && (treeView.SelectedNode.Tag is SeSchema))
+            {
+                seSchema = (SeSchema)treeView.SelectedNode.Tag;
+            }
+            else
+            {
+                seSchema = (SeSchema)comboBox_SchemaList.SelectedItem;
+            }
+            seSchema.SaveXSD(xs1);
+            xss.Add(xs1);
+            //для записи в readonly ElementSchemaType 
+            try
+            {
+                xss.Compile();
+            }
+            catch (Exception em)
+            {
+                MessageBox.Show(em.ToString());
+            }
+            XmlSchemaSet schemas = new XmlSchemaSet();
+
+            XDocument doc = XDocument.Load("Passport1.xml");
+            string filenameXML= "Passport1.xml";
+            string msg = "";
+            doc.Validate(xss, (o, e1) =>
+            {
+                msg += e1.Message + Environment.NewLine;
+            }
+            );
+            MessageBox.Show(msg == "" ? $"Документ { filenameXML} успешно прошел проверку по схеме {seSchema.Name}" : $"Документ { filenameXML} НЕ прошел проверку: " + msg);
+
         }
-        
+
     }
 }
 
