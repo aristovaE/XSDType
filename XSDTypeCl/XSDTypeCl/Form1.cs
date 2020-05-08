@@ -7,6 +7,7 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using System.Xml.Linq;
+using Xceed.Words.NET;
 
 namespace XSDTypeCl
 {
@@ -203,7 +204,7 @@ namespace XSDTypeCl
             listView.Clear();
             label_Ref.Text = "";
 
-            
+
             if (e.Node.Tag is SeSchemaItem)
             {
                 //заполнение propertyGrid
@@ -360,10 +361,10 @@ namespace XSDTypeCl
 
         private void сохранитьТекущуюСхемуToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (saveFileDialog.ShowDialog() == DialogResult.Cancel)
+            if (saveFD_XSD.ShowDialog() == DialogResult.Cancel)
                 return;
             // получаем выбранный файл
-            string filename = saveFileDialog.FileName;
+            string filename = saveFD_XSD.FileName;
 
             XmlSchema xs1 = new XmlSchema();
             SeSchema seSchema = null;
@@ -390,7 +391,7 @@ namespace XSDTypeCl
             {
                 MessageBox.Show(em.ToString());
             }
-            using (FileStream fs = new FileStream(filename+".xsd", FileMode.Create, FileAccess.ReadWrite))
+            using (FileStream fs = new FileStream(filename + ".xsd", FileMode.Create, FileAccess.ReadWrite))
             {
                 using (XmlTextWriter tw = new XmlTextWriter(fs, new UTF8Encoding()))
                 {
@@ -568,11 +569,11 @@ namespace XSDTypeCl
         /// </summary>
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-                if (treeView.SelectedNode != null)
-                {
-                    treeView.SelectedImageIndex = treeView.SelectedNode.ImageIndex;
-                }
-            
+            if (treeView.SelectedNode != null)
+            {
+                treeView.SelectedImageIndex = treeView.SelectedNode.ImageIndex;
+            }
+
         }
 
         private void проверитьXMLФайлToolStripMenuItem_Click(object sender, EventArgs e)
@@ -584,7 +585,7 @@ namespace XSDTypeCl
             // получаем выбранный файл
             string filename = openFD_XML.SafeFileName;
             // читаем файл в строку
-           
+
 
             XmlReaderSettings xsdSetting = new XmlReaderSettings();
             XmlSchema xs1 = new XmlSchema();
@@ -633,7 +634,7 @@ namespace XSDTypeCl
             string filePath = openFD_XSD.FileName;
             string filename = openFD_XSD.SafeFileName;
             DirectoryInfo diXsd = new DirectoryInfo(filePath);
-            
+
             XmlSchemaSet xss = null;
             XmlSchema xs = null;
             XmlSchemas schemas = null;
@@ -646,23 +647,23 @@ namespace XSDTypeCl
             schemas = new XmlSchemas();
             try
             {
-                
-                    using (var sr = new StreamReader(diXsd.FullName))
-                    {
-                        xs = XmlSchema.Read(sr, ValidationErrorHandler);
-                        xss.Add(xs);
-                        schemas.Add(xs);
-                    }
-                    // MessageBox.Show("Schema " + fi.Name + " read successfully ");
 
-                
+                using (var sr = new StreamReader(diXsd.FullName))
+                {
+                    xs = XmlSchema.Read(sr, ValidationErrorHandler);
+                    xss.Add(xs);
+                    schemas.Add(xs);
+                }
+                // MessageBox.Show("Schema " + fi.Name + " read successfully ");
+
+
                 xss.Compile();
             }
             catch (Exception e1)
             {
                 MessageBox.Show(e.ToString());
             }
-            
+
             SeSchema seSchema;
             List<SeSchema> seSchemaList = null;
             //treeView1.BeginUpdate();
@@ -678,6 +679,57 @@ namespace XSDTypeCl
             BtnToTV.Enabled = true;
             button_Refresh.Enabled = true;
             Button_Remove.Enabled = true;
+        }
+
+        private void выгрузитьВWordToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFD_DOCX.ShowDialog() == DialogResult.Cancel)
+                return;
+            // получаем выбранный файл
+            string filename = saveFD_DOCX.FileName;
+            SeSchema seSchema = (SeSchema)comboBox_SchemaList.SelectedItem;
+
+
+            DocX doc = DocX.Create(filename);
+            var titleParagraph = doc.InsertParagraph();
+            titleParagraph.Append(seSchema.ToString());
+            titleParagraph.Bold();
+            var infoParagraph = doc.InsertParagraph();
+            infoParagraph.Append($"Данная схема имеет подтаблиц - {seSchema.SchemaItems.Count-1}");//!!!
+
+            var emptyParagraph = doc.InsertParagraph();
+            emptyParagraph.Append(" ");
+
+            foreach (SeSchemaItem si in seSchema.SchemaItems)
+            {
+               
+                foreach (SeSchemaItem sic in si.SchemaItemsChildren)
+                {
+                    int i = 1;
+                    var tableInfoParagraph = doc.InsertParagraph();
+                    
+                    tableInfoParagraph.Append(si.ToString() + ":");
+                    tableInfoParagraph.Bold();
+                    emptyParagraph.Append(" ");
+
+                    foreach (SeSchemaItem sicc in sic.SchemaItemsChildren)
+                    {
+                        if (sic.SchemaItemsChildren.Count > 0)
+                        {
+                            var tableParagraph = doc.InsertParagraph();
+                            tableParagraph.Append($"{i}. {sicc.ToString()}:______________________________");
+                            i++;
+                        }
+                        var emptyParagraph1 = doc.InsertParagraph();
+                        emptyParagraph1.Append(" ");
+                    }
+                    var emptyParagraph2 = doc.InsertParagraph();
+                    emptyParagraph2.Append(" ");
+                }
+            }
+
+            doc.Save();
+
         }
     }
 }

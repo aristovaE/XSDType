@@ -70,9 +70,11 @@
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.проверитьXMLФайлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFD_XSD = new System.Windows.Forms.OpenFileDialog();
-            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.saveFD_XSD = new System.Windows.Forms.SaveFileDialog();
             this.схемуToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.openFD_XML = new System.Windows.Forms.OpenFileDialog();
+            this.выгрузитьВWordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveFD_DOCX = new System.Windows.Forms.SaveFileDialog();
             this.panel2.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -429,6 +431,7 @@
             this.схемаToolStripMenuItem,
             this.добавитьToolStripMenuItem,
             this.проверитьXMLФайлToolStripMenuItem,
+            this.выгрузитьВWordToolStripMenuItem,
             this.справкаToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -466,9 +469,9 @@
             this.openFD_XSD.FileName = "openXSD";
             this.openFD_XSD.Filter = "xsd files (*.xsd)|*.xsd";
             // 
-            // saveFileDialog
+            // saveFD_XSD
             // 
-            this.saveFileDialog.Filter = "*.xsd | XSD";
+            this.saveFD_XSD.Filter = "*.xsd | XSD";
             // 
             // схемуToolStripMenuItem1
             // 
@@ -481,6 +484,17 @@
             // 
             this.openFD_XML.FileName = "openXML";
             this.openFD_XML.Filter = "xml files (*.xml)|*.xml";
+            // 
+            // выгрузитьВWordToolStripMenuItem
+            // 
+            this.выгрузитьВWordToolStripMenuItem.Name = "выгрузитьВWordToolStripMenuItem";
+            this.выгрузитьВWordToolStripMenuItem.Size = new System.Drawing.Size(172, 29);
+            this.выгрузитьВWordToolStripMenuItem.Text = "Выгрузить в Word";
+            this.выгрузитьВWordToolStripMenuItem.Click += new System.EventHandler(this.выгрузитьВWordToolStripMenuItem_Click);
+            // 
+            // saveFD_DOCX
+            // 
+            this.saveFD_DOCX.Filter = "*.docx | DOCx";
             // 
             // XSDEditor
             // 
@@ -550,9 +564,11 @@
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.ToolStripMenuItem проверитьXMLФайлToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFD_XSD;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.SaveFileDialog saveFD_XSD;
         private System.Windows.Forms.ToolStripMenuItem схемуToolStripMenuItem1;
         private System.Windows.Forms.OpenFileDialog openFD_XML;
+        private System.Windows.Forms.ToolStripMenuItem выгрузитьВWordToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog saveFD_DOCX;
     }
 }
 
