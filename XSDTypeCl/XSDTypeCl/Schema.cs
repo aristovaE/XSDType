@@ -65,12 +65,16 @@ namespace XSDTypeCl
                 XmlSchemaElement schemaElementAnn = schemaElement as XmlSchemaElement;
                 discriptionAnn = schemaElementAnn.Annotation;
             }
-            else
+            else if (schemaElement is XmlSchemaComplexType)
             {
                 XmlSchemaComplexType schemaElementAnn = schemaElement as XmlSchemaComplexType;
                 discriptionAnn = schemaElementAnn.Annotation;
             }
-
+            else if (schemaElement is XmlSchemaSimpleType)
+            {
+                XmlSchemaSimpleType schemaElementAnn = schemaElement as XmlSchemaSimpleType;
+                discriptionAnn = schemaElementAnn.Annotation;
+            }
             XmlSchemaDocumentation discriptionDoc = new XmlSchemaDocumentation();
             if (discriptionAnn != null)
             {
@@ -94,6 +98,7 @@ namespace XSDTypeCl
         {
             XmlSchemaElement schemaElement = null;
             XmlSchemaComplexType schemaType = null;
+            XmlSchemaSimpleType schemaSType = null;
             SeSchemaItem seSchemaItemTable = null;
 
             if (sChemaItem is XmlSchemaElement)
@@ -129,12 +134,46 @@ namespace XSDTypeCl
                     }
                 }
 
-            }
 
+            }
+            else if (sChemaItem is XmlSchemaSimpleType)
+            {
+                List<SeSchemaItem> schemaTypeInST = new List<SeSchemaItem>();
+                schemaSType = sChemaItem as XmlSchemaSimpleType;
+                seSchemaItemTable = new SeSchemaItem(schemaSType.Name, GetAnnotation(schemaSType),GetSimpleType(schemaTypeInST,schemaSType),this, schemaTypeInST);
+            }
             if (seSchemaItemTable != null)
             {
                 SchemaItems.Add(seSchemaItemTable);
             }
+        }
+
+        private string GetSimpleType(List<SeSchemaItem> schemaTypeInST,XmlSchemaSimpleType schemaSType)
+        {
+            string type;
+            
+            if (schemaSType != null)
+            {
+                XmlSchemaSimpleTypeRestriction restriction = schemaSType.Content as XmlSchemaSimpleTypeRestriction;
+                if (restriction != null)
+                {
+                    type = restriction.BaseTypeName.Name;
+
+                    var enumFacets = restriction.Facets.OfType<XmlSchemaFacet>();
+
+                    if (enumFacets.Any())
+                    {
+
+                        foreach (var facet in enumFacets)
+                        {
+                            schemaTypeInST.Add(new SeSchemaItem("SimpleType", facet.ToString().Split('.')[3] + "-" + facet.Value, "", this));
+                        }
+                    }
+                    return type;
+                }
+
+            }
+            return null;
         }
 
         /// <summary>

@@ -130,7 +130,7 @@ namespace XSDTypeCl
         /// <param name="Discription">Полное название ограничения</param>
         /// <param name="Type">Значение ограничения</param>  
         /// <param name="Parent">Класс-владелец Simple Type</param>  
-        private SeSchemaItem(string Name, string Description, string Type, object Parent)
+        public SeSchemaItem(string Name, string Description, string Type, object Parent)
         {
             this.Name = Name;
             this.Description = Description;

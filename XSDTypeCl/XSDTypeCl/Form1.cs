@@ -335,7 +335,7 @@ namespace XSDTypeCl
         private void открытьСхемыФТСToolStripMenuItem_Click(object sender, EventArgs e)
         {
             treeView.SelectedNode = null;
-            DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\фтс\"));
+            DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\фтс2\"));
             XmlSchemaSet xss = ReadXSD(diXsd);
             SeSchema seSchema;
             List<SeSchema> seSchemaList = null;
@@ -609,7 +609,7 @@ namespace XSDTypeCl
                 msg += e1.Message + Environment.NewLine;
             }
             );
-            MessageBox.Show(msg == "" ? $"Документ { filenameXML} успешно прошел проверку по схеме {seSchema.Name}" : $"Документ { filenameXML} НЕ прошел проверку: " + msg);
+            MessageBox.Show(msg == "" ? $"Документ { filenameXML} успешно прошел проверку по схеме {seSchema.Name}" : $"Документ { filenameXML} НЕ прошел проверку: \n" + msg);
 
         }
 
