@@ -197,8 +197,9 @@ namespace XSDTypeCl
         /// <param name="schemaTypeInST">Список facetов внутри SimpleType</param>
         /// <param name="childElement">Читаемый element</param>
         /// <returns>Тип считываемого элемента</returns>
-        private string GetSimpleType(List<SeSchemaItem> schemaTypeInST, XmlSchemaElement childElement)
+        public string GetSimpleType(List<SeSchemaItem> schemaTypeInST, XmlSchemaObject schemaSType)
         {
+            XmlSchemaElement childElement = schemaSType as XmlSchemaElement;
             string type;
             XmlSchemaSimpleType simpleType = childElement.ElementSchemaType as XmlSchemaSimpleType;
             if (simpleType != null)

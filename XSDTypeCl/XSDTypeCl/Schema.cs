@@ -148,13 +148,14 @@ namespace XSDTypeCl
             }
         }
 
-        private string GetSimpleType(List<SeSchemaItem> schemaTypeInST,XmlSchemaSimpleType schemaSType)
+        private string GetSimpleType(List<SeSchemaItem> schemaTypeInST, XmlSchemaObject schemaSType)
         {
+            XmlSchemaSimpleType schemaST = schemaSType as XmlSchemaSimpleType;
             string type;
             
-            if (schemaSType != null)
+            if (schemaST != null)
             {
-                XmlSchemaSimpleTypeRestriction restriction = schemaSType.Content as XmlSchemaSimpleTypeRestriction;
+                XmlSchemaSimpleTypeRestriction restriction = schemaST.Content as XmlSchemaSimpleTypeRestriction;
                 if (restriction != null)
                 {
                     type = restriction.BaseTypeName.Name;

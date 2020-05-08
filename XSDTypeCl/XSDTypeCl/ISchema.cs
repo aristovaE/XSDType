@@ -15,6 +15,6 @@ namespace XSDTypeCl
         void ClassToTreeView(TreeNodeCollection treeNodes);
         XmlSchemaAnnotation SetAnnotation(SeSchemaItem newschemaItem);
         string ToString();
-
+        string GetSimpleType(List<SeSchemaItem> schemaTypeInST, XmlSchemaObject schemaSType);
     }
 }
