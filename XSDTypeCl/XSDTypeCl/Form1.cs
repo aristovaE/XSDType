@@ -360,6 +360,11 @@ namespace XSDTypeCl
 
         private void сохранитьТекущуюСхемуToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (saveFileDialog.ShowDialog() == DialogResult.Cancel)
+                return;
+            // получаем выбранный файл
+            string filename = saveFileDialog.FileName;
+
             XmlSchema xs1 = new XmlSchema();
             SeSchema seSchema = null;
             XmlSchemaSet xss = new XmlSchemaSet();
@@ -385,7 +390,7 @@ namespace XSDTypeCl
             {
                 MessageBox.Show(em.ToString());
             }
-            using (FileStream fs = new FileStream(@"..\..\..\..\xsd\new\" + seSchema.Name + "NEW.xsd", FileMode.Create, FileAccess.ReadWrite))
+            using (FileStream fs = new FileStream(filename+".xsd", FileMode.Create, FileAccess.ReadWrite))
             {
                 using (XmlTextWriter tw = new XmlTextWriter(fs, new UTF8Encoding()))
                 {
@@ -394,6 +399,8 @@ namespace XSDTypeCl
                 }
                 fs.Close();
             }
+
+            MessageBox.Show($"Файл {filename}.xsd успешно сохранен");
         }
 
         private void обновитьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -572,6 +579,12 @@ namespace XSDTypeCl
         {
             //открытие нового окна ? с выбором схемы? и кнопкой опенфайлдиалог для выбора хмл файла
             //или сразу открыть опенфайлдиалог для выбора и взять ранее выбранную схему
+            if (openFD_XML.ShowDialog() == DialogResult.Cancel)
+                return;
+            // получаем выбранный файл
+            string filename = openFD_XML.SafeFileName;
+            // читаем файл в строку
+           
 
             XmlReaderSettings xsdSetting = new XmlReaderSettings();
             XmlSchema xs1 = new XmlSchema();
@@ -601,18 +614,71 @@ namespace XSDTypeCl
             }
             XmlSchemaSet schemas = new XmlSchemaSet();
 
-            XDocument doc = XDocument.Load("Passport1.xml");
-            string filenameXML= "Passport1.xml";
+            XDocument doc = XDocument.Load(filename);
             string msg = "";
             doc.Validate(xss, (o, e1) =>
             {
                 msg += e1.Message + Environment.NewLine;
             }
             );
-            MessageBox.Show(msg == "" ? $"Документ { filenameXML} успешно прошел проверку по схеме {seSchema.Name}" : $"Документ { filenameXML} НЕ прошел проверку: \n" + msg);
+            MessageBox.Show(msg == "" ? $"Документ { filename} успешно прошел проверку по схеме {seSchema.Name}" : $"Документ { filename} НЕ прошел проверку: \n" + msg);
 
         }
 
+        private void схемуToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (openFD_XSD.ShowDialog() == DialogResult.Cancel)
+                return;
+            // получаем выбранный файл
+            string filePath = openFD_XSD.FileName;
+            string filename = openFD_XSD.SafeFileName;
+            DirectoryInfo diXsd = new DirectoryInfo(filePath);
+            
+            XmlSchemaSet xss = null;
+            XmlSchema xs = null;
+            XmlSchemas schemas = null;
+            ValidationEventHandler ValidationErrorHandler = null;
+
+            treeView.Nodes.Clear();
+            xss = new XmlSchemaSet();
+            xss.ValidationEventHandler += ValidationErrorHandler;
+            xss.XmlResolver = new XmlUrlResolver();
+            schemas = new XmlSchemas();
+            try
+            {
+                
+                    using (var sr = new StreamReader(diXsd.FullName))
+                    {
+                        xs = XmlSchema.Read(sr, ValidationErrorHandler);
+                        xss.Add(xs);
+                        schemas.Add(xs);
+                    }
+                    // MessageBox.Show("Schema " + fi.Name + " read successfully ");
+
+                
+                xss.Compile();
+            }
+            catch (Exception e1)
+            {
+                MessageBox.Show(e.ToString());
+            }
+            
+            SeSchema seSchema;
+            List<SeSchema> seSchemaList = null;
+            //treeView1.BeginUpdate();
+            foreach (XmlSchema schema in xss.Schemas())
+            {
+                seSchema = new SeSchema(schema);
+                seSchemaList = seSchemaList ?? new List<SeSchema>();
+                seSchemaList.Add(seSchema);
+                seSchema.ClassToTreeView(treeView.Nodes);
+            }
+            //treeView1.EndUpdate();
+            ComboBoxBind(seSchemaList);
+            BtnToTV.Enabled = true;
+            button_Refresh.Enabled = true;
+            Button_Remove.Enabled = true;
+        }
     }
 }
 

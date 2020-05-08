@@ -69,6 +69,10 @@
             this.справкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.проверитьXMLФайлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFD_XSD = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.схемуToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFD_XML = new System.Windows.Forms.OpenFileDialog();
             this.panel2.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -325,9 +329,10 @@
             // открытьToolStripMenuItem
             // 
             this.открытьToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.схемуToolStripMenuItem1,
             this.всеСхемыToolStripMenuItem,
-            this.новыеСхемыToolStripMenuItem,
-            this.схемыФТСToolStripMenuItem});
+            this.схемыФТСToolStripMenuItem,
+            this.новыеСхемыToolStripMenuItem});
             this.открытьToolStripMenuItem.Name = "открытьToolStripMenuItem";
             this.открытьToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
             this.открытьToolStripMenuItem.Text = "Открыть";
@@ -336,7 +341,7 @@
             // 
             this.всеСхемыToolStripMenuItem.Name = "всеСхемыToolStripMenuItem";
             this.всеСхемыToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
-            this.всеСхемыToolStripMenuItem.Text = "Все схемы";
+            this.всеСхемыToolStripMenuItem.Text = "Схемы СТМ";
             this.всеСхемыToolStripMenuItem.Click += new System.EventHandler(this.открытьВсеСхемыToolStripMenuItem_Click);
             // 
             // новыеСхемыToolStripMenuItem
@@ -418,6 +423,7 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.схемаToolStripMenuItem,
@@ -442,11 +448,11 @@
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "1.png");
-            this.imageList1.Images.SetKeyName(1, "2.png");
-            this.imageList1.Images.SetKeyName(2, "3.png");
-            this.imageList1.Images.SetKeyName(3, "4.png");
-            this.imageList1.Images.SetKeyName(4, "5.png");
+            this.imageList1.Images.SetKeyName(0, "schemaPic.png");
+            this.imageList1.Images.SetKeyName(1, "elementPic.png");
+            this.imageList1.Images.SetKeyName(2, "complexTypePic.png");
+            this.imageList1.Images.SetKeyName(3, "simpleTypePic.png");
+            this.imageList1.Images.SetKeyName(4, "choicePic.png");
             // 
             // проверитьXMLФайлToolStripMenuItem
             // 
@@ -454,6 +460,27 @@
             this.проверитьXMLФайлToolStripMenuItem.Size = new System.Drawing.Size(200, 29);
             this.проверитьXMLФайлToolStripMenuItem.Text = "Проверить XML файл";
             this.проверитьXMLФайлToolStripMenuItem.Click += new System.EventHandler(this.проверитьXMLФайлToolStripMenuItem_Click);
+            // 
+            // openFD_XSD
+            // 
+            this.openFD_XSD.FileName = "openXSD";
+            this.openFD_XSD.Filter = "xsd files (*.xsd)|*.xsd";
+            // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.Filter = "*.xsd | XSD";
+            // 
+            // схемуToolStripMenuItem1
+            // 
+            this.схемуToolStripMenuItem1.Name = "схемуToolStripMenuItem1";
+            this.схемуToolStripMenuItem1.Size = new System.Drawing.Size(252, 30);
+            this.схемуToolStripMenuItem1.Text = "Схему";
+            this.схемуToolStripMenuItem1.Click += new System.EventHandler(this.схемуToolStripMenuItem1_Click);
+            // 
+            // openFD_XML
+            // 
+            this.openFD_XML.FileName = "openXML";
+            this.openFD_XML.Filter = "xml files (*.xml)|*.xml";
             // 
             // XSDEditor
             // 
@@ -465,6 +492,7 @@
             this.Controls.Add(this.BtnToTV);
             this.Controls.Add(this.comboBox_SchemaList);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "XSDEditor";
@@ -521,6 +549,10 @@
         private System.Windows.Forms.ToolStripMenuItem справкаToolStripMenuItem;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.ToolStripMenuItem проверитьXMLФайлToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog openFD_XSD;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.ToolStripMenuItem схемуToolStripMenuItem1;
+        private System.Windows.Forms.OpenFileDialog openFD_XML;
     }
 }
 
