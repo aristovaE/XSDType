@@ -416,8 +416,8 @@ namespace XSDTypeCl
                     }
                     if (ssi.SchemaItemsChildren != null && ssi.SchemaItemsChildren.Count != 0)
                     {
-                        if (ssi.Name == "ActLiquidation_WasteGoods")
-                        { }
+                        //if (ssi.Name == "ActLiquidation_WasteGoods")
+                        //{ }
                         if (ssi.SchemaItemsChildren[0].Name == "SimpleType")
                         {
                             XmlSchemaSimpleType simpleType = new XmlSchemaSimpleType();
@@ -473,9 +473,15 @@ namespace XSDTypeCl
                     newAll.Items.Add(newElement);
                 }
             }
-            else newElement1.SchemaTypeName = new XmlQualifiedName(Type, "http://www.w3.org/2001/XMLSchema");
-
-
+            else 
+                    {
+                //<element ... type="xsd:...">
+                if (Type == SimpleType.Decimal.ToString().ToLower() || Type == SimpleType.String.ToString().ToLower() || Type == SimpleType.integer.ToString() || Type == SimpleType.dateTime.ToString())
+                    newElement1.SchemaTypeName = new XmlQualifiedName(Type, "http://www.w3.org/2001/XMLSchema");
+                else
+                    //<element ... type="...">
+                    newElement1.SchemaTypeName = new XmlQualifiedName(Type);
+            }
         }
 
         /// <summary>
@@ -558,14 +564,18 @@ namespace XSDTypeCl
                     elementsOfType.Add(ssiElement);
                 }
                 if (ssiElement.SchemaItemsChildren.Count != 0)
-                    foreach (SeSchemaItem ssiElemen2t in ssiElement.SchemaItemsChildren[0].SchemaItemsChildren)
+                    try
                     {
-                        if (ssiElemen2t.Type == Name)
+                        foreach (SeSchemaItem ssiElemen2t in ssiElement.SchemaItemsChildren[0].SchemaItemsChildren)
                         {
-                            elementsOfType.Add(ssiElemen2t);
-                        }
+                            if (ssiElemen2t.Type == Name)
+                            {
+                                elementsOfType.Add(ssiElemen2t);
+                            }
 
+                        }
                     }
+                    catch { }
             }
             return elementsOfType;
         }

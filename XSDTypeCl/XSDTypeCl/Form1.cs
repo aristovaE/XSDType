@@ -116,7 +116,7 @@ namespace XSDTypeCl
                 TreeNode newTreeNode = new TreeNode();
                 newTreeNode.Text = newssi.ToString();
                 newTreeNode.Tag = newssi;
-
+                newTreeNode.ImageIndex = 1;
                 treeView.SelectedNode.Nodes.Add(newTreeNode);
                 if (treeView.SelectedNode.Tag is SeSchema)
                 {
@@ -178,6 +178,10 @@ namespace XSDTypeCl
             SeSchema newSchema = new SeSchema();
             newSchema.ClassToTreeView(treeView.Nodes);
             UpdateComboBox();
+
+            BtnToTV.Enabled = true;
+            button_Refresh.Enabled = true;
+            Button_Remove.Enabled = true;
         }
         private void Button_Search_Click(object sender, EventArgs e)
         {
@@ -265,7 +269,25 @@ namespace XSDTypeCl
                 //изменение типа у элементов с измененным ComplexType
                 SeSchemaItem ssi = (SeSchemaItem)propertyGrid.SelectedObject;
                 if (ssi.Parent is SeSchema && ((ContainerControl)s).ActiveControl.AccessibleName == "Name" && ssi.Type == "")
+                {
                     ssi.ChangeNewComplexType(e.OldValue, e.ChangedItem.Value);
+                    if (treeView.SelectedNode != null)
+                        treeView.SelectedNode.ImageIndex = 2;
+                }
+                //изменение иконки для SimpleType 
+                if (((ContainerControl)s).ActiveControl.AccessibleName == "Name" && ssi.Name == "SimpleType")
+                {
+                   
+                    if (treeView.SelectedNode != null)
+                        treeView.SelectedNode.ImageIndex = 3;
+                }
+                //изменение иконки для Choice
+                if (((ContainerControl)s).ActiveControl.AccessibleName == "Name" && ssi.Name == "CHOICE")
+                {
+
+                    if (treeView.SelectedNode != null)
+                        treeView.SelectedNode.ImageIndex = 4;
+                }
             }
         }
         private void listView1_MouseClick(object sender, MouseEventArgs e)
