@@ -15,7 +15,7 @@ namespace XSDTypeCl
         [Browsable(false)]  //?
         public bool HasMaxOccurs { get; set; }
         [Browsable(false)]  //?
-        public bool HasNillable { get; set; }
+        private bool HasNillable { get; set; }
 
         public string MinOccurs { get; set; }
         public string MaxOccurs { get; set; }

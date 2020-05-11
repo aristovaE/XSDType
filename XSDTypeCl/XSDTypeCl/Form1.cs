@@ -16,7 +16,7 @@ namespace XSDTypeCl
         public XSDEditor()
         {
             InitializeComponent();
-            treeView.ImageList = imageList1;
+            treeView.ImageList = imageList1;//!!!
         }
         public XmlSchemaSet ReadXSD(DirectoryInfo diXsd)
         {
@@ -217,15 +217,13 @@ namespace XSDTypeCl
                 SeSchemaItem ssi = (SeSchemaItem)e.Node.Tag;
                 if (ssi.Type == "")
                 {
-                    List<SeSchemaItem> ls = ssi.FindAllTypes();
-                    if (ls.Count != 0)
+                    SeSchemaItem ssiOfType = ssi.FindElementOfType();
+                    if (ssiOfType != null)
                     {
                         label_Ref.Text = "Упоминания:";
-                        foreach (SeSchemaItem element in ls)
-                        {
-                            listView.Items.Add(element.Name);
-                            listView.Items[listView.Items.Count - 1].Tag = element;
-                        }
+                        listView.Items.Add(ssiOfType.Name);
+                            listView.Items[listView.Items.Count - 1].Tag = ssiOfType;
+                        
                     }
 
                 }
@@ -600,14 +598,11 @@ namespace XSDTypeCl
 
         private void проверитьXMLФайлToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //открытие нового окна ? с выбором схемы? и кнопкой опенфайлдиалог для выбора хмл файла
-            //или сразу открыть опенфайлдиалог для выбора и взять ранее выбранную схему
             if (openFD_XML.ShowDialog() == DialogResult.Cancel)
                 return;
             // получаем выбранный файл
             string filename = openFD_XML.SafeFileName;
             // читаем файл в строку
-
 
             XmlReaderSettings xsdSetting = new XmlReaderSettings();
             XmlSchema xs1 = new XmlSchema();
@@ -641,11 +636,10 @@ namespace XSDTypeCl
             string msg = "";
             doc.Validate(xss, (o, e1) =>
             {
-                msg += e1.Message + Environment.NewLine;
+                msg +="\n - "+ e1.Message + Environment.NewLine;
             }
             );
             MessageBox.Show(msg == "" ? $"Документ { filename} успешно прошел проверку по схеме {seSchema.Name}" : $"Документ { filename} НЕ прошел проверку: \n" + msg);
-
         }
 
         private void схемуToolStripMenuItem1_Click(object sender, EventArgs e)

@@ -148,7 +148,7 @@ namespace XSDTypeCl
             }
         }
 
-        private string GetSimpleType(List<SeSchemaItem> schemaTypeInST, XmlSchemaObject schemaSType)
+         public string GetSimpleType(List<SeSchemaItem> schemaTypeInST, XmlSchemaObject schemaSType)
         {
             XmlSchemaSimpleType schemaST = schemaSType as XmlSchemaSimpleType;
             string type;
@@ -240,8 +240,10 @@ namespace XSDTypeCl
                         foreach (TreeNode nodeElement in nodeElementItem.Nodes)
                         {
                             SeSchemaItem ssiElement = (SeSchemaItem)nodeElement.Tag;
-                            if (ssiElement.Type != SeSchemaItem.SimpleType.Decimal.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.String.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.integer.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.dateTime.ToString())
-                            {
+                        foreach (SeSchemaItem.CommonType ct in Enum.GetValues(typeof(SeSchemaItem.CommonType)))
+                        {
+                            if (ssiElement.Type == ct.ToString())
+                       
                             nodeElement.ImageIndex = 2;
                             foreach (TreeNode nodeTable2 in nodesList)
                                 {
@@ -325,10 +327,7 @@ namespace XSDTypeCl
                 if (newschemaItem.Type != "")
                 {
                     newElement.Name = newschemaItem.Name;
-                    if (newschemaItem.Type == SeSchemaItem.SimpleType.Decimal.ToString().ToLower() || newschemaItem.Type == SeSchemaItem.SimpleType.String.ToString().ToLower() || newschemaItem.Type == SeSchemaItem.SimpleType.integer.ToString() || newschemaItem.Type == SeSchemaItem.SimpleType.dateTime.ToString())
-                        newElement.SchemaTypeName = new XmlQualifiedName(newschemaItem.Type, "http://www.w3.org/2001/XMLSchema");
-                    else
-                        newElement.SchemaTypeName = new XmlQualifiedName(newschemaItem.Type);
+                    newschemaItem.CheckToCommonTypes(newschemaItem, newElement);
                     if (newschemaItem.Description != null && newschemaItem.Description != "")
                     {
                         newElement.Annotation = SetAnnotation(newschemaItem);
@@ -378,7 +377,7 @@ namespace XSDTypeCl
             discriptionDoc.Markup = TextToNodeArray(newschemaItem.Description);
             return discriptionAnn;
         }
-        public static XmlNode[] TextToNodeArray(string text)
+        public XmlNode[] TextToNodeArray(string text)
         {
             XmlDocument doc = new XmlDocument();
             return new XmlNode[1] { doc.CreateTextNode(text) };
@@ -410,6 +409,7 @@ namespace XSDTypeCl
             }
             return ssiList;
         }
+        
     }
-
+    
 }

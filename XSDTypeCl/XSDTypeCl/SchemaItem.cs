@@ -31,7 +31,7 @@ namespace XSDTypeCl
         [TypeConverter(typeof(MyConverter))]
         public string Type { get; set; }
         [Flags]
-        public enum SimpleType
+        public enum CommonType
         {
             String = 1,
             integer = 2,
@@ -58,7 +58,7 @@ namespace XSDTypeCl
             {
                 List<string> str = new List<string>();
                 str.Add("");
-                foreach (SimpleType simpletype in Enum.GetValues(typeof(SimpleType)))
+                foreach (CommonType simpletype in Enum.GetValues(typeof(CommonType)))
                 {
                     str.Add(simpletype.ToString().ToLower());
                 }
@@ -403,7 +403,7 @@ namespace XSDTypeCl
                 XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
                 newElement1.SchemaType = newSchemaType;
                 XmlSchemaAll newAll = new XmlSchemaAll();
-                Properties.SetPropAll(newAll);
+                if (Properties != null) Properties.SetPropAll(newAll);
                 newSchemaType.Particle = newAll;
                 foreach (SeSchemaItem ssi in SchemaItemsChildren)
                 {
@@ -416,8 +416,6 @@ namespace XSDTypeCl
                     }
                     if (ssi.SchemaItemsChildren != null && ssi.SchemaItemsChildren.Count != 0)
                     {
-                        //if (ssi.Name == "ActLiquidation_WasteGoods")
-                        //{ }
                         if (ssi.SchemaItemsChildren[0].Name == "SimpleType")
                         {
                             XmlSchemaSimpleType simpleType = new XmlSchemaSimpleType();
@@ -453,34 +451,19 @@ namespace XSDTypeCl
 
                         else
                         {
-                            //<element ... type="xsd:...">
-                            if (ssi.Type == SimpleType.Decimal.ToString().ToLower() || ssi.Type == SimpleType.String.ToString().ToLower() || ssi.Type == SimpleType.integer.ToString() || ssi.Type == SimpleType.dateTime.ToString())
-                                newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
-                            else
-                                //<element ... type="...">
-                                newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type);
+                            ssi.CheckToCommonTypes(ssi, newElement);
                         }
                     }
                     else
                     {
-                        //<element ... type="xsd:...">
-                        if (ssi.Type == SimpleType.Decimal.ToString().ToLower() || ssi.Type == SimpleType.String.ToString().ToLower() || ssi.Type == SimpleType.integer.ToString() || ssi.Type == SimpleType.dateTime.ToString())
-                            newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
-                        else
-                            //<element ... type="...">
-                            newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type);
+                        ssi.CheckToCommonTypes(ssi, newElement);
                     }
                     newAll.Items.Add(newElement);
                 }
             }
             else 
                     {
-                //<element ... type="xsd:...">
-                if (Type == SimpleType.Decimal.ToString().ToLower() || Type == SimpleType.String.ToString().ToLower() || Type == SimpleType.integer.ToString() || Type == SimpleType.dateTime.ToString())
-                    newElement1.SchemaTypeName = new XmlQualifiedName(Type, "http://www.w3.org/2001/XMLSchema");
-                else
-                    //<element ... type="...">
-                    newElement1.SchemaTypeName = new XmlQualifiedName(Type);
+               CheckToCommonTypes(this, newElement1);
             }
         }
 
@@ -495,13 +478,8 @@ namespace XSDTypeCl
             XmlSchemaAnnotation discriptionAnn = new XmlSchemaAnnotation();
             XmlSchemaDocumentation discriptionDoc = new XmlSchemaDocumentation();
             discriptionAnn.Items.Add(discriptionDoc);
-            discriptionDoc.Markup = TextToNodeArray(newschemaItem.Description);
+            discriptionDoc.Markup = GetSchema(this).TextToNodeArray(newschemaItem.Description);
             return discriptionAnn;
-        }
-        private static XmlNode[] TextToNodeArray(string text)
-        {
-            XmlDocument doc = new XmlDocument();
-            return new XmlNode[1] { doc.CreateTextNode(text) };
         }
 
         /// <summary>
@@ -550,18 +528,18 @@ namespace XSDTypeCl
             }
         }
         /// <summary>
-        /// Поиск элементов, ComplexType которого - текущий элемент
+        /// Поиск элемента, ComplexType которого - текущий элемент
         /// </summary>
         /// <returns>Список элементов с искомым ComplexType</returns>
-        public List<SeSchemaItem> FindAllTypes()
+        public SeSchemaItem FindElementOfType()
         {
-            List<SeSchemaItem> elementsOfType = new List<SeSchemaItem>();
+            SeSchemaItem elementOfType = new SeSchemaItem();
             SeSchema first = GetSchema(this);
             foreach (SeSchemaItem ssiElement in first.SchemaItems)
             {
                 if (ssiElement.Type == Name)
                 {
-                    elementsOfType.Add(ssiElement);
+                    elementOfType=ssiElement;
                 }
                 if (ssiElement.SchemaItemsChildren.Count != 0)
                     try
@@ -570,15 +548,29 @@ namespace XSDTypeCl
                         {
                             if (ssiElemen2t.Type == Name)
                             {
-                                elementsOfType.Add(ssiElemen2t);
+                                elementOfType=ssiElemen2t;
                             }
 
                         }
                     }
                     catch { }
             }
-            return elementsOfType;
+            return elementOfType;
         }
+        public void CheckToCommonTypes(SeSchemaItem ssi, XmlSchemaElement xse)
+        {
+            foreach (SeSchemaItem.CommonType ct in Enum.GetValues(typeof(SeSchemaItem.CommonType)))
+            {
+                if (ssi.Type.ToLower() == ct.ToString().ToLower())
+                {
+                    xse.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
+                    break;
+                }
+            }
+            if (xse.SchemaTypeName.IsEmpty == true)
+                xse.SchemaTypeName = new XmlQualifiedName(ssi.Type);
 
+
+        }
     }
 }
