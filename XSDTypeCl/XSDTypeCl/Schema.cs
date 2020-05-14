@@ -244,7 +244,7 @@ namespace XSDTypeCl
                         {
                             if (ssiElement.Type == ct.ToString())
                        
-                            nodeElement.ImageIndex = 2;
+                            nodeElement.ImageIndex = 1;
                             foreach (TreeNode nodeTable2 in nodesList)
                                 {
                                     SeSchemaItem ssiTable2 = (SeSchemaItem)nodeTable2.Tag;
@@ -377,7 +377,7 @@ namespace XSDTypeCl
             discriptionDoc.Markup = TextToNodeArray(newschemaItem.Description);
             return discriptionAnn;
         }
-        public XmlNode[] TextToNodeArray(string text)
+        public static XmlNode[] TextToNodeArray(string text)
         {
             XmlDocument doc = new XmlDocument();
             return new XmlNode[1] { doc.CreateTextNode(text) };

@@ -266,25 +266,32 @@ namespace XSDTypeCl
             {
                 //изменение типа у элементов с измененным ComplexType
                 SeSchemaItem ssi = (SeSchemaItem)propertyGrid.SelectedObject;
-                if (ssi.Parent is SeSchema && ((ContainerControl)s).ActiveControl.AccessibleName == "Name" && ssi.Type == "")
+                if (treeView.SelectedNode != null)
                 {
-                    ssi.ChangeNewComplexType(e.OldValue, e.ChangedItem.Value);
-                    if (treeView.SelectedNode != null)
-                        treeView.SelectedNode.ImageIndex = 2;
-                }
-                //изменение иконки для SimpleType 
-                if (((ContainerControl)s).ActiveControl.AccessibleName == "Name" && ssi.Name == "SimpleType")
-                {
-                   
-                    if (treeView.SelectedNode != null)
-                        treeView.SelectedNode.ImageIndex = 3;
-                }
-                //изменение иконки для Choice
-                if (((ContainerControl)s).ActiveControl.AccessibleName == "Name" && ssi.Name == "CHOICE")
-                {
-
-                    if (treeView.SelectedNode != null)
-                        treeView.SelectedNode.ImageIndex = 4;
+                    if (ssi.Parent is SeSchema && ((ContainerControl)s).ActiveControl.AccessibleName == "Name" && ssi.Type == "")
+                    {
+                        ssi.ChangeNewComplexType(e.OldValue, e.ChangedItem.Value);
+                    }
+                    //изменение иконки для ComplexType
+                    if (ssi.Type == "")
+                    {
+                            treeView.SelectedNode.ImageIndex = 2;
+                    }
+                    //изменение иконки для element
+                    if (ssi.Type != "")
+                    {
+                            treeView.SelectedNode.ImageIndex = 1;
+                    }
+                    //изменение иконки для SimpleType 
+                    if (ssi.Name == "SimpleType")
+                    {
+                            treeView.SelectedNode.ImageIndex = 3;
+                    }
+                    //изменение иконки для Choice
+                    if (ssi.Name == "CHOICE")
+                    {
+                            treeView.SelectedNode.ImageIndex = 4;
+                    }
                 }
             }
         }
@@ -330,27 +337,6 @@ namespace XSDTypeCl
             button_Refresh.Enabled = true;
             Button_Remove.Enabled = true;
 
-        }
-
-        private void открытьНовыеСхемыToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DirectoryInfo diXsd = new DirectoryInfo(Path.Combine(Application.StartupPath, @"..\..\..\..\xsd\new\"));
-            XmlSchemaSet xss = ReadXSD(diXsd);
-            SeSchema seSchema;
-            List<SeSchema> seSchemaList = null;
-            //treeView1.BeginUpdate();
-            foreach (XmlSchema schema in xss.Schemas())
-            {
-                seSchema = new SeSchema(schema);
-                seSchemaList = seSchemaList ?? new List<SeSchema>();
-                seSchemaList.Add(seSchema);
-                seSchema.ClassToTreeView(treeView.Nodes);
-            }
-            //treeView1.EndUpdate();
-            ComboBoxBind(seSchemaList);
-            BtnToTV.Enabled = true;
-            button_Refresh.Enabled = true;
-            Button_Remove.Enabled = true;
         }
 
         private void открытьСхемыФТСToolStripMenuItem_Click(object sender, EventArgs e)
