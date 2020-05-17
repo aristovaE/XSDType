@@ -714,12 +714,16 @@ namespace XSDTypeCl
                     tableInfoParagraph.Bold();
                     emptyParagraph.Append(" ");
 
-                    foreach (SeSchemaItem sicc in sic.SchemaItemsChildren)
+                    foreach (SeSchemaItem sicchild in sic.SchemaItemsChildren)
                     {
                         if (sic.SchemaItemsChildren.Count > 0)
                         {
                             var tableParagraph = doc.InsertParagraph();
-                            tableParagraph.Append($"{i}. {sicc.ToString()}:______________________________");
+                            if (sicchild.CheckToCommonTypes() != true)
+                                tableParagraph.Append($"{i}. {sicchild.ToString()}: (данные таблицы {sicchild.Type})");
+                            else {
+                                tableParagraph.Append($"{i}. {sicchild.ToString()}:______________________________");
+                            }
                             i++;
                         }
                         var emptyParagraph1 = doc.InsertParagraph();

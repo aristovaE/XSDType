@@ -451,19 +451,28 @@ namespace XSDTypeCl
 
                         else
                         {
-                            ssi.CheckToCommonTypes(ssi, newElement);
+                            if(ssi.CheckToCommonTypes()==true)
+                                newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
+                            else
+                                newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type); ;
                         }
                     }
                     else
                     {
-                        ssi.CheckToCommonTypes(ssi, newElement);
+                        if (ssi.CheckToCommonTypes() == true)
+                            newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
+                        else
+                            newElement.SchemaTypeName = new XmlQualifiedName(ssi.Type); 
                     }
                     newAll.Items.Add(newElement);
                 }
             }
             else 
                     {
-               CheckToCommonTypes(this, newElement1);
+                if (CheckToCommonTypes() == true)
+                    newElement1.SchemaTypeName = new XmlQualifiedName(Type, "http://www.w3.org/2001/XMLSchema");
+                else
+                    newElement1.SchemaTypeName = new XmlQualifiedName(Type); ;
             }
         }
 
@@ -478,7 +487,7 @@ namespace XSDTypeCl
             XmlSchemaAnnotation discriptionAnn = new XmlSchemaAnnotation();
             XmlSchemaDocumentation discriptionDoc = new XmlSchemaDocumentation();
             discriptionAnn.Items.Add(discriptionDoc);
-            discriptionDoc.Markup = GetSchema(this).TextToNodeArray(newschemaItem.Description);
+            discriptionDoc.Markup = SeSchema.TextToNodeArray(newschemaItem.Description);
             return discriptionAnn;
         }
 
@@ -557,20 +566,16 @@ namespace XSDTypeCl
             }
             return elementOfType;
         }
-        public void CheckToCommonTypes(SeSchemaItem ssi, XmlSchemaElement xse)
+        public bool CheckToCommonTypes()
         {
-            foreach (SeSchemaItem.CommonType ct in Enum.GetValues(typeof(SeSchemaItem.CommonType)))
+            foreach (CommonType ct in Enum.GetValues(typeof(SeSchemaItem.CommonType)))
             {
-                if (ssi.Type.ToLower() == ct.ToString().ToLower())
+                if (Type.ToLower() == ct.ToString().ToLower())
                 {
-                    xse.SchemaTypeName = new XmlQualifiedName(ssi.Type, "http://www.w3.org/2001/XMLSchema");
-                    break;
+                    return true;
                 }
             }
-            if (xse.SchemaTypeName.IsEmpty == true)
-                xse.SchemaTypeName = new XmlQualifiedName(ssi.Type);
-
-
+            return false;
         }
     }
 }

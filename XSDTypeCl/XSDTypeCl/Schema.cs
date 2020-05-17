@@ -312,10 +312,6 @@ namespace XSDTypeCl
         /// <param name="xs1">Новый экземпляр схемы</param>
         public void SaveXSD(XmlSchema xs1)
         {
-            //XmlSchemaImport import = new XmlSchemaImport();
-            //import.Namespace = "urn:customs.ru:CommonLeafTypes:5.10.0";
-            //import.SchemaLocation = @"..\фтс\CommonLeafTypesCust.xsd";
-            //xs1.Includes.Add(import);
             xs1.AttributeFormDefault = XmlSchemaForm.Unqualified;
             xs1.ElementFormDefault = XmlSchemaForm.Qualified;
             xs1.Namespaces.Add("xsd", "http://www.w3.org/2001/XMLSchema");
@@ -323,11 +319,15 @@ namespace XSDTypeCl
             {
                 XmlSchemaElement newElement = new XmlSchemaElement();
                 XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
-                //newElement.SchemaType = newSchemaType;
+                
                 if (newschemaItem.Type != "")
                 {
                     newElement.Name = newschemaItem.Name;
-                    newschemaItem.CheckToCommonTypes(newschemaItem, newElement);
+
+                    if (newschemaItem.CheckToCommonTypes() == true)
+                        newElement.SchemaTypeName = new XmlQualifiedName(newschemaItem.Type, "http://www.w3.org/2001/XMLSchema");
+                    else
+                        newElement.SchemaTypeName = new XmlQualifiedName(newschemaItem.Type);
                     if (newschemaItem.Description != null && newschemaItem.Description != "")
                     {
                         newElement.Annotation = SetAnnotation(newschemaItem);
