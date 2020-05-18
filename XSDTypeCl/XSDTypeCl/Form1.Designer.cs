@@ -74,6 +74,7 @@
             this.saveFD_XSD = new System.Windows.Forms.SaveFileDialog();
             this.openFD_XML = new System.Windows.Forms.OpenFileDialog();
             this.saveFD_DOCX = new System.Windows.Forms.SaveFileDialog();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panel2.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -83,6 +84,7 @@
             // 
             // comboBox_SchemaList
             // 
+            this.comboBox_SchemaList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_SchemaList.FormattingEnabled = true;
             this.comboBox_SchemaList.Location = new System.Drawing.Point(20, 29);
             this.comboBox_SchemaList.Name = "comboBox_SchemaList";
@@ -97,6 +99,7 @@
             this.BtnToTV.Size = new System.Drawing.Size(75, 25);
             this.BtnToTV.TabIndex = 6;
             this.BtnToTV.Text = "Вывод";
+            this.toolTip1.SetToolTip(this.BtnToTV, "Вывести выбранную из списка схему");
             this.BtnToTV.UseVisualStyleBackColor = true;
             this.BtnToTV.Click += new System.EventHandler(this.BtnToTV_Click);
             // 
@@ -203,7 +206,7 @@
             this.button_AddSchema.TabIndex = 30;
             this.button_AddSchema.Text = "Новая схема";
             this.button_AddSchema.UseVisualStyleBackColor = true;
-            this.button_AddSchema.Click += new System.EventHandler(this.Button_Schema_Click);
+            this.button_AddSchema.Click += new System.EventHandler(this.Button_AddSchema_Click);
             // 
             // textBox_Search
             // 
@@ -211,9 +214,11 @@
             this.textBox_Search.Name = "textBox_Search";
             this.textBox_Search.Size = new System.Drawing.Size(131, 20);
             this.textBox_Search.TabIndex = 33;
+            this.textBox_Search.TextChanged += new System.EventHandler(this.textBox_Search_TextChanged);
             // 
             // Button_Search
             // 
+            this.Button_Search.Enabled = false;
             this.Button_Search.Location = new System.Drawing.Point(137, 0);
             this.Button_Search.Name = "Button_Search";
             this.Button_Search.Size = new System.Drawing.Size(75, 25);
@@ -294,8 +299,9 @@
             this.button_Refresh.Size = new System.Drawing.Size(75, 25);
             this.button_Refresh.TabIndex = 36;
             this.button_Refresh.Text = "Сброс";
+            this.toolTip1.SetToolTip(this.button_Refresh, "Вывести все схемы списка");
             this.button_Refresh.UseVisualStyleBackColor = true;
-            this.button_Refresh.Click += new System.EventHandler(this.button2_Click);
+            this.button_Refresh.Click += new System.EventHandler(this.button_Refresh_Click);
             // 
             // схемаToolStripMenuItem
             // 
@@ -392,8 +398,8 @@
             // схемуToolStripMenuItem
             // 
             this.схемуToolStripMenuItem.Name = "схемуToolStripMenuItem";
-            this.схемуToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
-            this.схемуToolStripMenuItem.Text = "Схема";
+            this.схемуToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.схемуToolStripMenuItem.Text = "Схему";
             this.схемуToolStripMenuItem.Click += new System.EventHandler(this.схемуToolStripMenuItem_Click);
             // 
             // элементToolStripMenuItem
@@ -415,7 +421,8 @@
             this.справкаToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1256, 24);
+            this.menuStrip1.ShowItemToolTips = true;
+            this.menuStrip1.Size = new System.Drawing.Size(1267, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -428,9 +435,11 @@
             // 
             // выгрузитьВWordToolStripMenuItem
             // 
+            this.выгрузитьВWordToolStripMenuItem.AutoToolTip = true;
             this.выгрузитьВWordToolStripMenuItem.Name = "выгрузитьВWordToolStripMenuItem";
-            this.выгрузитьВWordToolStripMenuItem.Size = new System.Drawing.Size(105, 20);
-            this.выгрузитьВWordToolStripMenuItem.Text = "Экспорт в Word";
+            this.выгрузитьВWordToolStripMenuItem.Size = new System.Drawing.Size(125, 20);
+            this.выгрузитьВWordToolStripMenuItem.Text = "Экспорт в MS Word";
+            this.выгрузитьВWordToolStripMenuItem.ToolTipText = "Нажмите на схему, чтобы выгрузить её в Word";
             this.выгрузитьВWordToolStripMenuItem.Click += new System.EventHandler(this.выгрузитьВWordToolStripMenuItem_Click);
             // 
             // справкаToolStripMenuItem
@@ -472,7 +481,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1256, 469);
+            this.ClientSize = new System.Drawing.Size(1267, 472);
             this.Controls.Add(this.button_Refresh);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.BtnToTV);
@@ -481,9 +490,10 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.MinimumSize = new System.Drawing.Size(1272, 508);
+            this.MinimumSize = new System.Drawing.Size(857, 454);
             this.Name = "XSDEditor";
             this.Text = "XSDEditor";
+            this.Load += new System.EventHandler(this.XSDEditor_Load);
             this.panel2.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
@@ -541,6 +551,7 @@
         private System.Windows.Forms.OpenFileDialog openFD_XML;
         private System.Windows.Forms.ToolStripMenuItem выгрузитьВWordToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFD_DOCX;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 

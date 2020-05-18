@@ -271,41 +271,6 @@ namespace XSDTypeCl
             }
         }
 
-        //public void CloneEachNodeChild(TreeNode eachTnn, List<TreeNode> nodesList)
-        //{
-        //    foreach (TreeNode nodeTable in nodesList)
-        //    {
-        //        SeSchemaItem ssiTable = (SeSchemaItem)nodeTable.Tag;
-        //        if (ssiTable.Type == "")
-        //            foreach (TreeNode nodeElement in eachTnn.Nodes)
-        //            {
-        //                SeSchemaItem ssiElement = (SeSchemaItem)nodeElement.Tag;
-        //                if (ssiElement.Type != SeSchemaItem.SimpleType.Decimal.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.String.ToString().ToLower() && ssiElement.Type != SeSchemaItem.SimpleType.integer.ToString() && ssiElement.Type != SeSchemaItem.SimpleType.dateTime.ToString())
-        //                {
-        //                    foreach (TreeNode nodeTable2 in nodesList)
-        //                    {
-
-        //                        SeSchemaItem ssiTable2 = (SeSchemaItem)nodeTable2.Tag;
-        //                        if (ssiElement.Type == ssiTable2.Name)
-        //                        {
-        //                            nodeElement.ImageIndex = 2;
-        //                            if (nodeElement.Nodes.Count == 0)
-        //                            {
-        //                                CloneEachNodeChild(nodeTable2.Nodes[0], nodesList);
-        //                                TreeNode clonedNode = (TreeNode)nodeTable2.Clone();
-        //                                nodeElement.Nodes.Insert(0, clonedNode);
-        //                                break;
-        //                            }
-        //                        }
-
-        //                    }
-        //                }
-        //            }
-        //    }
-
-        //}
-
-
         /// <summary>
         /// Запись в новый XSD файл содержимого класса SeSchema
         /// </summary>
@@ -407,6 +372,7 @@ namespace XSDTypeCl
 
                     }
             }
+
             return ssiList;
         }
         
