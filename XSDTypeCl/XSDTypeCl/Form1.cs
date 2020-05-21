@@ -212,7 +212,6 @@ namespace XSDTypeCl
             listView.Clear();
             label_Ref.Text = "";
 
-
             if (e.Node.Tag is SeSchemaItem)
             {
                 //заполнение propertyGrid
@@ -264,14 +263,13 @@ namespace XSDTypeCl
         }
         private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            //ПОДСВЕТКА ИЗМЕННЫХ ВЕТОК
             UpdateNode();
             if (propertyGrid.SelectedObject is SeSchemaItem)
             {
-                //изменение типа у элементов с измененным ComplexType
                 SeSchemaItem ssi = (SeSchemaItem)propertyGrid.SelectedObject;
                 if (treeView.SelectedNode != null)
                 {
+                    //изменение типа у элементов с измененным ComplexType
                     if (ssi.Parent is SeSchema && ((ContainerControl)s).ActiveControl.AccessibleName == "Name" && ssi.Type == "")
                     {
                         ssi.ChangeNewComplexType(e.OldValue, e.ChangedItem.Value);
@@ -295,6 +293,33 @@ namespace XSDTypeCl
                     if (ssi.Name == "CHOICE")
                     {
                         treeView.SelectedNode.ImageIndex = 4;
+                    }
+
+                    //проверка строки на содержание цифр
+                    if (((ContainerControl)s).ActiveControl.AccessibleName == "Name")
+                    {
+                        bool correct=true;
+                        string marks = ".,/':;!?-=+|/";
+                        foreach (char symbol in ssi.Name)
+                        {
+                            if (symbol < '0' || symbol > '9')
+                            {
+                                correct = true;
+                            }
+                            else
+                                correct = false;
+                            foreach (char mark in marks)
+                            {
+                                if (symbol == mark)
+                                    correct = false;
+                            }
+                         }
+                        if (!correct)
+                        {
+                            ((ContainerControl)s).ActiveControl.Text = "Untitled";
+                            MessageBox.Show("Имя элемента не может содержать цифры или знаки препинания");
+                            
+                        }
                     }
                 }
             }
@@ -743,6 +768,7 @@ namespace XSDTypeCl
         private void XSDEditor_Load(object sender, EventArgs e)
         {
             treeView.ImageList = imageList1;
+            
         }
 
         private void textBox_Search_TextChanged(object sender, EventArgs e)
