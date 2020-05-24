@@ -220,7 +220,7 @@ namespace XSDTypeCl
                 SeSchemaItem ssi = (SeSchemaItem)e.Node.Tag;
                 if (ssi.Type == "")
                 {
-                    SeSchemaItem ssiOfType = ssi.FindElementOfType();
+                    var ssiOfType = ssi.FindElementOfType();
                     if (ssiOfType != null)
                     {
                         label_Ref.Text = "Упоминания:";
@@ -399,8 +399,8 @@ namespace XSDTypeCl
             if (saveFD_XSD.ShowDialog() == DialogResult.Cancel)
                 return;
             // получаем выбранный файл
-            string filename = saveFD_XSD.FileName;
-
+            string path = saveFD_XSD.FileName;
+            string filename = Path.GetFileName(path);
             XmlSchema xs1 = new XmlSchema();
             SeSchema seSchema = null;
             XmlSchemaSet xss = new XmlSchemaSet();
@@ -551,7 +551,6 @@ namespace XSDTypeCl
             xss.Compile();
             string schemaName = "";
             foreach (XmlSchema xs in xss.Schemas())
-
             {
                 foreach (XmlSchemaObject xObject in xs.Items)
                 {
@@ -571,6 +570,7 @@ namespace XSDTypeCl
                     fs.Close();
                 }
             }
+            MessageBox.Show($"Файлы *NEW.xsd успешно сохранен");
         }
 
         private void treeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
@@ -714,11 +714,10 @@ namespace XSDTypeCl
             if (saveFD_DOCX.ShowDialog() == DialogResult.Cancel)
                 return;
             // получаем выбранный файл
-            string filename = saveFD_DOCX.FileName;
             SeSchema seSchema = (SeSchema)comboBox_SchemaList.SelectedItem;
 
-
-            DocX doc = DocX.Create(filename);
+            string path = saveFD_DOCX.FileName;
+            DocX doc = DocX.Create(path);
             var titleParagraph = doc.InsertParagraph();
             titleParagraph.Append(seSchema.ToString());
             titleParagraph.Bold();
@@ -762,13 +761,13 @@ namespace XSDTypeCl
             }
 
             doc.Save();
-
+            string filename = Path.GetFileName(path);
+            MessageBox.Show($"Файл {filename}.docx успешно сохранен");
         }
 
         private void XSDEditor_Load(object sender, EventArgs e)
         {
-            treeView.ImageList = imageList1;
-            
+            treeView.ImageList = imageList1;            
         }
 
         private void textBox_Search_TextChanged(object sender, EventArgs e)

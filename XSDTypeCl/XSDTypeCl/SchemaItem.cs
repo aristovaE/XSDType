@@ -542,7 +542,7 @@ namespace XSDTypeCl
         /// <returns>Список элементов с искомым ComplexType</returns>
         public SeSchemaItem FindElementOfType()
         {
-            SeSchemaItem elementOfType = new SeSchemaItem();
+            SeSchemaItem elementOfType = null;
             SeSchema first = GetSchema(this);
             foreach (SeSchemaItem ssiElement in first.SchemaItems)
             {
@@ -553,13 +553,24 @@ namespace XSDTypeCl
                 if (ssiElement.SchemaItemsChildren.Count != 0)
                     try
                     {
-                        foreach (SeSchemaItem ssiElemen2t in ssiElement.SchemaItemsChildren[0].SchemaItemsChildren)
+                        foreach (SeSchemaItem ssiElemen2t in ssiElement.SchemaItemsChildren)
                         {
                             if (ssiElemen2t.Type == Name)
                             {
-                                elementOfType=ssiElemen2t;
+                                elementOfType = ssiElemen2t;
                             }
 
+                            if (ssiElemen2t.SchemaItemsChildren.Count != 0)
+                            {
+                                foreach (SeSchemaItem ssiElemen3t in ssiElemen2t.SchemaItemsChildren)
+                                {
+                                    if (ssiElemen3t.Type == Name)
+                                    {
+                                        elementOfType = ssiElemen3t;
+                                    }
+
+                                }
+                            }
                         }
                     }
                     catch { }
