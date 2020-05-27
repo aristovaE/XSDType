@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Schema;
@@ -17,17 +15,17 @@ namespace XSDTypeCl
         /// </summary>
         [ReadOnly(false)]
         [Category("Properties")]
-        [Description("Name of SchemaItem")]
+        [Description("Название элемента схемы")]
         public string Name { get; set; }
 
         [ReadOnly(false)]
         [Category("Properties")]
-        [Description("Descriprion of SchemaItem")]
+        [Description("Описание элемента схемы")]
         public string Description { get; set; }
 
         [ReadOnly(false)]
         [Category("Properties")]
-        [Description("Type of SchemaItem")]
+        [Description("Тип элемента схемы")]
         [TypeConverter(typeof(MyConverter))]
         public string Type { get; set; }
         [Flags]
@@ -35,7 +33,7 @@ namespace XSDTypeCl
         {
             String = 1,
             integer = 2,
-            Decimal = 4, //SimpleType.Decimal.ToString().ToLower()
+            Decimal = 4, 
             dateTime = 8
         }
         public class MyConverter : StringConverter
@@ -83,12 +81,12 @@ namespace XSDTypeCl
         }
         [ReadOnly(true)]
         [Category("Properties")]
-        [Description("Parent of this SeSchemaItem")]
+        [Description("Родительский элемент данного элемента схемы")]
         public object Parent { get; set; } //тип object для SeSchemaItem И SeSchema
 
         [ReadOnly(false)]
         [Category("Properties")]
-        [Description("SchemaItems of SchemaItem")]
+        [Description("Дочерние элементы данного элемента схемы")]
         public List<SeSchemaItem> SchemaItemsChildren { get; set; }
 
         [Browsable(false)]
@@ -101,7 +99,6 @@ namespace XSDTypeCl
         /// <param name="Description">Описание элемента(Annotation->Documentation)</param>
         /// <param name="Type">Тип элемента(может быть ComplexType)</param>  
         /// <param name="Parent">Родитель класса</param>  
-        /// <param name="HasComplexType">Имеет или не имеет ComplexType (Для корректного сохранения)</param>
         /// <param name="SchemaItemsChildren">Список дочерних элементов</param>
 
         public SeSchemaItem(string Name, string Description, string Type, object Parent, List<SeSchemaItem> SchemaItemsChildren)

@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Schema;
-using System.Xml.Serialization;
 
 namespace XSDTypeCl
 {
@@ -20,12 +16,12 @@ namespace XSDTypeCl
 
         [ReadOnly(false)]
         [Category("Properties")]
-        [Description("Name of XSD")]
+        [Description("Название схемы")]
         public string Name { get; set; }
 
         [ReadOnly(false)]
         [Category("Properties")]
-        [Description("List of items")]
+        [Description("Список элементов схемы")]
         public List<SeSchemaItem> SchemaItems { get; set; }
         public SeSchema(XmlSchema schema)
         {
@@ -255,7 +251,6 @@ namespace XSDTypeCl
                                         {
                                             if (nodeTable2.Nodes.Count != 0)
                                             {
-                                              //  CloneEachNodeChild(nodeTable2.Nodes[0], nodesList); ?????????????????????????????????????????????????????????
                                                 TreeNode clonedNode = (TreeNode)nodeTable2.Clone();
                                                 nodeElement.Nodes.Insert(0, clonedNode);
                                                 break;

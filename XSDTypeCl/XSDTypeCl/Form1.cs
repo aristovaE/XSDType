@@ -8,6 +8,7 @@ using System.Xml.Schema;
 using System.Xml.Serialization;
 using System.Xml.Linq;
 using Xceed.Words.NET;
+using System.Drawing;
 
 namespace XSDTypeCl
 {
@@ -342,7 +343,7 @@ namespace XSDTypeCl
                 }
                 treeView.Focus();
                 treeView.SelectedNode = treenodes[0];
-
+               // listView.SelectedItems[0].BackColor=Color.FromArgb(255, 128, 0);
             }
         }
 
