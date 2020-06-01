@@ -95,15 +95,14 @@ namespace XSDTypeCl
             XmlSchemaElement schemaElement = null;
             XmlSchemaComplexType schemaType = null;
             XmlSchemaSimpleType schemaSType = null;
-            SeSchemaItem seSchemaItemTable = null;
+            SeSchemaItem seSchemaItem = null;
 
             if (sChemaItem is XmlSchemaElement)
             {
-                List<SeSchemaItem> schemaTypeInCT;
                 schemaElement = sChemaItem as XmlSchemaElement;
                 Name = schemaElement.Name;
 
-                seSchemaItemTable = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name, this, schemaTypeInCT = new List<SeSchemaItem>());
+                seSchemaItem = new SeSchemaItem(schemaElement.Name, GetAnnotation(schemaElement), schemaElement.SchemaTypeName.Name, this, new List<SeSchemaItem>());
 
             }
             else if (sChemaItem is XmlSchemaComplexType)
@@ -112,7 +111,7 @@ namespace XSDTypeCl
 
                 schemaType = sChemaItem as XmlSchemaComplexType;
 
-                seSchemaItemTable = new SeSchemaItem(schemaType.Name, GetAnnotation(schemaType), "", this, schemaTypeInCT = new List<SeSchemaItem>());
+                seSchemaItem = new SeSchemaItem(schemaType.Name, GetAnnotation(schemaType), "", this, schemaTypeInCT = new List<SeSchemaItem>());
                 if (schemaType.ContentTypeParticle is XmlSchemaSequence)
                 {
                     XmlSchemaSequence sequence = schemaType.ContentTypeParticle as XmlSchemaSequence;
@@ -120,7 +119,7 @@ namespace XSDTypeCl
                     {
                         foreach (var childElement in sequence.Items)
                         {
-                            seSchemaItemTable.ReadXSD(childElement);
+                            seSchemaItem.ReadXSD(childElement);
                         }
 
                     }
@@ -136,11 +135,11 @@ namespace XSDTypeCl
             {
                 List<SeSchemaItem> schemaTypeInST = new List<SeSchemaItem>();
                 schemaSType = sChemaItem as XmlSchemaSimpleType;
-                seSchemaItemTable = new SeSchemaItem(schemaSType.Name, GetAnnotation(schemaSType),GetSimpleType(schemaTypeInST,schemaSType),this, schemaTypeInST);
+                seSchemaItem = new SeSchemaItem(schemaSType.Name, GetAnnotation(schemaSType),GetSimpleType(schemaTypeInST,schemaSType),this, schemaTypeInST);
             }
-            if (seSchemaItemTable != null)
+            if (seSchemaItem != null)
             {
-                SchemaItems.Add(seSchemaItemTable);
+                SchemaItems.Add(seSchemaItem);
             }
         }
 
@@ -179,102 +178,53 @@ namespace XSDTypeCl
         /// <param name="treeNodes">Ссылка на дерево</param>
         public void ClassToTreeView(TreeNodeCollection treeNodes)
         {
-            List<TreeNode> nodesList = new List<TreeNode>();
-            TreeNode newTreeNode = treeNodes.Add(Name);
-            newTreeNode.Name = ToString();
+            TreeNode newTreeNode = treeNodes.Add(ToString());
             newTreeNode.Tag = this;
             newTreeNode.ImageIndex = 0;
             foreach (SeSchemaItem schemaItem in SchemaItems)
             {
                 schemaItem.ClassToTreeView(newTreeNode.Nodes);
             }
-            foreach (TreeNode newNode in newTreeNode.Nodes)
-            {
-             
-                    nodesList.Add(newNode);
-                if (newNode.Nodes.Count != 0)
-                {
-                    newNode.ImageIndex = 2;
-                }
-            }
          
-            CloneEachNode(newTreeNode, nodesList);
+            CloneEachNode(newTreeNode);
 
-            foreach (TreeNode eachTnn in newTreeNode.Nodes)
-            {
-                foreach (TreeNode eachTn in newTreeNode.Nodes)
-                {
-                    SeSchemaItem newSsi = (SeSchemaItem)eachTnn.Tag;
-                    SeSchemaItem eachSsi = (SeSchemaItem)eachTn.Tag;
-                   
-                    if (newSsi.Type == eachSsi.Name)
-                    {
-                        eachTn.ImageIndex = 2;
-                        TreeNode clonedNode = (TreeNode)eachTn.Clone();
-                        clonedNode.ImageIndex=2;
-                        eachTnn.Nodes.Insert(0, clonedNode);
-                        
-                    }
-                }
-            }
-            
         }
         /// <summary>
         /// Копирование веток от complexType к ветке, у которой этот ComplexType
         /// </summary>
         /// <param name="eachTnn">Текущая ветка</param>
         /// <param name="nodesList">Список родительских веток</param>
-        private void CloneEachNode(TreeNode eachTnn, List<TreeNode> nodesList)
+        private void CloneEachNode(TreeNode eachTnn)
         {
-            foreach (TreeNode nodeTable in nodesList)
+            foreach (TreeNode eachTnnode in eachTnn.Nodes)
             {
-                SeSchemaItem ssiTable = (SeSchemaItem)nodeTable.Tag;
-                if (ssiTable.Type == "")
-                    nodeTable.ImageIndex = 2;
-                foreach (TreeNode nodeElementItem in nodeTable.Nodes)
+                foreach (TreeNode eachTnNode in eachTnn.Nodes)
+                {
+                    SeSchemaItem newSsi = (SeSchemaItem)eachTnnode.Tag;
+                    SeSchemaItem eachSsi = (SeSchemaItem)eachTnNode.Tag;
+
+                    if (newSsi.Type == eachSsi.Name)
                     {
-                        foreach (TreeNode nodeElement in nodeElementItem.Nodes)
-                        {
-                            SeSchemaItem ssiElement = (SeSchemaItem)nodeElement.Tag;
-                        foreach (SeSchemaItem.CommonType ct in Enum.GetValues(typeof(SeSchemaItem.CommonType)))
-                        {
-                            if (ssiElement.Type == ct.ToString())
-                       
-                            nodeElement.ImageIndex = 1;
-                            foreach (TreeNode nodeTable2 in nodesList)
-                                {
-                                    SeSchemaItem ssiTable2 = (SeSchemaItem)nodeTable2.Tag;
-                                    if (ssiElement.Type == ssiTable2.Name)
-                                    {
-                                        nodeElement.ImageIndex = 2;
-                                        if (nodeElement.Nodes.Count == 0)
-                                        {
-                                            if (nodeTable2.Nodes.Count != 0)
-                                            {
-                                                TreeNode clonedNode = (TreeNode)nodeTable2.Clone();
-                                                nodeElement.Nodes.Insert(0, clonedNode);
-                                                break;
-                                            }
-                                        }
+                        eachTnNode.ImageIndex = 2;
+                        TreeNode clonedNode = (TreeNode)eachTnNode.Clone();
+                        clonedNode.ImageIndex = 2;
+                        eachTnnode.Nodes.Insert(0, clonedNode);
 
-                                    }
-                                }
-
-                            }
-                        }
                     }
+                }
             }
+
         }
 
         /// <summary>
         /// Запись в новый XSD файл содержимого класса SeSchema
         /// </summary>
-        /// <param name="xs1">Новый экземпляр схемы</param>
-        public void SaveXSD(XmlSchema xs1)
+        /// <param name="xs">Новый экземпляр схемы</param>
+        public void SaveXSD(XmlSchema xs)
         {
-            xs1.AttributeFormDefault = XmlSchemaForm.Unqualified;
-            xs1.ElementFormDefault = XmlSchemaForm.Qualified;
-            xs1.Namespaces.Add("xsd", "http://www.w3.org/2001/XMLSchema");
+            xs.AttributeFormDefault = XmlSchemaForm.Unqualified;
+            xs.ElementFormDefault = XmlSchemaForm.Qualified;
+            xs.Namespaces.Add("xsd", "http://www.w3.org/2001/XMLSchema");
             foreach (SeSchemaItem newschemaItem in SchemaItems)
             {
                 XmlSchemaElement newElement = new XmlSchemaElement();
@@ -283,7 +233,6 @@ namespace XSDTypeCl
                 if (newschemaItem.Type != "")
                 {
                     newElement.Name = newschemaItem.Name;
-
                     if (newschemaItem.CheckToCommonTypes() == true)
                         newElement.SchemaTypeName = new XmlQualifiedName(newschemaItem.Type, "http://www.w3.org/2001/XMLSchema");
                     else
@@ -292,15 +241,13 @@ namespace XSDTypeCl
                     {
                         newElement.Annotation = SetAnnotation(newschemaItem);
                     }
-                    xs1.Items.Add(newElement);
+                    xs.Items.Add(newElement);
                 }
                 else
                 {
                     newSchemaType.Name = newschemaItem.Name;
-
                     XmlSchemaSequence newSeq = new XmlSchemaSequence();
                     newSchemaType.Particle = newSeq;
-                    XmlSchemaElement newElement1 = new XmlSchemaElement();
                     if (newschemaItem.Description != null && newschemaItem.Description != "")
                         newSchemaType.Annotation = SetAnnotation(newschemaItem);
                     if (newschemaItem.SchemaItemsChildren.Count != 0)
@@ -310,13 +257,13 @@ namespace XSDTypeCl
                             XmlSchemaElement newElementSeq = new XmlSchemaElement();
                             newElementSeq.Name = seqItem.Name;
                             newSeq.Items.Add(newElementSeq);
-                            seqItem.SaveXSD(newElementSeq, xs1);
+                            seqItem.SaveXSD(newElementSeq, xs);
                             if (newschemaItem.SchemaItemsChildren[0].Description != null && newschemaItem.SchemaItemsChildren[0].Description != "")
                             {
                                 newElementSeq.Annotation = SetAnnotation(newschemaItem.SchemaItemsChildren[0]);
                             }
                         }
-                        xs1.Items.Add(newSchemaType);
+                        xs.Items.Add(newSchemaType);
                     }
 
                 }

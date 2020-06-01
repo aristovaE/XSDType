@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:import schemaLocation="..\фтс\CommonLeafTypesCust.xsd" namespace="urn:customs.ru:CommonLeafTypes:5.10.0" />
+  <xsd:element name="AcceptPaymentInf" type="AcceptPaymentInfType" />
+  <xsd:complexType name="AcceptPaymentInfType">
+    <xsd:annotation>
+      <xsd:documentation>Сведения о поступлении денежных средств на счет таможенного органа</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="DocumentID" type="xsd:IdentifierCategoriesCust">
+        <xsd:annotation>
+          <xsd:documentation>Уникальный идентификатор документа</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="RefDocumentID" type="xsd:IdentifierCategoriesCust">
+        <xsd:annotation>
+          <xsd:documentation>Уникальный идентификатор документа</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="SendDate" type="xsd:DateCategoriesCust">
+        <xsd:annotation>
+          <xsd:documentation>Уникальный идентификатор документа</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="Comments" type="xsd:TextCategoriesCust">
+        <xsd:annotation>
+          <xsd:documentation>Уникальный идентификатор документа</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="PyamentInf" type="xsd:PaymentInformationType">
+        <xsd:annotation>
+          <xsd:documentation>Уникальный идентификатор документа</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Customs" type="xsd:CustomsType">
+        <xsd:annotation>
+          <xsd:documentation>Уникальный идентификатор документа</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="CustomsPerson" type="xsd:CustomsPersonType">
+        <xsd:annotation>
+          <xsd:documentation>Уникальный идентификатор документа</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="GTDNumber" type="xsd:GTDIDType">
+        <xsd:annotation>
+          <xsd:documentation>Уникальный идентификатор документа</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

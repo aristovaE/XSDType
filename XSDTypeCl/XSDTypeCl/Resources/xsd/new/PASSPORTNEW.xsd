@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="PASSPORT" type="PASSPORT_TABLE">
+    <xsd:annotation>
+      <xsd:documentation>Паспорт сделки</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <xsd:complexType name="PASSPORT_TABLE">
+    <xsd:annotation>
+      <xsd:documentation>Паспорт сделки</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" name="PASSPORT_ITEM">
+        <xsd:annotation>
+          <xsd:documentation>Паспорт сделки</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:all minOccurs="1">
+            <xsd:element name="DOC_ID" type="xsd:integer" />
+            <xsd:element minOccurs="0" name="RegNum" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Номер паспорта</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="RegDate" nillable="true" type="xsd:dateTime">
+              <xsd:annotation>
+                <xsd:documentation>Дата паспорта</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="P2" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Наименование уполномоченного банка</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="P5" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Резидент: наименование</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="RsdntAdRfZone" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Адрес резидента: субъект РФ</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="50" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="RsdntAdRegion" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Адрес резидента: район.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="50" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="RsdntAdCity" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Адрес резидента: город.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="35" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="RsdntAdTown" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Адрес резидента: населенный пункт.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="50" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="RsdntAdStreet" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Адрес резидента: улица.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="50" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="RsdntAdBuildn" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Адрес резидента: номер дома.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="5" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="RsdntAdBulkN" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Адрес резидента: корпус (строение).</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="5" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="RsdntAdOffic" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Адрес резидента: офис (квартира).</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="5" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="OGRN" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Резидент: ОГРН</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="15" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="FIRM_REG_D" nillable="true" type="xsd:dateTime">
+              <xsd:annotation>
+                <xsd:documentation>Резидент: дата государственной регистрации</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="G024C" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Резидент: ИНН</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="12" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="P_KPP" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Резидент: КПП</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="9" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="P8" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Иностранный контрагент: наименование</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="P9" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Иностранный контрагент: наименование страны</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="KSP" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Иностранный контрагент: код страны</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="3" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ContractNum" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Номер контракта</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="50" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ContractDate" nillable="true" type="xsd:dateTime">
+              <xsd:annotation>
+                <xsd:documentation>Дата подписания контракта</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="P15" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Наименование валюты цены</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="70" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="P14" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Код валюты цены.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="3" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="P13" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Стоимость контракта.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:decimal">
+                  <xsd:totalDigits value="16" />
+                  <xsd:fractionDigits value="2" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="NoSumFlag" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>"Без суммы"</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:integer">
+                  <xsd:totalDigits value="1" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="P16" nillable="true" type="xsd:dateTime">
+              <xsd:annotation>
+                <xsd:documentation>Дата завершения исполнения обязательств по контракту</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="AbroadSum" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Зачисление на счета за рубежом (сумма в валюте контракта).</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:decimal">
+                  <xsd:totalDigits value="16" />
+                  <xsd:fractionDigits value="2" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="P_VO" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Валютная оговорка.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:integer">
+                  <xsd:totalDigits value="1" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="SpecTerm1" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Ввоз/вывоз товаров из разделов XVI, XVII, XIX ТН ВЭД.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:integer">
+                  <xsd:totalDigits value="1" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="SpecTerm2" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Проведение строит. и подрядных работ за пределами РФ.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:integer">
+                  <xsd:totalDigits value="1" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="P_NL" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Номер разрешения на предварительную оплату/отсрочку платежа.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="50" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="P_DL" nillable="true" type="xsd:dateTime">
+              <xsd:annotation>
+                <xsd:documentation>Дата разрешения на предварительную оплату/отсрочку платежа.</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="OT_SUM" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Сумма отсроченного платежа.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:decimal">
+                  <xsd:totalDigits value="16" />
+                  <xsd:fractionDigits value="2" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="RAZR_EXPD" nillable="true" type="xsd:dateTime">
+              <xsd:annotation>
+                <xsd:documentation>Дата окончания срока действия разрешения.</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PassNoBefore" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Номер ПС, оформленного до 18.06.2004.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PassNoAnother" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Номер ПС, оформленного в другом уполномоченном. банке.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PassDateAnother" nillable="true" type="xsd:dateTime">
+              <xsd:annotation>
+                <xsd:documentation>Дата ПС, оформленного в другом уполномоченном. банке.</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ReopenNo" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Номер переоформления ПС.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="2" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ReopenDate" nillable="true" type="xsd:dateTime">
+              <xsd:annotation>
+                <xsd:documentation>Дата переоформления ПС.</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="CloseDate" nillable="true" type="xsd:dateTime">
+              <xsd:annotation>
+                <xsd:documentation>Дата закрытия ПС.</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="CloseReason">
+              <xsd:annotation>
+                <xsd:documentation>Основание для закрытия ПС (указывается номер подпункта 3.18.1 - 3.18.3 пункта 3.18 Инструкции ЦБ РФ от 15.06.2004 г. N 117-И, на основании которого закрывается ПС)</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="4" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ContrSpecCond" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Специальные сведения о контракте: условия о сроках и порядке расчетов по контракту.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="32767" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ContrDatePeriod" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Специальные сведения о контракте: срок.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="4" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Page2Date" nillable="true" type="xsd:dateTime">
+              <xsd:annotation>
+                <xsd:documentation>Дата оформления листа 2.</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="P21" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>От банка: должность.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="20" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="P22" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>От банка: фамилия</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="20" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="P22_Name" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>От банка: имя</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="20" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="P22_MiddleName" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>От банка: отчество</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="20" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="P23" nillable="true" type="xsd:dateTime">
+              <xsd:annotation>
+                <xsd:documentation>От банка: дата подписи.</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="P24" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>От резидента: должность.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="20" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="P25" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>От резидента: фамилия</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="20" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="P25_Name" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>От резидента: имя</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="20" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="P25_MiddleName" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>От резидента: отчество</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="20" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="P26" nillable="true" type="xsd:dateTime">
+              <xsd:annotation>
+                <xsd:documentation>От резидента: дата подписи.</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

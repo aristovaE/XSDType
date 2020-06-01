@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:complexType name="UntitledTTT">
+    <xsd:sequence>
+      <xsd:element name="UntitledElemFirst" type="xsd:string" />
+      <xsd:element name="UntitledElemSec" type="xsd:integer" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="Untitled" type="UntitledTTT" />
+</xsd:schema>

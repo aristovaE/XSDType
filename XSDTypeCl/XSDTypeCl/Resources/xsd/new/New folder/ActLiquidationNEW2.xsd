@@ -1,0 +1,988 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:complexType name="ActLiquidation_DocSig_TABLE">
+    <xsd:annotation>
+      <xsd:documentation>Лицо, присутствующее при уничтоженииИ</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="ActLiquidation_DocSig_ITEM">
+        <xsd:annotation>
+          <xsd:documentation>Лицо, присутствующее при уничтожении</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:all minOccurs="0">
+            <xsd:element maxOccurs="1" name="DOC_ID" type="xsd:integer" />
+            <xsd:element minOccurs="0" name="PersonName">
+              <xsd:annotation>
+                <xsd:documentation>Фамилия</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ActLiquidation">
+              <xsd:annotation>
+                <xsd:documentation>Имя</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PersonMiddleName">
+              <xsd:annotation>
+                <xsd:documentation>Отчество</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PersonPost">
+              <xsd:annotation>
+                <xsd:documentation>Должность</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="250" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="IssueDate" nillable="true" type="xsd:dateTime">
+              <xsd:annotation>
+                <xsd:documentation>Дата подписания</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PersonSign" type="xsd:integer">
+              <xsd:annotation>
+                <xsd:documentation>Признак лица: 0 - от уполномоченного таможенного органа; 1 - от заявителя (резидента ОЭЗ/декларанта/таможенного представителя); 2 - от организации, осуществляющей уничтожение</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ActLiquidation_GTD_TABLE">
+    <xsd:annotation>
+      <xsd:documentation>Регистрационный номер таможенной декларации</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="ActLiquidation_GTD_ITEM">
+        <xsd:annotation>
+          <xsd:documentation>Регистрационный номер таможенной декларации</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:all minOccurs="0">
+            <xsd:element name="DOC_ID" type="xsd:integer" />
+            <xsd:element minOccurs="0" name="GTD" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Номер ГТД</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="23" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ActLiquidation_TABLE">
+    <xsd:annotation>
+      <xsd:documentation>Акт об уничтожении</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" name="ActLiquidation_ITEM">
+        <xsd:complexType>
+          <xsd:all>
+            <xsd:element name="DOC_ID" type="xsd:integer" />
+            <xsd:element minOccurs="0" name="RegNum">
+              <xsd:annotation>
+                <xsd:documentation>Регистрационный  номер </xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="RegDate" nillable="true" type="xsd:dateTime">
+              <xsd:annotation>
+                <xsd:documentation>Дата регистрации </xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="DocSign" nillable="true" type="xsd:integer">
+              <xsd:annotation>
+                <xsd:documentation>Акт об уничтожении товаров:  0 - помещенных под таможенную процедуру СТЗ и пришедших в негодность; 1 - под таможенным контролем; 2 - подтверждающий факт уничтожения/утилизации товаров (ст. 297 ТК ТС)</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Declarant_Name" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Декларант: наименование </xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Declarant_OGRN" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Декларант: ОГРН</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="15" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Declarant_INN" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Декларант: ИНН</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="12" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Declarant_KPP" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Декларант: КПП</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="9" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Declarant_PostalCode">
+              <xsd:annotation>
+                <xsd:documentation>Декларант: почтовый индекс</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="9" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Declarant_CountryCode">
+              <xsd:annotation>
+                <xsd:documentation>Декларант: буквенный код страны</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="2" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Declarant_CountryName">
+              <xsd:annotation>
+                <xsd:documentation>Декларант: наименование страны</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Declarant_Region">
+              <xsd:annotation>
+                <xsd:documentation>Декларант: область (регион, штат, провинция и т. п.)</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="50" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Declarant_City">
+              <xsd:annotation>
+                <xsd:documentation>Декларант: населенный пункт</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="35" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Declarant_StreetHouse">
+              <xsd:annotation>
+                <xsd:documentation>Декларант: улица, номер дома, номер офиса</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="50" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Declarant_IdentityCardCode" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о декларанте: код вида документа, удостоверяющего его личность</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="7" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Declarant_IdentityCardName" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о декларанте: наименование документа, удостоверяющего его личность</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="250" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Declarant_IdentityCardSeries" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о декларанте: серия документа, удостоверяющего его личность</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="11" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Declarant_IdentityCardNumber" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о декларанте: номер документа, удостоверяющего его личность</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Declarant_IdentityCardDate" nillable="true" type="xsd:dateTime">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о декларанте: дата документа, удостоверяющего его личность</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Declarant_IdentityCardOrgName" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о декларанте: наименование организации, выдавшей документ, удостоверяющий его личность</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Org_Name" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Лицо, осуществляющее уничтожение:  наименование </xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Org_OGRN" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Лицо, осуществляющее уничтожение:ОГРН</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="15" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Org_INN" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Лицо, осуществляющее уничтожение: ИНН</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="12" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Org_KPP" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Лицо, осуществляющее уничтожение: КПП</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="9" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Org_PostalCode" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Лицо, осуществляющее уничтожение: почтовый индекс</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="9" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Org_CountryCode" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Лицо, осуществляющее уничтожение: буквенный код страны</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="2" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Org_CountryName" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Лицо, осуществляющее уничтожение: наименование страны</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Org_Region" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Лицо, осуществляющее уничтожение:  область (регион, штат, провинция и т.п.)</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="50" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Org_City" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Лицо, осуществляющее уничтожение: населенный пункт</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="35" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Org_StreetHouse" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Лицо, осуществляющее уничтожение: улица, номер дома, номер офиса</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="50" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Org_IdentityCardCode" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Лицо, осуществляющее уничтожение: Код вида документа, удостоверяющего личность</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="7" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Org_IdentityCardName" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Лицо, осуществляющее уничтожение: Наименование документа, удостоверяющего личность</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="250" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Org_IdentityCardSeries">
+              <xsd:annotation>
+                <xsd:documentation>Лицо, осуществляющее уничтожение: Серия документа, удостоверяющего личность.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="11" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Org_IdentityCardNumber">
+              <xsd:annotation>
+                <xsd:documentation>Лицо, осуществляющее уничтожение: Номер документа, удостоверяющего личность</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Org_IdentityCardDate" type="xsd:dateTime">
+              <xsd:annotation>
+                <xsd:documentation>Лицо, осуществляющее уничтожение: Дата выдачи документа, удостоверяющего личность.</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Org_IdentityCardOrgName">
+              <xsd:annotation>
+                <xsd:documentation>Лицо, осуществляющее уничтожение: Наименование организации, выдавшей документ</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="CustOfficeCode" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Код таможенного органа </xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="8" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="CustOfficeName" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Наименование таможенного органа</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="50" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Place_PostalCode" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Место уничтожения: почтовый индекс</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="9" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Place_CountryCode" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Местоуничтожения: буквенный код страны</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="2" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Place_CountryName" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Место уничтожения: наименование страны</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Place_Region" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Место уничтожения: область (регион, штат, провинция и т.п.)</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="50" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Place_City" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Место уничтожения: населенный пункт</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="35" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Place_StreetHouse" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Место уничтожения: улица, номер дома, номер офиса</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="50" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ActLiquidation_WasteGoods" type="ActLiquidation_WasteGoods_TABLE">
+              <xsd:annotation>
+                <xsd:documentation>Отходы, полученные из товаров и (или) упаковки</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ActLiquidation_DocSig" type="ActLiquidation_DocSig_TABLE">
+              <xsd:annotation>
+                <xsd:documentation>Лицо, присутствующее при уничтожении</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ActLiquidation_GTD" type="ActLiquidation_GTD_TABLE">
+              <xsd:annotation>
+                <xsd:documentation>Регистрационный номер таможенной декларации</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ActLiquidation_Goods" type="ActLiquidation_Goods_TABLE">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о товарах, помещенных под таможенную процедуру уничтожения</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ActLiquidation_WasteGoods_TABLE">
+    <xsd:annotation>
+      <xsd:documentation>Отходы, полученные из товаров и (или) упаковки</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="ActLiquidation_WasteGoods_ITEM">
+        <xsd:annotation>
+          <xsd:documentation>Отходы, полученные из товаров и (или) упаковки</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:all minOccurs="0">
+            <xsd:element name="DOC_ID" type="xsd:integer" />
+            <xsd:element minOccurs="0" name="GoodsDescription" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Наименование отхода в соответствии с Федеральным классификационным каталогом отходов</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="1000" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="WasteCode" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Код отхода в соответствии с Федеральным классификационным каталогом отходов</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="13" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Method">
+              <xsd:annotation>
+                <xsd:documentation>Способ уничтожения</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="32767" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="WasteSign" nillable="true" type="xsd:integer">
+              <xsd:annotation>
+                <xsd:documentation>Признак происхождения отходов: 0 - товары; 1 - упаковка</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="NewWasteSign" nillable="true" type="xsd:integer">
+              <xsd:annotation>
+                <xsd:documentation>Признак наличия отходов, образовавшиеся в результате уничтожения: 1 - есть 0 - нет</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="GoodsTNVEDCode" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Код отхода в оответствии с ТН ВЭД ТС</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="10" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="CustomsProc" type="xsd:string">
+              <xsd:annotation>
+                <xsd:documentation>Таможенная процедура, под которую планируется помещать отходы</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="GoodsQuantity" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Количество товара в ед.изм. </xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:decimal">
+                  <xsd:totalDigits value="24" />
+                  <xsd:fractionDigits value="6" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="UnitQualifierName" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Название единицы измерения товара</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="13" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="UnitQualifierCode" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Код единицы измерения товара</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="3" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ActLiquidation_PackingInfo" type="ActLiquidation_PackingInfo_TABLE">
+              <xsd:annotation>
+                <xsd:documentation>Сведения об упаковке</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="DocumentName" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Наименование документа</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="250" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="DocumentNumber" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Номер документа</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="50" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="DocumentDate" nillable="true" type="xsd:dateTime">
+              <xsd:annotation>
+                <xsd:documentation>Дата документа</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ActLiquidation_GoodsPartsGTD" type="ActLiquidation_GoodsPartsGTD_TABLE">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о партии товаров</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Place_PostalCode" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Местонахождение отходов: почтовый индекс</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="9" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Place_CountryCode" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Местонахождение отходов :  буквенный код страны</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="2" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Place_CountryName" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Местонахождение отходов: наименование страны</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Place_Region" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Местонахождение отходов : область (регион, штат, провинция и т.п.)</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="50" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Place_City" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Местонахождение отходов : населенный пункт</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="35" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Place_StreetHouse" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Местонахождение отходов:  улица, номер дома, номер офиса</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="50" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ActLiquidation_Goods_TABLE">
+    <xsd:annotation>
+      <xsd:documentation>Сведения о товарах, помещенных под таможенную процедуру уничтожения</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="ActLiquidation_Goods_ITEM">
+        <xsd:annotation>
+          <xsd:documentation>Сведения о товарах, помещенных под таможенную процедуру уничтожения</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:all minOccurs="0">
+            <xsd:element name="DOC_ID" type="xsd:integer" />
+            <xsd:element minOccurs="0" name="GoodsDescription" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Наименование товара </xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="1000" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="GoodsNumeric" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Номер товара</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:integer">
+                  <xsd:totalDigits value="5" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="GoodsTNVEDCode" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Код товара по ТНВЭД</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="10" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ActLiquidation_GoodsQuantity" type="ActLiquidation_GoodsQuantity_TABLE">
+              <xsd:annotation>
+                <xsd:documentation>Количество товара</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ActLiquidation_GoodsPartsGTD_TABLE">
+    <xsd:annotation>
+      <xsd:documentation>Отходы, полученные из товаров и (или) упаковки (Сведения о регистрационном номере ДТ партии товаров)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="ActLiquidation_GoodsPartsGTD_ITEM">
+        <xsd:annotation>
+          <xsd:documentation>Отходы, полученные из товаров и (или) упаковки</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:all minOccurs="0">
+            <xsd:element name="DOC_ID" type="xsd:integer" />
+            <xsd:element minOccurs="0" name="GTD" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Регистрационный номер ДТ</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="23" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ActLiquidation_GoodsParts" type="ActLiquidation_GoodsParts_TABLE">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о партии товаров</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ActLiquidation_GoodsParts_TABLE">
+    <xsd:annotation>
+      <xsd:documentation>Отходы, полученные из товаров и (или) упаковки (Сведения о партии товаров)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="ActLiquidation_GoodsParts_ITEM">
+        <xsd:annotation>
+          <xsd:documentation>Сведения о партии товаров</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:all minOccurs="0">
+            <xsd:element name="DOC_ID" type="xsd:integer" />
+            <xsd:element minOccurs="0" name="GoodsDescription" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Наименование товара </xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="1000" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="GoodsNumeric" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Номер товара</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:integer">
+                  <xsd:totalDigits value="5" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="GoodsTNVEDCode" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Код товара по ТНВЭД</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="10" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="GoodsQuantity" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Количество товара в ед.изм. </xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:decimal">
+                  <xsd:totalDigits value="24" />
+                  <xsd:fractionDigits value="6" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="UnitQualifierName" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Название единицы измерения товара</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="13" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="UnitQualifierCode" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Код единицы измерения товара</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="3" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ActLiquidation_GoodsQuantity_TABLE">
+    <xsd:annotation>
+      <xsd:documentation>Сведения о товарах, помещенных под таможенную процедуру уничтожения(Количество товара)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="ActLiquidation_GoodsQuantity_ITEM">
+        <xsd:annotation>
+          <xsd:documentation>Количество товара</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:all minOccurs="0">
+            <xsd:element name="DOC_ID" type="xsd:integer" />
+            <xsd:element minOccurs="0" name="GoodsQuantity" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Количество товара в ед.изм. </xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:decimal">
+                  <xsd:totalDigits value="24" />
+                  <xsd:fractionDigits value="6" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="UnitQualifierName" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Название единицы измерения товара</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="13" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="UnitQualifierCode" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Код единицы измерения товара</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="3" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ActLiquidation_PackingInfo_TABLE">
+    <xsd:annotation>
+      <xsd:documentation>Отходы, полученные из товаров и (или) упаковки. (Сведения об упаковке товаров)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="ActLiquidation_PackingInfo_ITEM">
+        <xsd:complexType>
+          <xsd:all minOccurs="0">
+            <xsd:element name="DOC_ID" type="xsd:integer" />
+            <xsd:element minOccurs="0" name="PackingCode" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Код вида упаковки товаров в соответствии с  классификатором видов груза, упаковки и упаковочных материалов.</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="2" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PackingDescription" nillable="true">
+              <xsd:annotation>
+                <xsd:documentation>Описание упаковки</xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="250" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="ActLiquidation" type="ActLiquidation_TABLE">
+    <xsd:annotation>
+      <xsd:documentation>Акт об уничтожении</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+</xsd:schema>

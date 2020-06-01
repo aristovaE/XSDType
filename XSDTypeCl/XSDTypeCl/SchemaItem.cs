@@ -21,12 +21,48 @@ namespace XSDTypeCl
         [ReadOnly(false)]
         [Category("Properties")]
         [Description("Описание элемента схемы")]
+        [TypeConverter(typeof(MyConverterDescription))]
         public string Description { get; set; }
+        public class MyConverterDescription : StringConverter
+        {
+            public override bool GetStandardValuesSupported(ITypeDescriptorContext
+            context)
+            {
+                //true means show a combobox 
+                SeSchemaItem ssi = (SeSchemaItem)context.Instance;
+                if (ssi.Name == "SimpleType")
+                    return true;
+                else return false;
+            }
+            public override bool GetStandardValuesExclusive(ITypeDescriptorContext
+            context)
+            {
+                //true will limit to list. false will show the list, but allow free-form entry
+                return false;
+            }
+
+            public override
+            StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
+            {
+                List<string> str = new List<string>();
+                str.Add("");
+
+                SeSchemaItem ssi = (SeSchemaItem)context.Instance;
+                if (ssi.Name == "SimpleType")
+                    {
+                        str.Add("XmlSchemaMaxLengthFacet-ЦЕЛОЕ ЧИСЛО");
+                        str.Add("XmlSchemaTotalDigitsFacet-ЦЕЛОЕ ЧИСЛО");
+                        str.Add("XmlSchemaFractionDigitsFacet-ЦЕЛОЕ ЧИСЛО");
+                    }
+                
+                return new StandardValuesCollection(str);
+            }
+        }
 
         [ReadOnly(false)]
         [Category("Properties")]
         [Description("Тип элемента схемы")]
-        [TypeConverter(typeof(MyConverter))]
+        [TypeConverter(typeof(MyConverterType))]
         public string Type { get; set; }
         [Flags]
         public enum CommonType
@@ -36,7 +72,7 @@ namespace XSDTypeCl
             Decimal = 4, 
             dateTime = 8
         }
-        public class MyConverter : StringConverter
+        public class MyConverterType : StringConverter
         {
             public override bool GetStandardValuesSupported(ITypeDescriptorContext
             context)
@@ -247,18 +283,18 @@ namespace XSDTypeCl
                 }
                 if (seq == null)
                 {
-                    foreach (XmlSchemaObject childElement2 in choice.Items)
+                    foreach (XmlSchemaObject childElementChild in choice.Items)
                     {
 
-                        if (childElement2 is XmlSchemaElement)
+                        if (childElementChild is XmlSchemaElement)
                         {
-                            schemaElement = childElement2 as XmlSchemaElement;
+                            schemaElement = childElementChild as XmlSchemaElement;
                             SeProperties seProp2 = new SeProperties(schemaElement);
-                            schemaTypeInChoice.Add(new SeSchemaItem(schemaElement.Name, GetAnnotation(childElement2), schemaElement.SchemaTypeName.Name, this, schemaTypeInCT = new List<SeSchemaItem>(), seProp2));
+                            schemaTypeInChoice.Add(new SeSchemaItem(schemaElement.Name, GetAnnotation(childElementChild), schemaElement.SchemaTypeName.Name, this, schemaTypeInCT = new List<SeSchemaItem>(), seProp2));
                         }
                         else
                         {
-                            seq = (XmlSchemaSequence)childElement2;
+                            seq = (XmlSchemaSequence)childElementChild;
                             foreach (XmlSchemaElement childElementSeq in seq.Items)
                             {
                                 ReadXSD(childElementSeq);
@@ -303,18 +339,18 @@ namespace XSDTypeCl
                 {
                     XmlSchemaAll all = complexType.Particle as XmlSchemaAll; // <xsd:all>
                     Properties.MinOccursAll = all.MinOccurs.ToString();
-                    foreach (XmlSchemaElement childElement2 in all.Items)
+                    foreach (XmlSchemaElement childElementInAll in all.Items)
                     {
-                        ReadXSD(childElement2);
+                        ReadXSD(childElementInAll);
                     }
                 }
                 if (complexType.Particle is XmlSchemaSequence)
                 {
-                    XmlSchemaSequence seq2 = complexType.Particle as XmlSchemaSequence; // <xsd:all>
+                    XmlSchemaSequence seq = complexType.Particle as XmlSchemaSequence; // <xsd:all>
 
-                    foreach (XmlSchemaObject childElement3 in seq2.Items)
+                    foreach (XmlSchemaObject childElementInSeq in seq.Items)
                     {
-                        ReadXSD(childElement3);
+                        ReadXSD(childElementInSeq);
                     }
                 }
 
@@ -329,15 +365,6 @@ namespace XSDTypeCl
         /// <returns>Строка, содержащую сведения о SeSchemaItem</returns>
         public override string ToString()
         {
-            //if (Type != "" && Type != null)
-            //{
-            //    if (Description != "" && Description != null)
-            //        return Name + " (" + Description + ") - " + Type;//this.tostring()
-            //    else
-            //        return Name + " - " + Type;
-            //}
-            //else
-
             if (Description != "" && Description != null)
                 return Name + " (" + Description + ")";
             else
@@ -350,9 +377,7 @@ namespace XSDTypeCl
         /// <param name="treeNodes">Текущая ветка</param>
         public void ClassToTreeView(TreeNodeCollection treeNodes)
         {
-            TreeNode newTreeNode;
-
-            newTreeNode = treeNodes.Add(ToString());
+            TreeNode newTreeNode = treeNodes.Add(ToString());
             newTreeNode.Tag = this;
             newTreeNode.Name = ToString() + Parent.ToString();
            
@@ -366,8 +391,9 @@ namespace XSDTypeCl
             }
 
             if (Name == "SimpleType") newTreeNode.ImageIndex = 3;
+            else if (Type == "") newTreeNode.ImageIndex = 2;
             else if (Name == "CHOICE") newTreeNode.ImageIndex = 4;
-                else newTreeNode.ImageIndex = 1;
+            else newTreeNode.ImageIndex = 1;
 
 
         }
@@ -389,16 +415,15 @@ namespace XSDTypeCl
         /// <summary>
         /// Запись в новый XSD файл содержимого класса SeSchemaItem
         /// </summary>
-        /// <param name="newElement1">Новый элемент в схеме</param>
-        /// <param name="xs1">Новый экземпляр схемы</param>
-        public void SaveXSD(XmlSchemaElement newElement1, XmlSchema xs1)
+        /// <param name="newXSDElement">Новый элемент в схеме</param>
+        /// <param name="xs">Новый экземпляр схемы</param>
+        public void SaveXSD(XmlSchemaElement newXSDElement, XmlSchema xs)
         {
-            // var allowedSimpleType = SimpleType.String | SimpleType.integer | SimpleType.Decimal | SimpleType.dateTime;
-            SetProperties(newElement1);
+            SetProperties(newXSDElement);
             if (Type == "")
             {
                 XmlSchemaComplexType newSchemaType = new XmlSchemaComplexType();
-                newElement1.SchemaType = newSchemaType;
+                newXSDElement.SchemaType = newSchemaType;
                 XmlSchemaAll newAll = new XmlSchemaAll();
                 if (Properties != null) Properties.SetPropAll(newAll);
                 newSchemaType.Particle = newAll;
@@ -467,9 +492,9 @@ namespace XSDTypeCl
             else 
                     {
                 if (CheckToCommonTypes() == true)
-                    newElement1.SchemaTypeName = new XmlQualifiedName(Type, "http://www.w3.org/2001/XMLSchema");
+                    newXSDElement.SchemaTypeName = new XmlQualifiedName(Type, "http://www.w3.org/2001/XMLSchema");
                 else
-                    newElement1.SchemaTypeName = new XmlQualifiedName(Type); ;
+                    newXSDElement.SchemaTypeName = new XmlQualifiedName(Type); ;
             }
         }
 
