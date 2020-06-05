@@ -54,14 +54,14 @@ namespace XSDTypeCl
 
         public void UpdateTreeView(TreeNodeCollection tnc)
         {
-            //treeView1.BeginUpdate();
+            treeView.BeginUpdate();
             treeView.Nodes.Clear();
             for (int i = 0; i < comboBox_SchemaList.Items.Count; i++)
             {
                 SeSchema seSchema = (SeSchema)comboBox_SchemaList.Items[i];
                 seSchema.ClassToTreeView(treeView.Nodes);
             }
-            //treeView1.EndUpdate();
+            treeView.EndUpdate();
         }
         public void UpdateComboBox()
         {
@@ -75,7 +75,7 @@ namespace XSDTypeCl
         }
         public void UpdateNode()
         {
-            //treeView1.BeginUpdate();
+            treeView.BeginUpdate();
             if (treeView.SelectedNode.Tag is SeSchemaItem)
             {
                 SeSchemaItem ssi = (SeSchemaItem)treeView.SelectedNode.Tag;
@@ -86,15 +86,15 @@ namespace XSDTypeCl
                 SeSchema ss = (SeSchema)treeView.SelectedNode.Tag;
                 treeView.SelectedNode.Text = ss.ToString();
             }
-            //treeView1.EndUpdate();
+            treeView.EndUpdate();
         }
         public void ComboBoxBind(List<SeSchema> seSchemaList)
         {
             comboBox_SchemaList.DataSource = null;
             comboBox_SchemaList.Items.Clear();
-            var bindingSource1 = new BindingSource();
-            bindingSource1.DataSource = seSchemaList;
-            comboBox_SchemaList.DataSource = bindingSource1.DataSource;
+            var bindingSource = new BindingSource();
+            bindingSource.DataSource = seSchemaList;
+            comboBox_SchemaList.DataSource = bindingSource.DataSource;
             comboBox_SchemaList.DisplayMember = "Name";
             comboBox_SchemaList.ValueMember = "Name";
             текущуюСхемуToolStripMenuItem.Enabled = true;
@@ -262,7 +262,7 @@ namespace XSDTypeCl
 
             this.Cursor = Cursors.Default;
         }
-        private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        private void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
             UpdateNode();
             if (propertyGrid.SelectedObject is SeSchemaItem)
@@ -325,13 +325,12 @@ namespace XSDTypeCl
                 }
             }
         }
-        private void listView1_MouseClick(object sender, MouseEventArgs e)
+        private void listView_MouseClick(object sender, MouseEventArgs e)
         {
             if (listView.SelectedItems.Count != 0)
             {
                 SeSchemaItem ssi = (SeSchemaItem)listView.SelectedItems[0].Tag;
                 propertyGrid.SelectedObject = ssi;
-
                 TreeNode[] treenodesParent = treeView.Nodes.Find(ssi.GetSchema(ssi).ToString(), false);
                 TreeNode[] treenodes = treenodesParent[0].Nodes.Find(ssi.ToString() + ssi.Parent.ToString(), true);
                 TreeNode eachTn = treenodes[0];
@@ -343,7 +342,6 @@ namespace XSDTypeCl
                 }
                 treeView.Focus();
                 treeView.SelectedNode = treenodes[0];
-               // listView.SelectedItems[0].BackColor=Color.FromArgb(255, 128, 0);
             }
         }
 
@@ -353,7 +351,7 @@ namespace XSDTypeCl
             XmlSchemaSet xss = ReadXSD(diXsd);
             SeSchema seSchema;
             List<SeSchema> seSchemaList = null;
-            //treeView1.BeginUpdate();
+            treeView.BeginUpdate();
             foreach (XmlSchema schema in xss.Schemas())
             {
                 seSchema = new SeSchema(schema);
@@ -361,7 +359,7 @@ namespace XSDTypeCl
                 seSchemaList.Add(seSchema);
                 seSchema.ClassToTreeView(treeView.Nodes);
             }
-            //treeView1.EndUpdate();
+            treeView.EndUpdate();
             ComboBoxBind(seSchemaList);
             BtnToTV.Enabled = true;
             button_Refresh.Enabled = true;
@@ -402,7 +400,7 @@ namespace XSDTypeCl
             // получаем выбранный файл
             string path = saveFD_XSD.FileName;
             string filename = Path.GetFileName(path);
-            XmlSchema xs1 = new XmlSchema();
+            XmlSchema xs = new XmlSchema();
             SeSchema seSchema = null;
             XmlSchemaSet xss = new XmlSchemaSet();
             ValidationEventHandler ValidationErrorHandler = null;
@@ -416,8 +414,8 @@ namespace XSDTypeCl
             {
                 seSchema = (SeSchema)comboBox_SchemaList.SelectedItem;
             }
-            seSchema.SaveXSD(xs1);
-            xss.Add(xs1);
+            seSchema.SaveXSD(xs);
+            xss.Add(xs);
             //для записи в readonly ElementSchemaType 
             try
             {
@@ -432,7 +430,7 @@ namespace XSDTypeCl
                 using (XmlTextWriter tw = new XmlTextWriter(path + ".xsd", new UTF8Encoding()))
                 {
                     tw.Formatting = Formatting.Indented;
-                    xs1.Write(tw);
+                    xs.Write(tw);
                 }
                 fs.Close();
             }
@@ -544,9 +542,9 @@ namespace XSDTypeCl
 
             foreach (SeSchema seSchema in comboBox_SchemaList.Items)
             {
-                XmlSchema xs1 = new XmlSchema();
-                seSchema.SaveXSD(xs1);
-                xss.Add(xs1);
+                XmlSchema xs = new XmlSchema();
+                seSchema.SaveXSD(xs);
+                xss.Add(xs);
             }
             //для записи в readonly ElementSchemaType 
             xss.Compile();
@@ -612,43 +610,49 @@ namespace XSDTypeCl
             if (openFD_XML.ShowDialog() == DialogResult.Cancel)
                 return;
             // получаем выбранный файл
-            string filename = openFD_XML.SafeFileName;
+            string filePath = Path.GetFileName(openFD_XML.FileName);
             // читаем файл в строку
-
-            XmlReaderSettings xsdSetting = new XmlReaderSettings();
-            XmlSchema xs1 = new XmlSchema();
-            SeSchema seSchema = null;
-            XmlSchemaSet xss = new XmlSchemaSet();
-            ValidationEventHandler ValidationErrorHandler = null;
-            xss.ValidationEventHandler += ValidationErrorHandler;
-            xss.XmlResolver = new XmlUrlResolver();
-            if ((treeView.SelectedNode != null) && (treeView.SelectedNode.Tag is SeSchema))
-            {
-                seSchema = (SeSchema)treeView.SelectedNode.Tag;
-            }
-            else
-            {
-                seSchema = (SeSchema)comboBox_SchemaList.SelectedItem;
-            }
-            seSchema.SaveXSD(xs1);
-            xss.Add(xs1);
-            //для записи в readonly ElementSchemaType 
             try
             {
-                xss.Compile();
+                XmlReaderSettings xsdSetting = new XmlReaderSettings();
+                XmlSchema xs = new XmlSchema();
+                SeSchema seSchema = null;
+                XmlSchemaSet xss = new XmlSchemaSet();
+                ValidationEventHandler ValidationErrorHandler = null;
+                xss.ValidationEventHandler += ValidationErrorHandler;
+                xss.XmlResolver = new XmlUrlResolver();
+                if ((treeView.SelectedNode != null) && (treeView.SelectedNode.Tag is SeSchema))
+                {
+                    seSchema = (SeSchema)treeView.SelectedNode.Tag;
+                }
+                else
+                {
+                    seSchema = (SeSchema)comboBox_SchemaList.SelectedItem;
+                }
+                seSchema.SaveXSD(xs);
+                xss.Add(xs);
+                //для записи в readonly ElementSchemaType 
+                try
+                {
+                    xss.Compile();
+                }
+                catch (Exception em)
+                {
+                    MessageBox.Show(em.ToString());
+                }
+                XDocument doc = XDocument.Load(openFD_XML.FileName);
+                string msg = "";
+                doc.Validate(xss, (o, e1) =>
+                {
+                    msg += "\n - " + e1.Message + Environment.NewLine;
+                }
+                );
+                MessageBox.Show(msg == "" ? $"Документ { filePath} успешно прошел проверку по схеме {seSchema.Name}" : $"Документ { filePath} НЕ прошел проверку: \n" + msg);
             }
-            catch (Exception em)
-            {
-                MessageBox.Show(em.ToString());
+            catch {
+                MessageBox.Show("Проверка невозможна");
+
             }
-            XDocument doc = XDocument.Load(filename);
-            string msg = "";
-            doc.Validate(xss, (o, e1) =>
-            {
-                msg += "\n - " + e1.Message + Environment.NewLine;
-            }
-            );
-            MessageBox.Show(msg == "" ? $"Документ { filename} успешно прошел проверку по схеме {seSchema.Name}" : $"Документ { filename} НЕ прошел проверку: \n" + msg);
         }
 
         private void схемуToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -738,7 +742,7 @@ namespace XSDTypeCl
                         if (sic.SchemaItemsChildren.Count > 0)
                         {
                             var tableParagraph = doc.InsertParagraph();
-                            if (sicchild.CheckToCommonTypes() != true)
+                            if (sicchild.CheckToCommonTypes() != true || sicchild.Name!="SimpleType" )
                                 tableParagraph.Append($"{i}. {sicchild.ToString()}: (данные таблицы {sicchild.Type})");
                             else
                             {

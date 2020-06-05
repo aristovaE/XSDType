@@ -260,7 +260,7 @@ namespace XSDTypeCl
         }
 
         /// <summary>
-        ///Чтение дочерних элементов класса SeSchemaIyem и запись их в класс SeSchemaIyem
+        ///Чтение дочерних элементов класса SeSchemaItem и запись их в класс SeSchemaItem
         /// </summary>
         /// <param name="childElement">Считанный дочерний элемент считанного XSD</param>
         public void ReadXSD(XmlSchemaObject childElement)
@@ -321,9 +321,8 @@ namespace XSDTypeCl
                 {
                     SchemaItemsChildren.Add(schemaItem);
                     schemaItem.ReadXSDParticle(schemaElement);
-                }
+                 }
             }
-
         }
         /// <summary>
         /// Чтение содержимого внутри элемента
@@ -331,7 +330,6 @@ namespace XSDTypeCl
         /// <param name="childElement">Считываемый элемент</param>
         private void ReadXSDParticle(XmlSchemaElement childElement)
         {
-
             if (childElement.ElementSchemaType is XmlSchemaComplexType)
             {
                 XmlSchemaComplexType complexType = childElement.ElementSchemaType as XmlSchemaComplexType;
@@ -346,7 +344,7 @@ namespace XSDTypeCl
                 }
                 if (complexType.Particle is XmlSchemaSequence)
                 {
-                    XmlSchemaSequence seq = complexType.Particle as XmlSchemaSequence; // <xsd:all>
+                    XmlSchemaSequence seq = complexType.Particle as XmlSchemaSequence; // <xsd:sequence>
 
                     foreach (XmlSchemaObject childElementInSeq in seq.Items)
                     {
@@ -405,9 +403,9 @@ namespace XSDTypeCl
         {
             if (Properties != null)
             {
-                if (Properties.HasMinOccurs == true)
+                if (Properties.MinOccurs != null)
                     newElement.MinOccursString = Properties.MinOccurs;
-                if (Properties.HasMaxOccurs == true)
+                if (Properties.MaxOccurs != null)
                     newElement.MaxOccursString = Properties.MaxOccurs;
                 newElement.IsNillable = Properties.IsNillable;
             }

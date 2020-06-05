@@ -125,7 +125,7 @@ namespace XSDTypeCl
                     }
                     catch (Exception e)
                     {
-                        //MessageBox.Show(e.ToString());
+                        MessageBox.Show(e.ToString());
                     }
                 }
 
@@ -178,7 +178,8 @@ namespace XSDTypeCl
         /// <param name="treeNodes">Ссылка на дерево</param>
         public void ClassToTreeView(TreeNodeCollection treeNodes)
         {
-            TreeNode newTreeNode = treeNodes.Add(ToString());
+            TreeNode newTreeNode = treeNodes.Add(Name);
+            newTreeNode.Name = ToString();//для поиска (метод listView)
             newTreeNode.Tag = this;
             newTreeNode.ImageIndex = 0;
             foreach (SeSchemaItem schemaItem in SchemaItems)

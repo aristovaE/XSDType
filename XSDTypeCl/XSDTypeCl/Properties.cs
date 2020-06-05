@@ -10,44 +10,31 @@ namespace XSDTypeCl
 {
     public class SeProperties
     {
-        [Browsable(false)]  //?
-        public bool HasMinOccurs { get; set; }
-        [Browsable(false)]  //?
-        public bool HasMaxOccurs { get; set; }
-        [Browsable(false)]  //?
-        private bool HasNillable { get; set; }
-
         public string MinOccurs { get; set; }
         public string MaxOccurs { get; set; }
         public bool IsNillable { get; set; }
-
-        [Browsable(false)]  //?
         public string MinOccursAll { get; set; }
 
         public SeProperties()
         {
-            HasMinOccurs = false;
-            HasMaxOccurs = false;
-            HasNillable = false;
+            MinOccurs = null;
+            MaxOccurs = null;
+            IsNillable = false;
+            MinOccursAll = null;
         }
 
         public SeProperties(XmlSchemaElement element)
         {
             if (element.MinOccursString == null)
-                HasMinOccurs = false;
+                MinOccurs = null;
             else
-            {
-                HasMinOccurs = true;
-                MinOccurs = element.MinOccursString;
-            }
-
+            MinOccurs = element.MinOccursString;
+            
             if (element.MaxOccursString == null)
-                HasMaxOccurs = false;
+                MaxOccurs = null;
             else
-            {
-                HasMaxOccurs = true;
-                MaxOccurs = element.MaxOccursString;
-            }
+            MaxOccurs = element.MaxOccursString;
+            
             IsNillable = element.IsNillable;
         }
         public void SetPropAll(XmlSchemaAll newAll)

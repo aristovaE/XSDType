@@ -141,7 +141,7 @@
             this.propertyGrid.Size = new System.Drawing.Size(493, 393);
             this.propertyGrid.TabIndex = 4;
             this.toolTip1.SetToolTip(this.propertyGrid, "Здесь выводятся свойства выбранного элемента схемы");
-            this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
+            this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid_PropertyValueChanged);
             // 
             // splitter1
             // 
@@ -173,7 +173,7 @@
             this.toolTip1.SetToolTip(this.listView, "Здесь выводятся результаты поиска \r\nили упоминания элементов");
             this.listView.UseCompatibleStateImageBehavior = false;
             this.listView.View = System.Windows.Forms.View.List;
-            this.listView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseClick);
+            this.listView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listView_MouseClick);
             // 
             // splitter2
             // 
