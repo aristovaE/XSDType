@@ -305,11 +305,11 @@ namespace XSDTypeCl
                     ssiList.Add(ssiElement);
                 }
                 if (ssiElement.SchemaItemsChildren.Count != 0)
-                    foreach (SeSchemaItem ssiElement2 in ssiElement.SchemaItemsChildren[0].SchemaItemsChildren)
+                    foreach (SeSchemaItem ssiElementChild in ssiElement.SchemaItemsChildren[0].SchemaItemsChildren)
                     {
-                        if (ssiElement2.Name.ToLower().Contains(search) == true)
+                        if (ssiElementChild.Name.ToLower().Contains(search) == true)
                         {
-                            ssiList.Add(ssiElement2);
+                            ssiList.Add(ssiElementChild);
                         }
 
                     }

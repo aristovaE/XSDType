@@ -641,8 +641,6 @@ namespace XSDTypeCl
             {
                 MessageBox.Show(em.ToString());
             }
-            XmlSchemaSet schemas = new XmlSchemaSet();
-
             XDocument doc = XDocument.Load(filename);
             string msg = "";
             doc.Validate(xss, (o, e1) =>

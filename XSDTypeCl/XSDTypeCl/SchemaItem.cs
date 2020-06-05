@@ -575,20 +575,20 @@ namespace XSDTypeCl
                 if (ssiElement.SchemaItemsChildren.Count != 0)
                     try
                     {
-                        foreach (SeSchemaItem ssiElemen2t in ssiElement.SchemaItemsChildren)
+                        foreach (SeSchemaItem ssiElementChild in ssiElement.SchemaItemsChildren)
                         {
-                            if (ssiElemen2t.Type == Name)
+                            if (ssiElementChild.Type == Name)
                             {
-                                elementOfType = ssiElemen2t;
+                                elementOfType = ssiElementChild;
                             }
 
-                            if (ssiElemen2t.SchemaItemsChildren.Count != 0)
+                            if (ssiElementChild.SchemaItemsChildren.Count != 0)
                             {
-                                foreach (SeSchemaItem ssiElemen3t in ssiElemen2t.SchemaItemsChildren)
+                                foreach (SeSchemaItem ssiElementInChild in ssiElementChild.SchemaItemsChildren)
                                 {
-                                    if (ssiElemen3t.Type == Name)
+                                    if (ssiElementInChild.Type == Name)
                                     {
-                                        elementOfType = ssiElemen3t;
+                                        elementOfType = ssiElementInChild;
                                     }
 
                                 }
