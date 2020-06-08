@@ -64,14 +64,6 @@ namespace XSDTypeCl
         [Description("Тип элемента схемы")]
         [TypeConverter(typeof(MyConverterType))]
         public string Type { get; set; }
-        [Flags]
-        public enum CommonType
-        {
-            String = 1,
-            integer = 2,
-            Decimal = 4, 
-            dateTime = 8
-        }
         public class MyConverterType : StringConverter
         {
             public override bool GetStandardValuesSupported(ITypeDescriptorContext
@@ -389,8 +381,8 @@ namespace XSDTypeCl
             }
 
             if (Name == "SimpleType") newTreeNode.ImageIndex = 3;
-            else if (Type == "") newTreeNode.ImageIndex = 2;
             else if (Name == "CHOICE") newTreeNode.ImageIndex = 4;
+            else if (Type == "") newTreeNode.ImageIndex = 2;            
             else newTreeNode.ImageIndex = 1;
 
 
@@ -599,7 +591,7 @@ namespace XSDTypeCl
         }
         public bool CheckToCommonTypes()
         {
-            foreach (CommonType ct in Enum.GetValues(typeof(SeSchemaItem.CommonType)))
+            foreach (CommonType ct in Enum.GetValues(typeof(CommonType)))
             {
                 if (Type.ToLower() == ct.ToString().ToLower())
                 {
